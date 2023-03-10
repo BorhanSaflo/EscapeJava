@@ -1,5 +1,7 @@
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,46 +11,37 @@ import org.jogamp.java3d.loaders.IncorrectFormatException;
 import org.jogamp.java3d.loaders.ParsingErrorException;
 import org.jogamp.java3d.loaders.Scene;
 import org.jogamp.java3d.loaders.objectfile.ObjectFile;
-import org.jogamp.java3d.utils.behaviors.vp.OrbitBehavior;
 import org.jogamp.java3d.utils.universe.*;
 import org.jogamp.vecmath.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
+import java.awt.image.BufferedImage;
+import java.awt.Cursor;
+import java.awt.Toolkit;
+import java.awt.Robot;
 
-public class EscapeRoom extends JPanel implements KeyListener {
+public class EscapeRoom extends JPanel implements KeyListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 	GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
 	Canvas3D canvas = new Canvas3D(config);
 	SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
-	static double direction = 0.0, speed = 1.0, radius = 1.0;
+	static double direction = 0.0, speed = 0.25, radius = 1;
 	// calc based on direction
 	static double eyeX = 0, eyeY = 1.0, eyeZ = 0, lookX = radius, lookY = 1, lookZ = radius;
 	Point3d eye = new Point3d(eyeX, eyeY, eyeZ); // define the point where the eye is
 	static Point3d center = new Point3d(lookX, lookY, lookZ); // define the point where the eye is looking
 
-	public final static Color3f Red = new Color3f(1.0f, 0.0f, 0.0f);
-	public final static Color3f Green = new Color3f(0.0f, 1.0f, 0.0f);
-	public final static Color3f Blue = new Color3f(0.0f, 0.0f, 1.0f);
-	public final static Color3f Yellow = new Color3f(1.0f, 1.0f, 0.0f);
-	public final static Color3f Cyan = new Color3f(0.0f, 1.0f, 1.0f);
-	public final static Color3f Orange = new Color3f(1.0f, 0.5f, 0.0f);
-	public final static Color3f Magenta = new Color3f(1.0f, 0.0f, 1.0f);
-	public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
-	public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
-	public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
-	public final static Color3f[] clr_list = { Blue, Green, Red, Yellow,
-			Cyan, Orange, Magenta, Grey };
-	public final static int clr_num = 8;
+	static Mouse mouse = new Mouse();
 
 	public final static BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
 
-	/* NOTE: Keep the constructor for each of the labs and assignments */
 	public EscapeRoom(BranchGroup sceneBG) {
-
 		defineViewer(su, eye); // set the viewer's location
 
 		sceneBG.compile(); // optimize the BranchGroup
@@ -59,7 +52,16 @@ public class EscapeRoom extends JPanel implements KeyListener {
 		frame.setSize(1920, 1080); // set the size of the JFrame
 		frame.setVisible(true);
 		su.getCanvas().addKeyListener(this);
-		orbitControls(canvas);
+		su.getCanvas().addMouseMotionListener(this);
+
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+		// Create a new blank cursor.
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				cursorImg, new Point(0, 0), "blank cursor");
+
+		// Set the blank cursor to the JFrame.
+		frame.getContentPane().setCursor(blankCursor);
 	}
 
 	/* a function to add two point lights at the opposite locations of the scene */
@@ -111,24 +113,16 @@ public class EscapeRoom extends JPanel implements KeyListener {
 		viewTransform.setTransform(view_TM); // set the TransformGroup of ViewingPlatform
 	}
 
-	private void orbitControls(Canvas3D c) {
-		OrbitBehavior orbit = new OrbitBehavior(c, OrbitBehavior.REVERSE_ROTATE);
-		BoundingSphere bounds = new BoundingSphere(new Point3d(), 10.0);
-		orbit.setSchedulingBounds(bounds);
-		ViewingPlatform vp = su.getViewingPlatform();
-		vp.setViewPlatformBehavior(orbit);
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
-				lookY += speed * 0.1;
+				lookY += speed * 0.2;
 				center = new Point3d(lookX, lookY, lookZ);
 				defineViewer(su, eye);
 				break;
 			case KeyEvent.VK_DOWN:
-				lookY -= speed * 0.1;
+				lookY -= speed * 0.2;
 				center = new Point3d(lookX, lookY, lookZ);
 				defineViewer(su, eye);
 				break;
@@ -215,6 +209,56 @@ public class EscapeRoom extends JPanel implements KeyListener {
 		}
 	}
 
+	Point last = null;
+	boolean replace = false;
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		Point p = e.getPoint();
+		int middleX = canvas.getWidth() / 2;
+		int middleY = canvas.getHeight() / 2;
+		if (replace == false) {
+			if (last != null) {
+				int dx = p.x - middleX;
+				int dy = p.y - middleY;
+
+				if (dx != 0 || dy != 0) {
+					direction += dx * 0.2;
+					if (direction > 360) {
+						direction = 0;
+					} else if (direction < 0) {
+						direction = 360;
+					}
+					lookX = eyeX + Math.cos(Math.toRadians(direction)) * radius;
+					lookZ = eyeZ + Math.sin(Math.toRadians(direction)) * radius;
+					lookY -= dy * 0.01;
+					center = new Point3d(lookX, lookY, lookZ);
+					defineViewer(su, eye);
+					replace = true;
+				}
+			}
+			last = p;
+			replaceCursor();
+		}
+	}
+
+	private synchronized void replaceCursor() {
+		Robot robot;
+		try {
+			robot = new Robot();
+			robot.mouseMove(canvas.getLocationOnScreen().x + canvas.getWidth() / 2,
+					canvas.getLocationOnScreen().y + canvas.getHeight() / 2);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+		replace = false;
+	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 
@@ -232,11 +276,11 @@ public class EscapeRoom extends JPanel implements KeyListener {
 		// object to 'objBG'
 
 		Transform3D scale = new Transform3D();
-		scale.setScale(7);
+		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
 		scaleTG.addChild(objBG);
 		sceneBG.addChild(scaleTG);
-		sceneBG.addChild(addLights(White, 1));
+		sceneBG.addChild(addLights(new Color3f(1.0f, 1.0f, 1.0f), 1));
 
 		return sceneBG;
 	}
