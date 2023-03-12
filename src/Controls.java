@@ -188,6 +188,15 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
             case KeyEvent.VK_ESCAPE:
                 escapeRoom.togglePause();
                 break;
+
+            // temporary
+            case KeyEvent.VK_C:
+                camera.y -= 0.2;
+                break;
+            case KeyEvent.VK_SPACE:
+                camera.y += 0.2;
+                break;
+
             default:
                 break;
         }
