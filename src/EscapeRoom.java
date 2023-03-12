@@ -31,6 +31,7 @@ public class EscapeRoom extends JPanel {
 		setLayout(new BorderLayout());
 		add("Center", canvas);
 		frame.setSize(1920, 1080); // set the size of the JFrame
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
 		// Create a new blank cursor.
