@@ -17,9 +17,9 @@ public class EscapeRoom extends JPanel {
 	private GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
 	private Canvas3D canvas = new Canvas3D(config);
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
-	private double direction = 0.0, speed = 0.2, radius = 1;
-	private Point3d eye = new Point3d(0, 1.0, 0); // define the point where the eye is
-	private Point3d center = new Point3d(1, 1, 1); // define the point where the eye is looking
+	private double direction = 0.0;
+	private Point3d camera = new Point3d(0, 1.0, 0); // define the point where the eye is
+	private Point3d centerPoint = new Point3d(1, 1, 1); // define the point where the eye is looking
 	private final BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
 
 	public EscapeRoom() {
@@ -40,10 +40,10 @@ public class EscapeRoom extends JPanel {
 		frame.getContentPane().setCursor(blankCursor); // Set the blank cursor to the JFrame.
 
 		// Add the key and mouse controls
-		Controls controls = new Controls(su, eye, center, direction, speed, radius, canvas, this);
+		Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
 		su.getCanvas().addKeyListener(controls);
 		su.getCanvas().addMouseMotionListener(controls);
-		updateViewer(su, eye);
+		updateViewer();
 
 		Thread thread = new Thread(controls);
 		thread.start();
@@ -53,14 +53,16 @@ public class EscapeRoom extends JPanel {
 	private Vector3d upDir = new Vector3d(0, 1, 0); // define camera's up direction
 	private Transform3D viewTM = new Transform3D();
 
-	public void updateViewer(SimpleUniverse simple_U, Point3d eye) {
-		viewTM.lookAt(eye, center, upDir);
-		if (Double.compare(Double.NaN, viewTM.determinant()) == 0) {
-			eye = new Point3d(eye.x + 0.001F, eye.y + 0.001F, eye.z + 0.001F);
-			viewTM.lookAt(eye, center, upDir);
+	public void updateViewer() {
+		viewTM.lookAt(camera, centerPoint, upDir);
+		if (Double.isNaN(viewTM.determinant())) {
+			camera.x += 0.001f;
+			camera.y += 0.001f;
+			camera.z += 0.001f;
+			viewTM.lookAt(camera, centerPoint, upDir);
 		}
 		viewTM.invert();
-		viewTransform.setTransform(viewTM); // set the TransformGroup of ViewingPlatform
+		viewTransform.setTransform(viewTM);
 	}
 
 	public BranchGroup addLights(Color3f clr, int p_num) {
