@@ -13,7 +13,7 @@ public class EscapeRoom extends JPanel {
 	}
 
 	private static JFrame frame;
-	private GameState gameState = GameState.PLAYING;
+	private GameState gameState = GameState.START;
 	private GameCanvas canvas = new GameCanvas();
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
 	private double direction = 0.0;
@@ -30,15 +30,15 @@ public class EscapeRoom extends JPanel {
 		sceneBG.compile(); // optimize the BranchGroup
 		su.addBranchGraph(sceneBG); // attach the scene to SimpleUniverse
 
+		StartScreen startScreen = new StartScreen(this);
+
 		setLayout(new BorderLayout());
-		add("Center", canvas);
+		add("Center", startScreen);
+
 		frame.setSize(1920, 1080);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
-		// Hide the cursor
-		controls.setCursorVisible(frame, false);
 
 		// Add the key and mouse controls
 		su.getCanvas().addKeyListener(controls);
@@ -48,6 +48,18 @@ public class EscapeRoom extends JPanel {
 
 		Thread thread = new Thread(controls);
 		thread.start();
+	}
+
+	public void startGame() {
+		removeAll();
+		add("Center", canvas);
+		canvas.requestFocus();
+		frame.validate();
+
+		// Hide the cursor
+		controls.setCursorVisible(frame, false);
+
+		gameState = GameState.PLAYING;
 	}
 
 	public boolean isPlaying() {
