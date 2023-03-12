@@ -106,12 +106,11 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public BranchGroup createScene() {
-		BranchGroup roomBG = LoadObject.loadObject("objects/room.obj");
 		BranchGroup sceneBG = new BranchGroup();
 		Transform3D scale = new Transform3D();
 		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
-		scaleTG.addChild(roomBG);
+		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(1.0f, 1.0f, 1.0f), 1));
 
