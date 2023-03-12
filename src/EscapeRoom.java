@@ -19,7 +19,7 @@ public class EscapeRoom extends JPanel {
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
 	private double direction = 0.0;
 	private Point3d camera = new Point3d(0, 1.0, 0); // define the point where the eye is
-	private Point3d centerPoint = new Point3d(1, 1, 1); // define the point where the eye is looking
+	private Point3d centerPoint = new Point3d(1.0, 1.0, 0.0); // define the point where the eye is looking
 	private final BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
 
 	public EscapeRoom() {
