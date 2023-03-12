@@ -43,6 +43,7 @@ public class EscapeRoom extends JPanel {
 		Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
 		su.getCanvas().addKeyListener(controls);
 		su.getCanvas().addMouseMotionListener(controls);
+		su.getViewer().getView().setFieldOfView(1.5);
 		updateViewer();
 
 		Thread thread = new Thread(controls);
