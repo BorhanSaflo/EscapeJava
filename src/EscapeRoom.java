@@ -1,9 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.GraphicsConfiguration;
-import java.awt.Point;
-import java.awt.Cursor;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jogamp.java3d.*;
@@ -13,35 +8,39 @@ import java.io.IOException;
 
 public class EscapeRoom extends JPanel {
 
+	public enum GameState {
+		START, PLAYING, PAUSED, GAMEOVER
+	}
+
 	private static JFrame frame;
-	private GraphicsConfiguration config = SimpleUniverse.getPreferredConfiguration();
-	private Canvas3D canvas = new Canvas3D(config);
+	private GameState gameState = GameState.PLAYING;
+	private GameCanvas canvas = new GameCanvas();
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
 	private double direction = 0.0;
 	private Point3d camera = new Point3d(0, 1.0, 0); // define the point where the eye is
 	private Point3d centerPoint = new Point3d(1.0, 1.0, 0.0); // define the point where the eye is looking
 	private final BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
+	private Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
+	private TransformGroup viewTransform = su.getViewingPlatform().getViewPlatformTransform();
+	private Vector3d upDir = new Vector3d(0, 1, 0); // define camera's up direction
+	private Transform3D viewTM = new Transform3D();
 
 	public EscapeRoom() {
 		BranchGroup sceneBG = createScene();
 		sceneBG.compile(); // optimize the BranchGroup
 		su.addBranchGraph(sceneBG); // attach the scene to SimpleUniverse
 
-		// Create a JFrame to contain the Canvas3D and put the Canvas3D into it.
 		setLayout(new BorderLayout());
 		add("Center", canvas);
-		frame.setSize(1920, 1080); // set the size of the JFrame
+		frame.setSize(1920, 1080);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-		// Create a new blank cursor.
-		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-				cursorImg, new Point(0, 0), "blank cursor");
-		frame.getContentPane().setCursor(blankCursor); // Set the blank cursor to the JFrame.
+		// Hide the cursor
+		controls.setCursorVisible(frame, false);
 
 		// Add the key and mouse controls
-		Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
 		su.getCanvas().addKeyListener(controls);
 		su.getCanvas().addMouseMotionListener(controls);
 		su.getViewer().getView().setFieldOfView(1.5);
@@ -51,9 +50,21 @@ public class EscapeRoom extends JPanel {
 		thread.start();
 	}
 
-	private TransformGroup viewTransform = su.getViewingPlatform().getViewPlatformTransform();
-	private Vector3d upDir = new Vector3d(0, 1, 0); // define camera's up direction
-	private Transform3D viewTM = new Transform3D();
+	public boolean isPlaying() {
+		return gameState == GameState.PLAYING;
+	}
+
+	public void togglePause() {
+		if (gameState == GameState.PLAYING) {
+			gameState = GameState.PAUSED;
+			controls.setCursorVisible(frame, true);
+		} else if (gameState == GameState.PAUSED) {
+			controls.resetMouse();
+			gameState = GameState.PLAYING;
+			controls.setCursorVisible(frame, false);
+		}
+		canvas.togglePause(gameState);
+	}
 
 	public void updateViewer() {
 		viewTM.lookAt(camera, centerPoint, upDir);

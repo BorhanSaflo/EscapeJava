@@ -6,6 +6,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseMotionListener;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
+
+import javax.swing.JFrame;
+
 import java.awt.event.MouseEvent;
 import org.jogamp.java3d.*;
 import org.jogamp.vecmath.*;
@@ -61,6 +64,10 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     }
 
     private void move(int xAxis, int zAxis) {
+        if (!escapeRoom.isPlaying()) {
+            return;
+        }
+
         double speed = (zAxis == 0 || xAxis == 0) ? 0.15 : 0.1;
         double theta = Math.toRadians(direction % 360.0);
         double dx = Math.cos(theta) * speed;
@@ -78,6 +85,10 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     }
 
     private void turn(boolean verticalAxis, int magnitude) {
+        if (!escapeRoom.isPlaying()) {
+            return;
+        }
+
         if (verticalAxis) {
             centerPoint.y += magnitude * 0.2;
         } else {
@@ -89,15 +100,28 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
         escapeRoom.updateViewer();
     }
 
-    private void replaceCursor() {
+    public void resetMouse() {
         if (robot != null) {
             robot.mouseMove(canvas.getLocationOnScreen().x + canvas.getWidth() / 2,
                     canvas.getLocationOnScreen().y + canvas.getHeight() / 2);
         }
     }
 
+    public void setCursorVisible(JFrame frame, boolean visible) {
+        if (visible) {
+            frame.setCursor(null);
+        } else {
+            frame.setCursor(frame.getToolkit().createCustomCursor(
+                    frame.getToolkit().getImage(""), new Point(0, 0), "null"));
+        }
+    }
+
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (!escapeRoom.isPlaying()) {
+            return;
+        }
+
         Point mousePosition = e.getPoint();
         if (last == null) {
             last = mousePosition;
@@ -124,7 +148,7 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
         }
 
         escapeRoom.updateViewer();
-        replaceCursor();
+        resetMouse();
         last = mousePosition;
     }
 
@@ -159,6 +183,10 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
                 break;
             case KeyEvent.VK_LEFT:
                 turn(false, -1);
+                break;
+            case KeyEvent.VK_P:
+            case KeyEvent.VK_ESCAPE:
+                escapeRoom.togglePause();
                 break;
             default:
                 break;

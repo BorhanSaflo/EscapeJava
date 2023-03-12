@@ -10,6 +10,7 @@ import org.jogamp.vecmath.Color3f;
 
 public class LoadObject {
     public final static Color3f Yellow = new Color3f(1.0f, 1.0f, 0.0f);
+    public final static Color3f Brown = new Color3f(0.71f, 0.396f, 0.114f);
     public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
     public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
     public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
@@ -56,7 +57,7 @@ public class LoadObject {
 
         for (int i = 0; i < objGroup.numChildren(); i++) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
-            shape.setAppearance(obj_Appearance(Yellow));
+            shape.setAppearance(obj_Appearance(Brown));
         }
         return objGroup;
     }
