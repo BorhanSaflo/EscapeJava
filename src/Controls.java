@@ -12,8 +12,8 @@ import org.jogamp.vecmath.*;
 public class Controls implements KeyListener, MouseMotionListener, Runnable {
 
     private SimpleUniverse su;
-    private Point3d eye;
-    private Point3d center;
+    private Point3d camera;
+    private Point3d centerPoint;
     private double direction;
     private double speed;
     private double radius;
@@ -22,11 +22,12 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     private boolean replace = false;
     private Point last = null;
 
-    public Controls(SimpleUniverse su, Point3d eye, Point3d center, double direction, double speed, double radius,
+    public Controls(SimpleUniverse su, Point3d camera, Point3d centerPoint, double direction, double speed,
+            double radius,
             Canvas3D canvas, EscapeRoom escapeRoom) {
         this.su = su;
-        this.eye = eye;
-        this.center = center;
+        this.camera = camera;
+        this.centerPoint = centerPoint;
         this.direction = direction;
         this.speed = speed;
         this.radius = radius;
@@ -40,18 +41,12 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
         if (last != null && replace == false) {
             int dx = p.x - canvas.getWidth() / 2;
             int dy = p.y - canvas.getHeight() / 2;
-
             if (dx != 0 || dy != 0) {
                 direction += dx * 0.2;
-                if (direction > 360) {
-                    direction = 0;
-                } else if (direction < 0) {
-                    direction = 360;
-                }
-                center.x = eye.x + Math.cos(Math.toRadians(direction)) * radius;
-                center.z = eye.z + Math.sin(Math.toRadians(direction)) * radius;
-                center.y -= dy * 0.01;
-                escapeRoom.updateViewer(su, eye);
+                centerPoint.x = camera.x + Math.cos(Math.toRadians(direction)) * radius;
+                centerPoint.z = camera.z + Math.sin(Math.toRadians(direction)) * radius;
+                centerPoint.y -= dy * 0.01;
+                escapeRoom.updateViewer(su, camera);
                 replace = true;
             }
             replaceCursor();
@@ -97,30 +92,30 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
                 down = true;
                 break;
             case KeyEvent.VK_UP:
-                center.y += speed * 0.2;
-                escapeRoom.updateViewer(su, eye);
+                centerPoint.y += speed * 0.2;
+                escapeRoom.updateViewer(su, camera);
                 break;
             case KeyEvent.VK_DOWN:
-                center.y -= speed * 0.2;
-                escapeRoom.updateViewer(su, eye);
+                centerPoint.y -= speed * 0.2;
+                escapeRoom.updateViewer(su, camera);
                 break;
             case KeyEvent.VK_RIGHT:
                 direction += 5;
                 if (direction > 360) {
                     direction = 0;
                 }
-                center.x = eye.x + Math.cos(Math.toRadians(direction)) * radius;
-                center.z = eye.z + Math.sin(Math.toRadians(direction)) * radius;
-                escapeRoom.updateViewer(su, eye);
+                centerPoint.x = camera.x + Math.cos(Math.toRadians(direction)) * radius;
+                centerPoint.z = camera.z + Math.sin(Math.toRadians(direction)) * radius;
+                escapeRoom.updateViewer(su, camera);
                 break;
             case KeyEvent.VK_LEFT:
                 direction -= 5;
                 if (direction < 0) {
                     direction = 360;
                 }
-                center.x = eye.x + Math.cos(Math.toRadians(direction)) * radius;
-                center.z = eye.z + Math.sin(Math.toRadians(direction)) * radius;
-                escapeRoom.updateViewer(su, eye);
+                centerPoint.x = camera.x + Math.cos(Math.toRadians(direction)) * radius;
+                centerPoint.z = camera.z + Math.sin(Math.toRadians(direction)) * radius;
+                escapeRoom.updateViewer(su, camera);
                 break;
             default:
                 break;
@@ -160,35 +155,35 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     }
 
     void moveRight() {
-        eye.x -= dz;
-        eye.z += dx;
-        center.x -= dz;
-        center.z += dx;
-        escapeRoom.updateViewer(su, eye);
+        camera.x -= dz;
+        camera.z += dx;
+        centerPoint.x -= dz;
+        centerPoint.z += dx;
+        escapeRoom.updateViewer(su, camera);
     }
 
     void moveLeft() {
-        eye.x += dz;
-        eye.z -= dx;
-        center.x += dz;
-        center.z -= dx;
-        escapeRoom.updateViewer(su, eye);
+        camera.x += dz;
+        camera.z -= dx;
+        centerPoint.x += dz;
+        centerPoint.z -= dx;
+        escapeRoom.updateViewer(su, camera);
     }
 
     void moveForward() {
-        eye.x += dx;
-        eye.z += dz;
-        center.x += dx;
-        center.z += dz;
-        escapeRoom.updateViewer(su, eye);
+        camera.x += dx;
+        camera.z += dz;
+        centerPoint.x += dx;
+        centerPoint.z += dz;
+        escapeRoom.updateViewer(su, camera);
     }
 
     void moveBackward() {
-        eye.x -= dx;
-        eye.z -= dz;
-        center.x -= dx;
-        center.z -= dz;
-        escapeRoom.updateViewer(su, eye);
+        camera.x -= dx;
+        camera.z -= dz;
+        centerPoint.x -= dx;
+        centerPoint.z -= dz;
+        escapeRoom.updateViewer(su, camera);
     }
 
     @Override
@@ -235,6 +230,7 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
                         break;
                     default: // no direction pressed, do nothing
                         break;
+
                 }
 
                 Thread.sleep(25);
