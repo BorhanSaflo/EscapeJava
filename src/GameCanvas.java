@@ -7,6 +7,8 @@ import java.awt.Color;
 
 public class GameCanvas extends Canvas3D {
 
+	private static final long serialVersionUID = 1L;
+	
     public GameCanvas() {
         super(SimpleUniverse.getPreferredConfiguration());
     }

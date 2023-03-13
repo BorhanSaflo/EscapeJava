@@ -12,6 +12,7 @@ public class EscapeRoom extends JPanel {
 		START, PLAYING, PAUSED, GAMEOVER
 	}
 
+	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 	private GameState gameState = GameState.START;
 	private GameCanvas canvas = new GameCanvas();

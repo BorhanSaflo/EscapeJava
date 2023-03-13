@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 
 public class StartScreen extends JPanel implements KeyListener, MouseListener {
 
+	private static final long serialVersionUID = 1L;
     private EscapeRoom game;
 
     public StartScreen(EscapeRoom game) {
