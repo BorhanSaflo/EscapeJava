@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib windows.mtl
-o windows
+# o windows
 v 2.612427 1.029297 -6.159729
 v 1.029572 1.029297 -6.159719
 v 1.029572 -0.007170 -6.159719
