@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib couch.mtl
-#o feet
+# o feet
 v 5.932996 1.406306 -7.335027
 v 5.932996 1.406306 -8.738003
 v 7.335972 1.406306 -7.335027

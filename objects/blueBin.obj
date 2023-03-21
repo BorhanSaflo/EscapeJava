@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib blueBin.mtl
-o Blue_Recycle
+# o Blue_Recycle
 v -3.620440 0.804618 4.629739
 v -3.163856 0.804618 4.629739
 v -3.620440 0.804618 4.798945

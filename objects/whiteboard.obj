@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib whiteboard.mtl
-o Cube
+# o Cube
 v -2.441208 0.959844 -6.038840
 v -2.288746 0.807381 -6.038840
 v -2.437386 0.925918 -6.038840

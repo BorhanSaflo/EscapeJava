@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib blackBin.mtl
-o Trash_Bin_1
+# o Trash_Bin_1
 v -3.620440 0.804618 5.757638
 v -3.163856 0.804618 5.757638
 v -3.620440 0.804618 5.926843

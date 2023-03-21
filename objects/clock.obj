@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib clock.mtl
-o Clock_1
+# o Clock_1
 v -0.066934 2.066195 7.816013
 v -0.063440 2.066890 7.816013
 v -0.069896 2.064215 7.816013

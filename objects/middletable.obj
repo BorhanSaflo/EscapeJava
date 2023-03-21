@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib middletable.mtl
-o Cylinder
+# o Cylinder
 v -23.000000 0.000000 -24.200001
 v -23.000000 40.000000 -24.200001
 v -22.765892 0.000000 -24.176943

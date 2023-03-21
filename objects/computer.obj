@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib computer.mtl
-o Mouse001
+# o Mouse001
 v 1.016177 0.103836 0.217671
 v 1.016177 0.102718 0.211326
 v 1.016177 0.099496 0.205745

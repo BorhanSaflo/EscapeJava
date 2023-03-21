@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib ottoman.mtl
-o Cube
+# o Cube
 v 0.599215 1.506562 -1.500000
 v 0.600000 1.532562 -1.440000
 v 0.599458 1.514596 -1.497064

@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib emptyroom.mtl
-#o room
+# o room
 v 4.587152 -1.131513 8.739411
 v -4.737718 -1.131513 8.739411
 v -4.737718 -1.131508 -8.774291

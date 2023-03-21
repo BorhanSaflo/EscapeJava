@@ -1,7 +1,7 @@
 # Blender 3.4.1
 # www.blender.org
 mtllib door1.mtl
-o Door_1
+# o Door_1
 v -3.716312 2.000317 8.236671
 v -3.702662 0.949441 8.236671
 v -2.769830 2.000317 8.236678
