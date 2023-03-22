@@ -1,12 +1,20 @@
 import java.io.FileNotFoundException;
+
+import org.jogamp.java3d.Alpha;
 import org.jogamp.java3d.Appearance;
+import org.jogamp.java3d.BoundingSphere;
 import org.jogamp.java3d.BranchGroup;
 import org.jogamp.java3d.Material;
+import org.jogamp.java3d.PositionInterpolator;
+import org.jogamp.java3d.RotationInterpolator;
 import org.jogamp.java3d.Shape3D;
+import org.jogamp.java3d.Transform3D;
+import org.jogamp.java3d.TransformGroup;
 import org.jogamp.java3d.loaders.IncorrectFormatException;
 import org.jogamp.java3d.loaders.ParsingErrorException;
 import org.jogamp.java3d.loaders.objectfile.ObjectFile;
 import org.jogamp.vecmath.Color3f;
+import org.jogamp.vecmath.Point3d;
 
 public class LoadObject {
     public final static Color3f Yellow = new Color3f(1.0f, 1.0f, 0.0f);
@@ -60,5 +68,19 @@ public class LoadObject {
             shape.setAppearance(obj_Appearance(Brown));
         }
         return objGroup;
+    }
+    
+    public static RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha, float rad) {
+		rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		RotationInterpolator rot_beh = new RotationInterpolator(alpha, rotTG, axis, (float)(-Math.PI * rad/2), (float)(Math.PI * rad/2));
+		rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+		return rot_beh;
+	}
+    
+    public static PositionInterpolator position_Bheavior(TransformGroup posTG, Transform3D axis, Alpha alpha, float dist) {
+    	posTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+    	PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist/2, dist/2);
+    	pos_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+    	return pos_beh;
     }
 }
