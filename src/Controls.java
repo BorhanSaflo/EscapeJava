@@ -239,13 +239,13 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
 		
 		focusTG.setTransform(popup);
-		focusTG.setName("~"+focusTG.getName());
+		focusTG.setName("-"+focusTG.getName().substring(1));
 		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
     }
     
     private void unfocus(TransformGroup focusTG) {
     	focusTG.setTransform((Transform3D)focusTG.getUserData());
-    	focusTG.setName(focusTG.getName().substring(1));
+    	focusTG.setName("+"+focusTG.getName().substring(1));
 		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
     
@@ -272,9 +272,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		if (pickTool.pickClosest() != null) {
 			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
 			
-			if(clickTG.getName().charAt(0) == '~')
+			if(clickTG.getName().charAt(0) == '-')
 				unfocus(clickTG);
-			else
+			else if(clickTG.getName().charAt(0) == '+')
 				focus(clickTG);
 			
 			//System.out.println(clickTG.getName()); // For debug purposes
