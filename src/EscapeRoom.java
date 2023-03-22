@@ -1,19 +1,25 @@
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.universe.*;
+import org.jogamp.java3d.utils.picking.PickResult;
+import org.jogamp.java3d.utils.picking.PickTool;
 import org.jogamp.vecmath.*;
 import java.io.IOException;
 
-public class EscapeRoom extends JPanel {
+public class EscapeRoom extends JPanel implements MouseListener{
 
 	public enum GameState {
-		START, PLAYING, PAUSED, GAMEOVER
+		START, PLAYING, PAUSED, GAMEOVER, FOCUSED
 	}
 
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
+	private static PickTool pickTool;
 	private GameState gameState = GameState.START;
 	private GameCanvas canvas = new GameCanvas();
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
@@ -30,6 +36,8 @@ public class EscapeRoom extends JPanel {
 		BranchGroup sceneBG = createScene();
 		sceneBG.compile(); // optimize the BranchGroup
 		su.addBranchGraph(sceneBG); // attach the scene to SimpleUniverse
+		
+		canvas.addMouseListener(this);
 
 		StartScreen startScreen = new StartScreen(this);
 
@@ -114,6 +122,9 @@ public class EscapeRoom extends JPanel {
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(1.0f, 1.0f, 1.0f), 1));
+		
+		pickTool = new PickTool(sceneBG);
+		pickTool.setMode(PickTool.GEOMETRY);
 
 		return sceneBG;
 	}
@@ -123,4 +134,57 @@ public class EscapeRoom extends JPanel {
 		frame.getContentPane().add(new EscapeRoom());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int x = e.getX(); int y = e.getY();        // mouse coordinates
+		Point3d point3d = new Point3d(), center = new Point3d();
+		canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
+		canvas.getCenterEyeInImagePlate(center);           // obtain eye's position in IP coordinates
+		
+		Transform3D transform3D = new Transform3D();       // matrix to relate ImagePlate coordinates~
+		canvas.getImagePlateToVworld(transform3D);         // to Virtual World coordinates
+		transform3D.transform(point3d);                    // transform 'point3d' with 'transform3D'
+		transform3D.transform(center);                     // transform 'center' with 'transform3D'
+	
+		Vector3d mouseVec = new Vector3d();
+		mouseVec.sub(point3d, center);
+		mouseVec.normalize();
+		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
+	
+		if (pickTool.pickClosest() != null) {
+			Transform3D popup = new Transform3D();
+			PickResult pickResult = pickTool.pickClosest();// obtain the closest hit
+			Shape3D clickObj = (Shape3D)pickResult.getNode(PickResult.SHAPE3D);
+			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
+			
+			System.out.println(clickTG.getName());
+			
+			if(clickTG.getName().charAt(0) == '~') {
+				clickTG.setTransform((Transform3D)clickTG.getUserData());
+				clickTG.setName(clickTG.getName().substring(1));
+				gameState = GameState.PLAYING;
+				return;
+			}
+			
+			popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
+			popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+			popup.setScale(((Transform3D)clickTG.getUserData()).getScale());
+			clickTG.setTransform(popup);
+			clickTG.setName("~"+clickTG.getName());
+			gameState = GameState.FOCUSED;
+		}
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }

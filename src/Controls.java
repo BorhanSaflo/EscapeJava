@@ -10,6 +10,7 @@ import java.util.concurrent.locks.LockSupport;
 import javax.swing.JFrame;
 
 import java.awt.event.MouseEvent;
+
 import org.jogamp.java3d.*;
 import org.jogamp.vecmath.*;
 
@@ -17,7 +18,7 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
 
     private Point3d camera;
     private Point3d centerPoint;
-    private double direction;
+    private static double direction;
     private Canvas3D canvas;
     private EscapeRoom escapeRoom;
     private Point last = null;
@@ -30,6 +31,8 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     private static final double Y_FACTOR = 1.5;
     private static final double MIN_Y = -2;
     private static final double MAX_Y = 2;
+    
+    public static double direction() { return direction; }
 
     public Controls(Point3d camera, Point3d centerPoint, double direction,
             Canvas3D canvas, EscapeRoom escapeRoom) {
@@ -61,6 +64,7 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
             ex.printStackTrace();
             System.exit(0);
         }
+        
     }
 
     private void move(int xAxis, int zAxis) {
@@ -153,9 +157,7 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
+    public void mouseDragged(MouseEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -223,6 +225,6 @@ public class Controls implements KeyListener, MouseMotionListener, Runnable {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
+    
 }
