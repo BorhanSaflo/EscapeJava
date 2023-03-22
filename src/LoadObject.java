@@ -1,4 +1,6 @@
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import org.jogamp.java3d.Alpha;
 import org.jogamp.java3d.Appearance;
@@ -38,6 +40,36 @@ public class LoadObject {
         app.setMaterial(mtl); // set appearance's material
         return app;
     }
+    
+    public static Appearance obj_Appearance(String fileName) {
+    	File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
+    	Scanner sc = null;
+    	
+		try { sc = new Scanner(mtlFile); }
+		catch (FileNotFoundException e) { e.printStackTrace(); }
+    	
+    	for(int i = 0; i < 4; i++)
+    		sc.nextLine();
+    	
+        Material mtl = new Material(); // define material's attributes
+        sc.next();
+        mtl.setShininess(sc.nextFloat());
+        sc.nextLine(); sc.next();
+        mtl.setAmbientColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat())); // use them to define different materials
+        sc.nextLine(); sc.next();
+        mtl.setDiffuseColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()));
+        sc.nextLine(); sc.next();
+        mtl.setSpecularColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()));
+        sc.nextLine(); sc.next();
+        mtl.setEmissiveColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat())); // use it to switch button on/off
+        mtl.setLightingEnable(true);
+        
+        sc.close();
+
+        Appearance app = new Appearance();
+        app.setMaterial(mtl); // set appearance's material
+        return app;
+    }
 
     public static BranchGroup loadObject(String objName) {
 
@@ -55,17 +87,9 @@ public class LoadObject {
             e.printStackTrace();
         }
 
-        // String mtlFilename = "objects/untitled.mtl";
-        // try {
-        // ArrayList<Appearance> appearances = MTLParser.parseMTL(mtlFilename);
-        // } catch (IOException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-
         for (int i = 0; i < objGroup.numChildren(); i++) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
-            shape.setAppearance(obj_Appearance(Brown));
+            shape.setAppearance(obj_Appearance(objName));
         }
         return objGroup;
     }
