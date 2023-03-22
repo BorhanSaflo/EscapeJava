@@ -232,6 +232,23 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     @Override
     public void keyTyped(KeyEvent e) {}
 
+    private void focus(TransformGroup focusTG) {
+    	Transform3D popup = new Transform3D();
+    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
+		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
+		
+		focusTG.setTransform(popup);
+		focusTG.setName("~"+focusTG.getName());
+		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+    }
+    
+    private void unfocus(TransformGroup focusTG) {
+    	focusTG.setTransform((Transform3D)focusTG.getUserData());
+    	focusTG.setName(focusTG.getName().substring(1));
+		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
+    }
+    
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
@@ -253,26 +270,14 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
 	
 		if (pickTool.pickClosest() != null) {
-			Transform3D popup = new Transform3D();
-			PickResult pickResult = pickTool.pickClosest();// obtain the closest hit
-			Shape3D clickObj = (Shape3D)pickResult.getNode(PickResult.SHAPE3D);
-			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
+			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
 			
-			System.out.println(clickTG.getName());
+			if(clickTG.getName().charAt(0) == '~')
+				unfocus(clickTG);
+			else
+				focus(clickTG);
 			
-			if(clickTG.getName().charAt(0) == '~') {
-				clickTG.setTransform((Transform3D)clickTG.getUserData());
-				clickTG.setName(clickTG.getName().substring(1));
-				EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
-				return;
-			}
-			
-			popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
-			popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
-			popup.setScale(((Transform3D)clickTG.getUserData()).getScale());
-			clickTG.setTransform(popup);
-			clickTG.setName("~"+clickTG.getName());
-			EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+			//System.out.println(clickTG.getName()); // For debug purposes
 		}
 	}
 
