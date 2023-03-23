@@ -259,7 +259,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 			else if(clickTG.getName().charAt(0) == '+')
 				focus(clickTG);
 			
-			//System.out.println(clickTG.getName()); // For debug purposes
+			System.out.println(clickTG.getName()); // For debug purposes
 		}
     }
 
