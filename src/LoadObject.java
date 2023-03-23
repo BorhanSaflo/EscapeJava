@@ -57,6 +57,9 @@ public class LoadObject {
         if(mtlfile.transparency != 1.0f)
         	app.setTransparencyAttributes(new TransparencyAttributes(TransparencyAttributes.NICEST, 1-mtlfile.transparency));
         
+        if(mtlfile.texture != null)
+        	app.setTexture(mtlfile.texture);
+        
         return app;
     }
 

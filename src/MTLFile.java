@@ -2,15 +2,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import org.jogamp.java3d.ImageComponent2D;
+import org.jogamp.java3d.Texture;
+import org.jogamp.java3d.Texture2D;
+import org.jogamp.java3d.utils.image.TextureLoader;
 import org.jogamp.vecmath.Color3f;
 
 public class MTLFile {
-	public float shininess;
-	public Color3f ambient;
-	public Color3f diffuse;
-	public Color3f specular;
-	public Color3f emissive;
-	public float transparency;
+	public float shininess = 0;
+	public Color3f ambient = new Color3f();
+	public Color3f diffuse = new Color3f();
+	public Color3f specular = new Color3f();
+	public Color3f emissive = new Color3f();
+	public float transparency = 0;
+	public Texture texture = null;
 	
 	public MTLFile(String fileName) {
 		File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
@@ -22,7 +27,7 @@ public class MTLFile {
 		for(int i = 0; i < 4; i++)
 			sc.nextLine();
 		
-		while(true) {
+		while(sc.hasNext()) {
 			switch(sc.next()) {
 			case "Ns": shininess = sc.nextFloat(); continue;
 			case "Ka": ambient = new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()); continue;
@@ -30,7 +35,8 @@ public class MTLFile {
 			case "Ks": specular = new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()); continue;
 			case "Ke": emissive = new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()); continue;
 			case "d" : transparency = sc.nextFloat(); continue;
-			case "illum": break;
+			case "map_Kd": texture = getTexture(sc.next());
+			case "newmtl": break;
 			default: continue;
 			}
 			break;
@@ -45,6 +51,19 @@ public class MTLFile {
         System.out.println(specular);
         System.out.println(emissive);
         System.out.println(transparency);
+        System.out.println(texture);
         System.out.println("----------------------------------");
+	}
+	
+	private static Texture getTexture(String fileName) {
+		TextureLoader loader = new TextureLoader("objects/"+fileName, null);
+		ImageComponent2D image = loader.getImage();        // load the image
+		if (image == null)
+			System.out.println("Cannot load file: " + fileName);
+
+		Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGBA, image.getWidth(), image.getHeight());
+		texture.setImage(0, image);                        // set image for the texture
+
+		return texture;
 	}
 }
