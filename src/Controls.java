@@ -231,27 +231,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
     @Override
     public void keyTyped(KeyEvent e) {}
-
-    private void focus(TransformGroup focusTG) {
-    	Transform3D popup = new Transform3D();
-    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
-		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
-		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
-		
-		focusTG.setTransform(popup);
-		focusTG.setName("-"+focusTG.getName().substring(1));
-		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
-    }
     
-    private void unfocus(TransformGroup focusTG) {
-    	focusTG.setTransform((Transform3D)focusTG.getUserData());
-    	focusTG.setName("+"+focusTG.getName().substring(1));
-		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
-    }
-    
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
+    private void pickObject(MouseEvent e) {
+    	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
 		pickTool.setMode(PickTool.GEOMETRY);
 		
 		int x = e.getX(); int y = e.getY();        // mouse coordinates
@@ -279,6 +261,29 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 			
 			//System.out.println(clickTG.getName()); // For debug purposes
 		}
+    }
+
+    private void focus(TransformGroup focusTG) {
+    	Transform3D popup = new Transform3D();
+    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
+		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
+		
+		focusTG.setTransform(popup);
+		focusTG.setName("-"+focusTG.getName().substring(1));
+		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+    }
+    
+    private void unfocus(TransformGroup focusTG) {
+    	focusTG.setTransform((Transform3D)focusTG.getUserData());
+    	focusTG.setName("+"+focusTG.getName().substring(1));
+		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
+    }
+    
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(EscapeRoom.gameState == EscapeRoom.GameState.PLAYING || EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
+			pickObject(e);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.jogamp.java3d.RotationInterpolator;
 import org.jogamp.java3d.Shape3D;
 import org.jogamp.java3d.Transform3D;
 import org.jogamp.java3d.TransformGroup;
+import org.jogamp.java3d.TransparencyAttributes;
 import org.jogamp.java3d.loaders.IncorrectFormatException;
 import org.jogamp.java3d.loaders.ParsingErrorException;
 import org.jogamp.java3d.loaders.objectfile.ObjectFile;
@@ -64,10 +65,16 @@ public class LoadObject {
         mtl.setEmissiveColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat())); // use it to switch button on/off
         mtl.setLightingEnable(true);
         
-        sc.close();
+        sc.nextLine(); sc.nextLine(); sc.next();
+        float transparency = sc.nextFloat();
 
         Appearance app = new Appearance();
         app.setMaterial(mtl); // set appearance's material
+        
+        if(transparency != 1.0f)
+        	app.setTransparencyAttributes(new TransparencyAttributes(TransparencyAttributes.NICEST, 1-transparency));
+        
+        sc.close();
         return app;
     }
 

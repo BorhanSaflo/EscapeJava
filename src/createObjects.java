@@ -9,12 +9,17 @@ public class createObjects {
         BranchGroup roomBG = new BranchGroup();
         
         /* Prefixes:
-         * + Focusable (eg. clues and puzzles)
+         * + Focusable (eg. clues, puzzles)
          * - Focused (shouldn't be used here)
-         * ! Non-focusable (eg. furniture, room, windows)
+         * ! Non-focusable and non-interactable (eg. room, windows)
+         * @ Interactable (eg. door, trash bin)
+         * # Pickupable (eg. key, tool)
+         * 
+         * Note: The given names are set to the object's TG, not Shape3D.
          */
         
         roomBG.addChild(createObject("!emptyroom", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0, 0, 0), 1));
+        roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118), 0.82));
 
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI/2), new Vector3d(0.05, -0.103, -0.648), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI/2), new Vector3d(0.15, -0.103, -0.648), 0.05));
