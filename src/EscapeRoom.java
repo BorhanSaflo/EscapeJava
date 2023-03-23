@@ -123,7 +123,7 @@ public class EscapeRoom extends JPanel{
 		
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
-		sceneBG.addChild(addLights(new Color3f(1.0f, 1.0f, 1.0f), 1));
+		sceneBG.addChild(addLights(new Color3f(0.6f, 0.6f, 0.6f), 1));
 		sceneBG.addChild(bg);
 
 		return sceneBG;
