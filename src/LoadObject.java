@@ -43,38 +43,22 @@ public class LoadObject {
     }
     
     public static Appearance obj_Appearance(String fileName) {
-    	File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
-    	Scanner sc = null;
-    	
-		try { sc = new Scanner(mtlFile); }
-		catch (FileNotFoundException e) { e.printStackTrace(); }
-    	
-    	for(int i = 0; i < 4; i++)
-    		sc.nextLine();
-    	
         Material mtl = new Material(); // define material's attributes
-        sc.next();
-        mtl.setShininess(sc.nextFloat());
-        sc.nextLine(); sc.next();
-        mtl.setAmbientColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat())); // use them to define different materials
-        sc.nextLine(); sc.next();
-        mtl.setDiffuseColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()));
-        sc.nextLine(); sc.next();
-        mtl.setSpecularColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()));
-        sc.nextLine(); sc.next();
-        mtl.setEmissiveColor(new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat())); // use it to switch button on/off
+        MTLFile mtlfile = new MTLFile(fileName);
+        
+        mtl.setShininess(mtlfile.shininess);
+        mtl.setAmbientColor(mtlfile.ambient);
+        mtl.setDiffuseColor(mtlfile.diffuse);
+        mtl.setSpecularColor(mtlfile.specular);
+        mtl.setEmissiveColor(mtlfile.emissive);
         mtl.setLightingEnable(true);
         
-        sc.nextLine(); sc.nextLine(); sc.next();
-        float transparency = sc.nextFloat();
-
         Appearance app = new Appearance();
         app.setMaterial(mtl); // set appearance's material
         
-        if(transparency != 1.0f)
-        	app.setTransparencyAttributes(new TransparencyAttributes(TransparencyAttributes.NICEST, 1-transparency));
+        if(mtlfile.transparency != 1.0f)
+        	app.setTransparencyAttributes(new TransparencyAttributes(TransparencyAttributes.NICEST, 1-mtlfile.transparency));
         
-        sc.close();
         return app;
     }
 
