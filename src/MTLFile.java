@@ -38,12 +38,13 @@ public class MTLFile {
 
         sc.close();
         
+        System.out.println(fileName);
         System.out.println(shininess);
         System.out.println(ambient);
         System.out.println(diffuse);
         System.out.println(specular);
         System.out.println(emissive);
         System.out.println(transparency);
-        System.out.println();
+        System.out.println("----------------------------------");
 	}
 }
