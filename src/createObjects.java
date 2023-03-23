@@ -11,15 +11,18 @@ public class createObjects {
         /* Prefixes:
          * + Focusable (eg. clues, puzzles)
          * - Focused (shouldn't be used here)
-         * ! Non-focusable and non-interactable (eg. room, windows)
+         * ! Immovable (eg. room, windows)
          * @ Interactable (eg. door, trash bin)
-         * # Pickupable (eg. key, tool)
+         * # Equipable (eg. key, tool)
          * 
          * Note: The given names are set to the object's TG, not Shape3D.
          */
         
         roomBG.addChild(createObject("!emptyroom", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0, 0, 0), 1));
+        
         roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118), 0.82));
+        roomBG.addChild(createObject("@door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.205, -0.022, 0.937), 0.23));
+        roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.353), 0.36));
 
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI/2), new Vector3d(0.05, -0.103, -0.648), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI/2), new Vector3d(0.15, -0.103, -0.648), 0.05));
