@@ -24,6 +24,7 @@ import org.jogamp.vecmath.*;
 
 public class Controls implements KeyListener, MouseListener, MouseMotionListener, Runnable {
 
+    private TransformGroup focusedGroup;
     private Point3d camera;
     private Point3d centerPoint;
     private static double direction;
@@ -102,10 +103,6 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 centerPoint.z += camDZ;
             }
         }
-        
-
-   
-        
 
         escapeRoom.updateViewer();
     }
@@ -196,6 +193,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_S:
                 down = true;
                 break;
+            case KeyEvent.VK_E:
+                if(EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
+                    unfocus(focusedGroup);
+                else if(EscapeRoom.gameState == EscapeRoom.GameState.PLAYING)
+                    pickObject();
+            break;
             case KeyEvent.VK_UP:
                 turn(true, 1);
                 break;
@@ -210,7 +213,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             case KeyEvent.VK_P:
             case KeyEvent.VK_ESCAPE:
-                escapeRoom.togglePause();
+                if(EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
+                    unfocus(focusedGroup);
+                else
+                    escapeRoom.togglePause();
                 break;
 
             // temporary
@@ -252,11 +258,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     @Override
     public void keyTyped(KeyEvent e) {}
     
-    private void pickObject(MouseEvent e) {
+    private void pickObject() {
     	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
 		pickTool.setMode(PickTool.GEOMETRY);
 		
-		int x = e.getX(); int y = e.getY();        // mouse coordinates
+		int x = canvas.getWidth()/2;
+        int y = canvas.getHeight()/2;        // mouse coordinates
 		Point3d point3d = new Point3d(), center = new Point3d();
 		canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
 		canvas.getCenterEyeInImagePlate(center);           // obtain eye's position in IP coordinates
@@ -274,16 +281,17 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		if (pickTool.pickClosest() != null) {
 			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
 			
-			if(clickTG.getName().charAt(0) == '-')
-				unfocus(clickTG);
-			else if(clickTG.getName().charAt(0) == '+')
+			if(clickTG.getName().charAt(0) == '+')
 				focus(clickTG);
+			else if(clickTG.getName().charAt(0) == '-')
+				unfocus(clickTG);
 			
 			System.out.println(clickTG.getName()); // For debug purposes
 		}
     }
 
     private void focus(TransformGroup focusTG) {
+        focusedGroup = focusTG;
     	Transform3D popup = new Transform3D();
     	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
 		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
@@ -297,14 +305,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void unfocus(TransformGroup focusTG) {
     	focusTG.setTransform((Transform3D)focusTG.getUserData());
     	focusTG.setName("+"+focusTG.getName().substring(1));
+        resetMouse();
 		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
     
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(EscapeRoom.gameState == EscapeRoom.GameState.PLAYING || EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
-			pickObject(e);
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {}
