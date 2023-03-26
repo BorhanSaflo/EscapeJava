@@ -45,7 +45,8 @@ public class MTLFile {
 		}
 
         sc.close();
-        
+
+		/*
         System.out.println(fileName);
         System.out.println(shininess);
         System.out.println(ambient);
@@ -55,6 +56,7 @@ public class MTLFile {
         System.out.println(transparency);
         System.out.println(texture);
         System.out.println("----------------------------------");
+		 */
 	}
 	
 	private static Texture getTexture(String fileName) {
