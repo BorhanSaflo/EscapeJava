@@ -30,7 +30,7 @@ public class EscapeRoom extends JPanel{
 	private Vector3d upDir = new Vector3d(0, 1, 0); // define camera's up direction
 	private Transform3D viewTM = new Transform3D();
 
-	public EscapeRoom() {
+	public EscapeRoom() throws IOException {
 		sceneBG = createScene();
 		sceneBG.compile(); // optimize the BranchGroup
 		su.addBranchGraph(sceneBG); // attach the scene to SimpleUniverse
