@@ -66,6 +66,8 @@ public class createObjects {
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.1), 0.05));
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, -0.2), 0.05));
 
+        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.7), 0.1));
+
         return roomBG;
     }
 
