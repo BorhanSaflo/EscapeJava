@@ -1,8 +1,16 @@
+import org.jogamp.java3d.Appearance;
 import org.jogamp.java3d.BranchGroup;
+import org.jogamp.java3d.ImageComponent2D;
+import org.jogamp.java3d.Texture;
+import org.jogamp.java3d.Texture2D;
 import org.jogamp.java3d.Transform3D;
 import org.jogamp.java3d.TransformGroup;
+import org.jogamp.java3d.TransparencyAttributes;
 import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Vector3d;
+import org.jogamp.java3d.utils.geometry.Box;
+import org.jogamp.java3d.utils.geometry.Primitive;
+import org.jogamp.java3d.utils.image.TextureLoader;
 
 public class createObjects {
     public static BranchGroup room() {
@@ -59,12 +67,52 @@ public class createObjects {
 
         // puzzles
         roomBG.addChild(new computerPuzzle().positionTextObj());
+
+        // Window backgrounds
+        roomBG.addChild(windowBackground("WindowBackground", 2f, 1.0f, 0.01f, 0f, 0.2f, -1f));
+        roomBG.addChild(windowBackground("WindowBackground2", 0.01f, 1.0f, 3f, 0.8f, 0.2f, 0.2f));
+        roomBG.addChild(windowBackground("WindowBackground", 2f, 1.0f, 0.01f, 0f, 0.2f, 1.3f));
         
+        // sound Effects
         roomBG.addChild(Sounds.keyboardSound);
         roomBG.addChild(Sounds.wrongSound);
         roomBG.addChild(Sounds.successSound);
 
         return roomBG;
+    }
+
+    public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
+            float y, float z) {
+        TextureLoader loader = new TextureLoader("objects/images/" + fileName + ".jpg", null);
+        ImageComponent2D image = loader.getImage();
+
+        Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGB, image.getWidth(), image.getHeight());
+        texture.setImage(0, image);
+        texture.setEnable(true); 
+
+        TransparencyAttributes transparencyAttr = new TransparencyAttributes();
+        transparencyAttr.setTransparencyMode(TransparencyAttributes.BLEND_ONE_MINUS_SRC_ALPHA);
+        transparencyAttr.setTransparency(0.65f); 
+
+        Appearance app = new Appearance();
+        app.setTexture(texture);
+        app.setTransparencyAttributes(transparencyAttr);
+
+        Box background = new Box(width, height, depth, Primitive.GENERATE_TEXTURE_COORDS, app);
+
+        Transform3D transform = new Transform3D();
+        transform.setTranslation(new Vector3d(x, y, z));
+
+        Transform3D scaler = new Transform3D();
+        scaler.setScale(0.4);
+        transform.mul(scaler);
+
+        TransformGroup backgroundTG = new TransformGroup(transform);
+        backgroundTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+
+        backgroundTG.addChild(background);
+
+        return backgroundTG;
     }
 
     public static BranchGroup tvs(double x, double y, double z) {
