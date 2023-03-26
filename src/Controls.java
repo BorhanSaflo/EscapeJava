@@ -7,7 +7,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
-
 import javax.swing.JFrame;
 
 import java.awt.event.MouseEvent;
@@ -35,8 +34,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private static final double Y_FACTOR = 1.5;
     private static final double MIN_Y = -2;
     private static final double MAX_Y = 2;
-    
-    public static double direction() { return direction; }
+
+    public static double direction() {
+        return direction;
+    }
 
     public Controls(Point3d camera, Point3d centerPoint, double direction,
             Canvas3D canvas, EscapeRoom escapeRoom) {
@@ -51,7 +52,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         } catch (AWTException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @Override
@@ -69,7 +70,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             ex.printStackTrace();
             System.exit(0);
         }
-        
+
     }
 
     private void move(int xAxis, int zAxis) {
@@ -162,11 +163,15 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    private int passcode = 0;
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
+            // Movement
             case KeyEvent.VK_A:
                 left = true;
                 break;
@@ -191,6 +196,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_LEFT:
                 turn(false, -1);
                 break;
+
+            // Pause
             case KeyEvent.VK_P:
             case KeyEvent.VK_ESCAPE:
                 escapeRoom.togglePause();
@@ -202,6 +209,21 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             case KeyEvent.VK_SPACE:
                 camera.y += 0.2;
+                break;
+
+            // Numbers
+            case KeyEvent.VK_1:
+            case KeyEvent.VK_2:
+            case KeyEvent.VK_3:
+            case KeyEvent.VK_4:
+            case KeyEvent.VK_5:
+            case KeyEvent.VK_6:
+            case KeyEvent.VK_7:
+            case KeyEvent.VK_8:
+            case KeyEvent.VK_9:
+            case KeyEvent.VK_0:
+                int digit = e.getKeyCode() - KeyEvent.VK_0;
+                computerPuzzle.addDigit(digit);
                 break;
 
             default:
@@ -230,72 +252,80 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
-    
+    public void keyTyped(KeyEvent e) {
+    }
+
     private void pickObject(MouseEvent e) {
-    	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
-		pickTool.setMode(PickTool.GEOMETRY);
-		
-		int x = e.getX(); int y = e.getY();        // mouse coordinates
-		Point3d point3d = new Point3d(), center = new Point3d();
-		canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
-		canvas.getCenterEyeInImagePlate(center);           // obtain eye's position in IP coordinates
-		
-		Transform3D transform3D = new Transform3D();       // matrix to relate ImagePlate coordinates~
-		canvas.getImagePlateToVworld(transform3D);         // to Virtual World coordinates
-		transform3D.transform(point3d);                    // transform 'point3d' with 'transform3D'
-		transform3D.transform(center);                     // transform 'center' with 'transform3D'
-	
-		Vector3d mouseVec = new Vector3d();
-		mouseVec.sub(point3d, center);
-		mouseVec.normalize();
-		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
-	
-		if (pickTool.pickClosest() != null) {
-			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
-			
-			if(clickTG.getName().charAt(0) == '-')
-				unfocus(clickTG);
-			else if(clickTG.getName().charAt(0) == '+')
-				focus(clickTG);
-			
-			System.out.println(clickTG.getName()); // For debug purposes
-		}
+        PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
+        pickTool.setMode(PickTool.GEOMETRY);
+
+        int x = e.getX();
+        int y = e.getY(); // mouse coordinates
+        Point3d point3d = new Point3d(), center = new Point3d();
+        canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
+        canvas.getCenterEyeInImagePlate(center); // obtain eye's position in IP coordinates
+
+        Transform3D transform3D = new Transform3D(); // matrix to relate ImagePlate coordinates~
+        canvas.getImagePlateToVworld(transform3D); // to Virtual World coordinates
+        transform3D.transform(point3d); // transform 'point3d' with 'transform3D'
+        transform3D.transform(center); // transform 'center' with 'transform3D'
+
+        Vector3d mouseVec = new Vector3d();
+        mouseVec.sub(point3d, center);
+        mouseVec.normalize();
+        pickTool.setShapeRay(point3d, mouseVec); // send a PickRay for intersection
+
+        if (pickTool.pickClosest() != null) {
+            TransformGroup clickTG = (TransformGroup) pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent()
+                    .getParent();
+
+            if (clickTG.getName().charAt(0) == '-')
+                unfocus(clickTG);
+            else if (clickTG.getName().charAt(0) == '+')
+                focus(clickTG);
+
+            System.out.println(clickTG.getName()); // For debug purposes
+        }
     }
 
     private void focus(TransformGroup focusTG) {
-    	Transform3D popup = new Transform3D();
-    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
-		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
-		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
-		
-		focusTG.setTransform(popup);
-		focusTG.setName("-"+focusTG.getName().substring(1));
-		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+        Transform3D popup = new Transform3D();
+        popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
+
+        focusTG.setTransform(popup);
+        focusTG.setName("-" + focusTG.getName().substring(1));
+        EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
     }
-    
+
     private void unfocus(TransformGroup focusTG) {
-    	focusTG.setTransform((Transform3D)focusTG.getUserData());
-    	focusTG.setName("+"+focusTG.getName().substring(1));
-		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
+        focusTG.setTransform((Transform3D) focusTG.getUserData());
+        focusTG.setName("+" + focusTG.getName().substring(1));
+        EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
-    
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(EscapeRoom.gameState == EscapeRoom.GameState.PLAYING || EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
-			pickObject(e);
-	}
 
-	@Override
-	public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (EscapeRoom.gameState == EscapeRoom.GameState.PLAYING
+                || EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
+            pickObject(e);
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {}
-    
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
 }
