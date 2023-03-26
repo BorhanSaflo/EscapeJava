@@ -8,12 +8,12 @@ import org.jogamp.java3d.utils.universe.*;
 import org.jogamp.vecmath.*;
 import java.io.IOException;
 
-public class EscapeRoom extends JPanel{
+public class EscapeRoom extends JPanel {
 
 	public enum GameState {
 		START, PLAYING, PAUSED, GAMEOVER, FOCUSED
 	}
-	
+
 	public static GameState gameState = GameState.START;
 	public static BranchGroup sceneBG;
 
@@ -22,7 +22,7 @@ public class EscapeRoom extends JPanel{
 	private GameCanvas canvas = new GameCanvas();
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
 	private double direction = 0.0;
-	private Point3d camera = new Point3d(0, 0.5, 0); // define the point where the eye is
+	private static Point3d camera = new Point3d(0, 0.5, 0); // define the point where the eye is
 	private Point3d centerPoint = new Point3d(1.0, 0.5, 0.0); // define the point where the eye is looking
 	private final BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
 	private Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
@@ -50,6 +50,9 @@ public class EscapeRoom extends JPanel{
 		su.getCanvas().addMouseListener(controls);
 		su.getCanvas().addMouseMotionListener(controls);
 		su.getViewer().getView().setFieldOfView(1.5);
+		// su.getViewer().getView().setBackClipDistance(1000);
+		// su.getViewer().getView().setFrontClipDistance(0.000001); // decrease the near
+		// clip distance
 		updateViewer();
 
 		Thread thread = new Thread(controls);
@@ -116,17 +119,21 @@ public class EscapeRoom extends JPanel{
 		Transform3D scale = new Transform3D();
 		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
-		
-		Background bg = new Background(new TextureLoader("objects/images/background.png",null).getImage());
+
+		Background bg = new Background(new TextureLoader("objects/images/background.png", null).getImage());
 		bg.setImageScaleMode(Background.SCALE_FIT_MAX);
 		bg.setApplicationBounds(new BoundingSphere(new Point3d(), 1000));
-		
+
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(0.6f, 0.6f, 0.6f), 1));
 		sceneBG.addChild(bg);
 
 		return sceneBG;
+	}
+
+	public static Point3d getCamera() {
+		return camera;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -41,8 +41,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private static final double MIN_Y = -2;
     private static final double MAX_Y = 2;
     BufferedImage img = ImageIO.read(new File("objects/images/collision.jpg"));
-    
-    public static double direction() { return direction; }
+
+    public static double direction() {
+        return direction;
+    }
 
     public Controls(Point3d camera, Point3d centerPoint, double direction,
             Canvas3D canvas, EscapeRoom escapeRoom) throws IOException {
@@ -57,7 +59,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         } catch (AWTException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @Override
@@ -75,7 +77,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             ex.printStackTrace();
             System.exit(0);
         }
-        
+
     }
 
     private void move(int xAxis, int zAxis) {
@@ -96,12 +98,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         
         if (x>0 && x<1 && y>0 && y<1) {
             int color = img.getRGB((int)(x*img.getWidth()), (int)(y*img.getHeight()));
-            //if((color&0xff) > 100) {
+            if((color&0xff) > 100) {
                 camera.x += camDX;
                 camera.z += camDZ;
                 centerPoint.x += camDX;
                 centerPoint.z += camDZ;
-            //}
+            }
         }
 
         escapeRoom.updateViewer();
@@ -176,11 +178,15 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    private int passcode = 0;
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
+            // Movement
             case KeyEvent.VK_A:
                 left = true;
                 break;
@@ -211,6 +217,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_LEFT:
                 turn(false, -1);
                 break;
+
+            // Pause
             case KeyEvent.VK_P:
             case KeyEvent.VK_ESCAPE:
                 if(EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
@@ -228,6 +236,21 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             case KeyEvent.VK_G:
                 camera.y += 0.2;
+                break;
+
+            // Numbers
+            case KeyEvent.VK_1:
+            case KeyEvent.VK_2:
+            case KeyEvent.VK_3:
+            case KeyEvent.VK_4:
+            case KeyEvent.VK_5:
+            case KeyEvent.VK_6:
+            case KeyEvent.VK_7:
+            case KeyEvent.VK_8:
+            case KeyEvent.VK_9:
+            case KeyEvent.VK_0:
+                int digit = e.getKeyCode() - KeyEvent.VK_0;
+                computerPuzzle.addDigit(digit);
                 break;
 
             default:
@@ -301,7 +324,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		focusTG.setName("-"+focusTG.getName().substring(1));
 		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
     }
-    
+
     private void unfocus(TransformGroup focusTG) {
     	focusTG.setTransform((Transform3D)focusTG.getUserData());
     	focusTG.setName("+"+focusTG.getName().substring(1));
@@ -312,16 +335,20 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
-	@Override
-	public void mousePressed(MouseEvent e) {}
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseReleased(MouseEvent e) {}
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseEntered(MouseEvent e) {}
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
 
-	@Override
-	public void mouseExited(MouseEvent e) {}
-    
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
 }
