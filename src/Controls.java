@@ -96,12 +96,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         
         if (x>0 && x<1 && y>0 && y<1) {
             int color = img.getRGB((int)(x*img.getWidth()), (int)(y*img.getHeight()));
-            if((color&0xff) > 100) {
+            //if((color&0xff) > 100) {
                 camera.x += camDX;
                 camera.z += camDZ;
                 centerPoint.x += camDX;
                 centerPoint.z += camDZ;
-            }
+            //}
         }
 
         escapeRoom.updateViewer();

@@ -35,65 +35,96 @@ public class createObjects {
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI/2),  new Vector3d(-0.13, -0.103, 0.884), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI/2),  new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
-        roomBG.addChild(middleStuff(-0.1, 0));
-
-        roomBG.addChild(createObject("@blueBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.70), 0.15));
-        roomBG.addChild(createObject("@redBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.745), 0.15));
-        roomBG.addChild(createObject("@blackBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.79), 0.15));
-
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, 0.4), 0.15));
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, 0.1), 0.15));
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, -0.2), 0.15));
-        
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35, -0.063, 0.5), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2, -0.063, 0.5), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35, -0.063, 0.32), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2, -0.063, 0.32), 0.08));
-
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35, -0.063, 0.18), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2, -0.063, 0.18), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35, -0.063, 0.01), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2, -0.063, 0.01), 0.08));
-
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35, -0.063, -0.12), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2, -0.063, -0.12), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35, -0.063, -0.3), 0.08));
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2, -0.063, -0.3), 0.08));
-
-        roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.4), 0.05));
-        roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.1), 0.05));
-        roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, -0.2), 0.05));
-
-        // TODO: fix the whiteboard positioning
-        // TODO: make room in between the high chairs
-        // TODO: check scrum requirements
         roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.35), 0.35));
+
+        roomBG.addChild(bins(0, 0, 0));
+        roomBG.addChild(tvs(0, 0, 0));
+        roomBG.addChild(highStuff(0, 0, 0));
+        roomBG.addChild(middleStuff(-0.1, 0, 0));
+        roomBG.addChild(lowStuff(0, 0, 0));
 
         return roomBG;
     }
 
-    public static BranchGroup middleStuff(double x, double z){
+    public static BranchGroup tvs(double x, double y, double z) {
         BranchGroup BG = new BranchGroup();
 
-        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10, -0.2 + z), 0.06));
-        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10, 0.125 + z), 0.06));
-        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10, 0.45 + z), 0.06));
+        BG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4 + x, 0.08 + y, 0.4 + z), 0.05));
+        BG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4 + x, 0.08 + y, 0.1 + z), 0.05));
+        BG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4 + x, 0.08 + y, -0.2 + z), 0.05));
 
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09, -0.16 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09, 0.165 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09, 0.49 + z), 0.07));
+        return BG;
+    }
 
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09, -0.19 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09, 0.135 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09, 0.46 + z), 0.07));
+    public static BranchGroup lowStuff(double x, double y, double z) {
+        BranchGroup BG = new BranchGroup();
 
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09, -0.23 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09, 0.095 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09, 0.42 + z), 0.07));
+        BG.addChild(createObject("!longdesk-half", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.2 + x, -0.065 + y, 0.895 + z), 0.15));
+        BG.addChild(createObject("!longdesk", new AxisAngle4d(0, 0, 0, Math.PI/2), new Vector3d(0.43 + x, -0.065 + y, 0.7 + z), 0.3));
 
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09, -0.21 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09, 0.115 + z), 0.07));
-        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09, 0.44 + z), 0.07));
+        BG.addChild(createObject("!chair-low", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.275 + x, -0.086 + y, 0.85 + z), 0.0575));
+        BG.addChild(createObject("!chair-low", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.15 + x, -0.086 + y, 0.85 + z), 0.0575));
+
+        return BG;        
+    }
+
+    public static BranchGroup bins(double x, double y, double z) {
+        BranchGroup BG = new BranchGroup();
+
+        BG.addChild(createObject("@blueBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27 + x, -0.103 + y, 0.70 + z), 0.15));
+        BG.addChild(createObject("@redBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27 + x, -0.103 + y, 0.745 + z), 0.15));
+        BG.addChild(createObject("@blackBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27 + x, -0.103 + y, 0.79 + z), 0.15));
+
+        return BG;
+    }
+
+    public static BranchGroup highStuff(double x, double y, double z) {
+        BranchGroup BG = new BranchGroup();
+
+        BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27 + x, -0.085 + y, 0.4 + z), 0.15));
+        BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27 + x, -0.085 + y, 0.1 + z), 0.15));
+        BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27 + x, -0.085 + y, -0.2 + z), 0.15));
+        
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35 + x, -0.063 + y, 0.5 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2 + x, -0.063 + y, 0.5 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35 + x, -0.063 + y, 0.32 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2 + x, -0.063 + y, 0.32 + z), 0.08));
+
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35 + x, -0.063 + y, 0.18 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2 + x, -0.063 + y, 0.18 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35 + x, -0.063 + y, 0.01 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2 + x, -0.063 + y, 0.01 + z), 0.08));
+
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35 + x, -0.063 + y, -0.12 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2 + x, -0.063 + y, -0.12 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35 + x, -0.063 + y, -0.3 + z), 0.08));
+        BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2 + x, -0.063 + y, -0.3 + z), 0.08));
+
+        return BG;
+    }
+
+    public static BranchGroup middleStuff(double x, double y, double z){
+        BranchGroup BG = new BranchGroup();
+
+        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10 + y, -0.2 + z), 0.06));
+        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10 + y, 0.125 + z), 0.06));
+        BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16 + x, -0.10 + y, 0.45 + z), 0.06));
+
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09 + y, -0.16 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09 + y, 0.165 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90), new Vector3d(0.17 + x, -0.09 + y, 0.49 + z), 0.07));
+
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09 + y, -0.19 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09 + y, 0.135 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2 * .80), new Vector3d(0.13 + x, -0.09 + y, 0.46 + z), 0.07));
+
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09 + y, -0.23 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09 + y, 0.095 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90), new Vector3d(0.15 + x, -0.09 + y, 0.42 + z), 0.07));
+
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09 + y, -0.21 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09 + y, 0.115 + z), 0.07));
+        BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40), new Vector3d(0.20 + x, -0.09 + y, 0.44 + z), 0.07));
 
         return BG;
     }
