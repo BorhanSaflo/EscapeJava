@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import org.jdesktop.j3d.examples.sound.audio.JOALMixer;
 import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.universe.*;
 import org.jogamp.vecmath.*;
@@ -119,6 +120,7 @@ public class EscapeRoom extends JPanel {
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(0.6f, 0.6f, 0.6f), 1));
+		sceneBG.addChild(Sounds.bkgdSound());
 
 		return sceneBG;
 	}

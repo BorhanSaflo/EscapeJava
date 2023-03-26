@@ -1,5 +1,7 @@
 import java.net.URL;
+import org.jdesktop.j3d.examples.sound.BackgroundSoundBehavior;
 import org.jdesktop.j3d.examples.sound.audio.JOALMixer;
+import org.jogamp.java3d.BackgroundSound;
 import org.jogamp.java3d.BoundingSphere;
 import org.jogamp.java3d.MediaContainer;
 import org.jogamp.java3d.PointSound;
@@ -48,6 +50,14 @@ public class Sounds {
         pointSound.setCapability(PointSound.ALLOW_ENABLE_WRITE);
         pointSound.setSchedulingBounds(new BoundingSphere(new Point3d(), 1000));
         return pointSound;
+    }
+
+    public static BackgroundSound bkgdSound() {
+        BackgroundSound bgSound = new BackgroundSound();
+        bgSound.setInitialGain(0.02f);
+        BackgroundSoundBehavior player = new BackgroundSoundBehavior(bgSound, locateSound("background"));
+        player.setSchedulingBounds(new BoundingSphere(new Point3d(), 1000));
+        return bgSound;
     }
 
     public static void enableAudio(SimpleUniverse simple_U) {
