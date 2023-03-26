@@ -92,7 +92,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         double y = (camera.x+camDX+4.26)/8.93, x = (camera.z+camDZ+6.97)/16.32;
 
-
+        
         if (x>0 && x<1 && y>0 && y<1) {
             int color = img.getRGB((int)(x*img.getWidth()), (int)(y*img.getHeight()));
             if((color&0xff) > 100) {
@@ -102,6 +102,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 centerPoint.z += camDZ;
             }
         }
+        
+
+   
+        
 
         escapeRoom.updateViewer();
     }
