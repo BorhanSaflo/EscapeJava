@@ -1,7 +1,7 @@
-# Blender 3.4.1 MTL File: 'Escape Java.blend'
+# Blender 3.4.1 MTL File: 'None'
 # www.blender.org
 
-newmtl Material.001
+newmtl Material.007
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.500000 0.500000 0.500000
@@ -11,7 +11,7 @@ d 1.000000
 illum 2
 map_Kd images/WoodQuarteredChiffon001_COL_3K.jpg
 
-newmtl Material
+newmtl Material.010
 Ns 234.499985
 Ka 0.708661 0.708661 0.708661
 Kd 0.507066 0.507066 0.507066
@@ -20,4 +20,3 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 3
-

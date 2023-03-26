@@ -4,10 +4,14 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import java.awt.event.MouseEvent;
@@ -35,11 +39,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private static final double Y_FACTOR = 1.5;
     private static final double MIN_Y = -2;
     private static final double MAX_Y = 2;
+    BufferedImage img = ImageIO.read(new File("objects/images/collision.jpg"));
     
     public static double direction() { return direction; }
 
     public Controls(Point3d camera, Point3d centerPoint, double direction,
-            Canvas3D canvas, EscapeRoom escapeRoom) {
+            Canvas3D canvas, EscapeRoom escapeRoom) throws IOException {
         this.camera = camera;
         this.centerPoint = centerPoint;
         Controls.direction = direction;
@@ -85,10 +90,18 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         double camDX = zAxis * dx - xAxis * dz;
         double camDZ = zAxis * dz + xAxis * dx;
 
-        camera.x += camDX;
-        camera.z += camDZ;
-        centerPoint.x += camDX;
-        centerPoint.z += camDZ;
+        double y = (camera.x+camDX+4.26)/8.93, x = (camera.z+camDZ+6.97)/16.32;
+
+
+        if (x>0 && x<1 && y>0 && y<1) {
+            int color = img.getRGB((int)(x*img.getWidth()), (int)(y*img.getHeight()));
+            if((color&0xff) > 100) {
+                camera.x += camDX;
+                camera.z += camDZ;
+                centerPoint.x += camDX;
+                centerPoint.z += camDZ;
+            }
+        }
 
         escapeRoom.updateViewer();
     }
@@ -201,6 +214,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 camera.y -= 0.2;
                 break;
             case KeyEvent.VK_SPACE:
+                camera.y += 0.2;
+                break;
+            case KeyEvent.VK_G:
                 camera.y += 0.2;
                 break;
 
