@@ -39,6 +39,8 @@ public class createObjects {
         roomBG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16, -0.103, 0.125), 0.06));
         roomBG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16, -0.103, 0.45), 0.06));
 
+        roomBG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(0.16, -0.085, -0.2), 0.07));
+
         roomBG.addChild(createObject("@blueBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.70), 0.15));
         roomBG.addChild(createObject("@redBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.745), 0.15));
         roomBG.addChild(createObject("@blackBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.79), 0.15));
