@@ -39,11 +39,19 @@ public class createObjects {
         roomBG.addChild(createObject("@redBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.745), 0.15));
         roomBG.addChild(createObject("@blackBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.79), 0.15));
 
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.103, 0.4), 0.15));
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.103, 0.1), 0.15));
-        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.103, -0.2), 0.15));
+        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, 0.4), 0.15));
+        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, 0.1), 0.15));
+        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.085, -0.2), 0.15));
         
-        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.2, 0.0, 0.5), 0.08));
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35, -0.063, 0.5), 0.08));
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2, -0.063, 0.5), 0.08));
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35, -0.063, 0.32), 0.08));
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2, -0.063, 0.32), 0.08));
+
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.35, -0.063, 0.18), 0.08));
+        roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.2, -0.063, 0.18), 0.08));
+        // roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.35, -0.063, 0.32), 0.08));
+        // roomBG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.2, -0.063, 0.32), 0.08));
 
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.4), 0.05));
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.1), 0.05));
