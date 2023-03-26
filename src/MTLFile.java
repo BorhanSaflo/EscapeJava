@@ -22,7 +22,9 @@ public class MTLFile {
     	Scanner sc = null;
     	
 		try { sc = new Scanner(mtlFile); }
-		catch (FileNotFoundException e) { e.printStackTrace();}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
     	
 		for(int i = 0; i < 4; i++)
 			sc.nextLine();

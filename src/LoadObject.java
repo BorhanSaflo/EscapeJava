@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.jogamp.java3d.Alpha;
@@ -42,6 +43,11 @@ public class LoadObject {
     
     public static Appearance obj_Appearance(String fileName) {
         Material mtl = new Material(); // define material's attributes
+
+        File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
+        if(!mtlFile.exists())
+            return obj_Appearance(Black);
+
         MTLFile mtlfile = new MTLFile(fileName);
         
         mtl.setShininess(mtlfile.shininess);
