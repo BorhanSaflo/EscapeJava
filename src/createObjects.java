@@ -66,7 +66,10 @@ public class createObjects {
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.1), 0.05));
         roomBG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, -0.2), 0.05));
 
-        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.7), 0.1));
+        // TODO: fix the whiteboard positioning
+        // TODO: make room in between the high chairs
+        // TODO: check scrum requirements
+        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4, 0.08, 0.7), 0.5));
 
         return roomBG;
     }
