@@ -89,6 +89,9 @@ public class createObjects {
         // TODO: check scrum requirements
         roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.35), 0.35));
 
+        //puzzles
+        roomBG.addChild(new computerPuzzle().positionTextObj());
+
         return roomBG;
     }
 
