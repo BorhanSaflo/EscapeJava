@@ -35,9 +35,14 @@ public class createObjects {
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI/2),  new Vector3d(-0.13, -0.103, 0.884), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI/2),  new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
-        roomBG.addChild(createObject("@blueBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.23, -0.089, 0.54), 0.2));
-        roomBG.addChild(createObject("@redBin",   new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.23, -0.089, 0.6), 0.2));
-        roomBG.addChild(createObject("@blackBin", new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.23, -0.089, 0.66), 0.2));
+        roomBG.addChild(createObject("@blueBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.70), 0.15));
+        roomBG.addChild(createObject("@redBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.745), 0.15));
+        roomBG.addChild(createObject("@blackBin",  new AxisAngle4d(0, 0, 0, Math.PI/2),  new Vector3d(-0.27, -0.103, 0.79), 0.15));
+
+        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.103, -0.1), 0.15));
+        roomBG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI/2), new Vector3d(-0.27, -0.103, -0.3), 0.15));
+        
+
 
         return roomBG;
     }
