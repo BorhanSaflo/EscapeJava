@@ -29,7 +29,7 @@ public class computerPuzzle {
 
     public computerPuzzle() {
         Transform3D translation = new Transform3D();
-        translation.setTranslation(new Vector3d(-17, 0.0, -41.7));
+        translation.setTranslation(new Vector3d(-26, -2.5, -41.7));
 
         Transform3D scaler = new Transform3D();
         scaler.setScale(0.01);
