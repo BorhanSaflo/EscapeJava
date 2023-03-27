@@ -303,9 +303,9 @@ public class createObjects {
     }
 
     public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation, double scale) {
-        String[] objects = {"+middlechair", "+middletable", "+couch", "!highTable", "!chair-high", "!chair-low"};
+        String[] objects = {"middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer"};
         for(int i = 0; i < objects.length; i++){
-            if(name.equals(objects[i])){
+            if(name.substring(1).equals(objects[i])){
                 SharedGroup SG = roomSG[i];
                 Link link = new Link(SG);
 
@@ -329,7 +329,7 @@ public class createObjects {
     
 
     public static void createSG() {
-        roomSG = new SharedGroup[6];
+        roomSG = new SharedGroup[7];
 
         BranchGroup middleChairBG = LoadObject.loadObject("objects/middlechair.obj");
         SharedGroup middleChairSG = new SharedGroup();
@@ -366,6 +366,12 @@ public class createObjects {
         lowChairsSG.addChild(lowChairsBG);
         lowChairsSG.compile();
         roomSG[5] = lowChairsSG;
+
+        BranchGroup computerBG = LoadObject.loadObject("objects/computer.obj");
+        SharedGroup computerSG = new SharedGroup();
+        computerSG.addChild(computerBG);
+        computerSG.compile();
+        roomSG[6] = computerSG;
 
         //TODO: tvs SharedGroup
         //TODO: windows SharedGroup
