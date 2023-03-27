@@ -21,7 +21,6 @@ import org.jogamp.java3d.utils.image.TextureLoader;
 public class createObjects {
     private static SharedGroup roomSG[];
 
-
     public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
 	public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
 	public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
@@ -304,7 +303,7 @@ public class createObjects {
     }
 
     public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation, double scale) {
-        String[] objects = {"+middlechair", "+middletable", "+couch", "!highTable", "!chair-high"};
+        String[] objects = {"+middlechair", "+middletable", "+couch", "!highTable", "!chair-high", "!chair-low"};
         for(int i = 0; i < objects.length; i++){
             if(name.equals(objects[i])){
                 SharedGroup SG = roomSG[i];
@@ -330,7 +329,7 @@ public class createObjects {
     
 
     public static void createSG() {
-        roomSG = new SharedGroup[5];
+        roomSG = new SharedGroup[6];
 
         BranchGroup middleChairBG = LoadObject.loadObject("objects/middlechair.obj");
         SharedGroup middleChairSG = new SharedGroup();
@@ -361,6 +360,12 @@ public class createObjects {
         highChairsSG.addChild(highChairsBG);
         highChairsSG.compile();
         roomSG[4] = highChairsSG;
+
+        BranchGroup lowChairsBG = LoadObject.loadObject("objects/chair-low.obj");
+        SharedGroup lowChairsSG = new SharedGroup();
+        lowChairsSG.addChild(lowChairsBG);
+        lowChairsSG.compile();
+        roomSG[5] = lowChairsSG;
 
         //TODO: tvs SharedGroup
         //TODO: windows SharedGroup
