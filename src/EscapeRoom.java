@@ -95,18 +95,18 @@ public class EscapeRoom extends JPanel {
 		viewTransform.setTransform(viewTM);
 	}
 
-	public BranchGroup addLights(Color3f clr, int p_num) {
+	public BranchGroup addLights(Color3f clr) {
 		BranchGroup lightBG = new BranchGroup();
 		Point3f atn = new Point3f(0.5f, 0.0f, 0.0f);
 		PointLight ptLight;
-		float adjt = 1f;
-		for (int i = 0; (i < p_num) && (i < 2); i++) {
-			if (i > 0)
-				adjt = -1f;
-			ptLight = new PointLight(clr, new Point3f(3.0f * adjt, 1.0f, 3.0f * adjt), atn);
-			ptLight.setInfluencingBounds(hundredBS);
-			lightBG.addChild(ptLight);
-		}
+
+		for(int i = 0; i < 2; i++)
+			for (int j = 0; j < 4; j++) {
+				ptLight = new PointLight(clr, new Point3f(-2+i*4, 5, -4+j*2.5f), atn);
+				ptLight.setInfluencingBounds(hundredBS);
+				lightBG.addChild(ptLight);
+			}
+
 		return lightBG;
 	}
 
@@ -118,7 +118,7 @@ public class EscapeRoom extends JPanel {
 
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
-		sceneBG.addChild(addLights(new Color3f(0.6f, 0.6f, 0.6f), 1));
+		sceneBG.addChild(addLights(new Color3f(0.1f, 0.1f, 0.1f)));
 		sceneBG.addChild(Sounds.bkgdSound());
 
 		return sceneBG;

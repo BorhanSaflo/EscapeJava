@@ -62,12 +62,9 @@ public class MTLFile {
 	private static Texture getTexture(String fileName) {
 		TextureLoader loader = new TextureLoader("objects/"+fileName, null);
 		ImageComponent2D image = loader.getImage();        // load the image
-		if (image == null)
-			System.out.println("Cannot load file: " + fileName);
-
 		Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGBA, image.getWidth(), image.getHeight());
-		texture.setImage(0, image);                        // set image for the texture
 
+		texture.setImage(0, image);                        // set image for the texture
 		return texture;
 	}
 }

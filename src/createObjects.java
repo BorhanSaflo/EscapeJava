@@ -36,7 +36,6 @@ public class createObjects {
          * + Focusable (eg. clues, puzzles)
          * - Focused (shouldn't be used here)
          * ! Immovable (eg. room, windows)
-         * 
          * @ Interactable (eg. door, trash bin)
          * # Equipable (eg. key, tool)
          * 
@@ -45,7 +44,9 @@ public class createObjects {
 
         roomBG.addChild(createObject("!emptyroom", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.007, 0, 0.122), 1.122));
 
+        roomBG.addChild(createObject("!ceiling", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.007, 0, 0.122), 1.122));
         roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118), 0.82));
+
         roomBG.addChild(createObject("@door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.208, -0.02, 0.937), 0.22));
         roomBG.addChild(createObject("@doorKnob1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.153, -0.045, 0.937), 0.18));
         roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347), 0.36));
