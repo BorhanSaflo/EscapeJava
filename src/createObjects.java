@@ -5,8 +5,6 @@ import org.jogamp.java3d.Link;
 import org.jogamp.java3d.SharedGroup;
 import org.jogamp.java3d.Texture;
 import org.jogamp.java3d.Texture2D;
-import org.jogamp.java3d.Material;
-import org.jogamp.java3d.Shape3D;
 import org.jogamp.java3d.Transform3D;
 import org.jogamp.java3d.TransformGroup;
 import org.jogamp.java3d.TransparencyAttributes;
@@ -15,7 +13,6 @@ import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Color3f;
 import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
-import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
 public class createObjects {
@@ -50,9 +47,13 @@ public class createObjects {
 
         roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118), 0.82));
         roomBG.addChild(createObject("@door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.208, -0.02, 0.937), 0.22));
-        roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.353), 0.36));
+        roomBG.addChild(createObject("@doorKnob1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.153, -0.045, 0.937), 0.18));
+        roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347), 0.36));
+        roomBG.addChild(createObject("@doorKnob2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.153, -0.045, -0.347), 0.36));
 
-        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.35), 0.35));
+        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.348), 0.344));
+        roomBG.addChild(createObject("!whiteboardFrame", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.355), 0.35));
+        roomBG.addChild(createObject("!whiteboardHolder", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.095, -0.042, -0.343), 0.35));
 
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
                 new Vector3d(0.05, -0.103, -0.648), 0.05));
