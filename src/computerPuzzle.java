@@ -58,14 +58,16 @@ public class computerPuzzle {
         if (unlocked || !isUsable)
             return;
 
-        if (EscapeRoom.getCamera().distance(computerPuzzle.getDistance()) < 2) {
+        if (EscapeRoom.getCamera().distance(getDistance()) < 2) {
             passcode = passcode * 10 + digit;
 
             if (passcode < 1000) {
+                Sounds.playSound(Sounds.keyboardSound);
                 setText(formatText(), white);
                 return;
             }
             if (passcode == key) {
+                Sounds.playSound(Sounds.successSound);
                 setText(formatText(), green);
                 unlocked = true;
             } else
@@ -90,6 +92,7 @@ public class computerPuzzle {
     private static void wrongPasscode() {
         isUsable = false;
         setText(formatText(), red);
+        Sounds.playSound(Sounds.wrongSound);
         Timer timer = new Timer(1000, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 passcode = 0;

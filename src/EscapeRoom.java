@@ -1,9 +1,7 @@
 import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.jogamp.java3d.*;
-import org.jogamp.java3d.utils.image.TextureLoader;
 import org.jogamp.java3d.utils.universe.*;
 import org.jogamp.vecmath.*;
 import java.io.IOException;
@@ -40,20 +38,18 @@ public class EscapeRoom extends JPanel {
 		setLayout(new BorderLayout());
 		add("Center", startScreen);
 
-		frame.setSize(1920, 1080);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-
 		// Add the key and mouse controls
 		su.getCanvas().addKeyListener(controls);
 		su.getCanvas().addMouseListener(controls);
 		su.getCanvas().addMouseMotionListener(controls);
 		su.getViewer().getView().setFieldOfView(1.5);
-		// su.getViewer().getView().setBackClipDistance(1000);
-		// su.getViewer().getView().setFrontClipDistance(0.000001); // decrease the near
-		// clip distance
+		Sounds.enableAudio(su);
 		updateViewer();
+		
+		frame.setSize(1920, 1080);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 
 		Thread thread = new Thread(controls);
 		thread.start();
@@ -120,14 +116,10 @@ public class EscapeRoom extends JPanel {
 		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
 
-		Background bg = new Background(new TextureLoader("objects/images/background.png", null).getImage());
-		bg.setImageScaleMode(Background.SCALE_FIT_MAX);
-		bg.setApplicationBounds(new BoundingSphere(new Point3d(), 1000));
-
 		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(0.6f, 0.6f, 0.6f), 1));
-		sceneBG.addChild(bg);
+		sceneBG.addChild(Sounds.bkgdSound());
 
 		return sceneBG;
 	}
