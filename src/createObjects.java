@@ -41,42 +41,33 @@ public class createObjects {
          * 
          * Note: The given names are set to the object's TG, not Shape3D.
          */
-
+        
         roomBG.addChild(createObject("!emptyroom", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.007, 0, 0.122), 1.122));
-
-        roomBG.addChild(createObject("!ceiling", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.007, 0, 0.122), 1.122));
+        
+        roomBG.addChild(createObject("!ceiling", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0, 0.13, 0), 1));
         roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118), 0.82));
-
+        
         roomBG.addChild(createObject("@door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.208, -0.02, 0.937), 0.22));
         roomBG.addChild(createObject("@doorKnob1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.153, -0.045, 0.937), 0.18));
         roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347), 0.36));
         roomBG.addChild(createObject("@doorKnob2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.153, -0.045, -0.347), 0.36));
-
+        
         roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.348), 0.344));
         roomBG.addChild(createObject("!whiteboardFrame", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.355), 0.35));
+
         roomBG.addChild(createObject("!whiteboardHolder", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.095, -0.042, -0.343), 0.35));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2), new Vector3d(0.05, -0.103, -0.648), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2), new Vector3d(0.15, -0.103, -0.648), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2), new Vector3d(0.25, -0.103, -0.648), 0.05));
+                
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.62), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.52), 0.05));
 
-        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.05, -0.103, -0.648), 0.05));
-        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.15, -0.103, -0.648), 0.05));
-        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.25, -0.103, -0.648), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.01, -0.103, 0.844), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2), new Vector3d(-0.13, -0.103, 0.884), 0.05));
+        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2), new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
-        roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.62), 0.05));
-        roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.52), 0.05));
-
-        roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.01, -0.103, 0.844), 0.05));
-        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.13, -0.103, 0.884), 0.05));
-        roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.23, -0.103, 0.884), 0.05));
-
-        roomBG.addChild(
-                createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.35), 0.35));
+        roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.1, 0.04, -0.35), 0.35));
 
         roomBG.addChild(bins(0, 0, 0));
         roomBG.addChild(tvs(0, 0, 0));

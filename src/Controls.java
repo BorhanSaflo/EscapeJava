@@ -108,10 +108,11 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         escapeRoom.updateViewer();
 
+        /*
         System.out.println("x - "+camera.x);
         System.out.println("y - "+camera.y);
         System.out.println("z - "+camera.z);
-
+        */
     }
 
     private void turn(boolean verticalAxis, int magnitude) {

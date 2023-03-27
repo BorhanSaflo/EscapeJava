@@ -37,7 +37,7 @@ public class MTLFile {
 			case "Ks": specular = new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()); continue;
 			case "Ke": emissive = new Color3f(sc.nextFloat(),sc.nextFloat(),sc.nextFloat()); continue;
 			case "d" : transparency = sc.nextFloat(); continue;
-			case "map_Kd": texture = getTexture(sc.next());
+			case "map_Kd": texture = getTexture(sc.next()); continue;
 			case "newmtl": break;
 			default: continue;
 			}
