@@ -14,10 +14,15 @@ import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
+import java.util.Arrays;
+
 public class createObjects {
+    private static SharedGroup roomSG[];
+
     public static BranchGroup room() {
+        createSG();
+
         BranchGroup roomBG = new BranchGroup();
-        SharedGroup[] roomSG = createSG();
 
         /*
          * Prefixes:
@@ -38,23 +43,23 @@ public class createObjects {
         roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.353), 0.36));
 
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.05, -0.103, -0.648), 0.05, roomSG));
+                new Vector3d(0.05, -0.103, -0.648), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.15, -0.103, -0.648), 0.05, roomSG));
+                new Vector3d(0.15, -0.103, -0.648), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                new Vector3d(0.25, -0.103, -0.648), 0.05, roomSG));
+                new Vector3d(0.25, -0.103, -0.648), 0.05));
 
         roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.62), 0.05, roomSG));
+                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.62), 0.05));
         roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.52), 0.05, roomSG));
+                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(0.382, -0.103, -0.52), 0.05));
 
         roomBG.addChild(
-                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.01, -0.103, 0.844), 0.05, roomSG));
+                createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI), new Vector3d(-0.01, -0.103, 0.844), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.13, -0.103, 0.884), 0.05, roomSG));
+                new Vector3d(-0.13, -0.103, 0.884), 0.05));
         roomBG.addChild(createObject("+couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.23, -0.103, 0.884), 0.05, roomSG));
+                new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
         roomBG.addChild(
                 createObject("@computer", new AxisAngle4d(0, -1, 0, Math.PI / 2), new Vector3d(0.4, 0.0, -0.16), 0.05));
@@ -64,8 +69,8 @@ public class createObjects {
 
         roomBG.addChild(bins(0, 0, 0));
         roomBG.addChild(tvs(0, 0, 0));
-        roomBG.addChild(highStuff(0, 0, 0, roomSG));
-        roomBG.addChild(middleStuff(-0.1, 0, 0, roomSG));
+        roomBG.addChild(highStuff(0, 0, 0));
+        roomBG.addChild(middleStuff(-0.1, 0, 0));
         roomBG.addChild(lowStuff(0, 0, 0));
 
         // puzzles
@@ -157,88 +162,88 @@ public class createObjects {
         return BG;
     }
 
-    public static BranchGroup highStuff(double x, double y, double z, SharedGroup[] SG) {
+    public static BranchGroup highStuff(double x, double y, double z) {
         BranchGroup BG = new BranchGroup();
 
         BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.27 + x, -0.085 + y, 0.4 + z), 0.15, SG));
+                new Vector3d(-0.27 + x, -0.085 + y, 0.4 + z), 0.15));
         BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.27 + x, -0.085 + y, 0.1 + z), 0.15, SG));
+                new Vector3d(-0.27 + x, -0.085 + y, 0.1 + z), 0.15));
         BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(-0.27 + x, -0.085 + y, -0.2 + z), 0.15, SG));
+                new Vector3d(-0.27 + x, -0.085 + y, -0.2 + z), 0.15));
 
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.35 + x, -0.063 + y, 0.5 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, 0.5 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.2 + x, -0.063 + y, 0.5 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, 0.5 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.35 + x, -0.063 + y, 0.32 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, 0.32 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.2 + x, -0.063 + y, 0.32 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, 0.32 + z), 0.08));
 
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.35 + x, -0.063 + y, 0.18 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, 0.18 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.2 + x, -0.063 + y, 0.18 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, 0.18 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.35 + x, -0.063 + y, 0.01 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, 0.01 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.2 + x, -0.063 + y, 0.01 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, 0.01 + z), 0.08));
 
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.35 + x, -0.063 + y, -0.12 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, -0.12 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
-                new Vector3d(-0.2 + x, -0.063 + y, -0.12 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, -0.12 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.35 + x, -0.063 + y, -0.3 + z), 0.08, SG));
+                new Vector3d(-0.35 + x, -0.063 + y, -0.3 + z), 0.08));
         BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                new Vector3d(-0.2 + x, -0.063 + y, -0.3 + z), 0.08, SG));
+                new Vector3d(-0.2 + x, -0.063 + y, -0.3 + z), 0.08));
 
         return BG;
     }
 
-    public static BranchGroup middleStuff(double x, double y, double z, SharedGroup[] SG) {
+    public static BranchGroup middleStuff(double x, double y, double z) {
         BranchGroup BG = new BranchGroup();
 
         BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(0.16 + x, -0.10 + y, -0.2 + z), 0.06, SG));
+                new Vector3d(0.16 + x, -0.10 + y, -0.2 + z), 0.06));
         BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(0.16 + x, -0.10 + y, 0.125 + z), 0.06, SG));
+                new Vector3d(0.16 + x, -0.10 + y, 0.125 + z), 0.06));
         BG.addChild(createObject("+middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                new Vector3d(0.16 + x, -0.10 + y, 0.45 + z), 0.06, SG));
+                new Vector3d(0.16 + x, -0.10 + y, 0.45 + z), 0.06));
 
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90),
-                new Vector3d(0.17 + x, -0.09 + y, -0.16 + z), 0.07, SG));
+                new Vector3d(0.17 + x, -0.09 + y, -0.16 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90),
-                new Vector3d(0.17 + x, -0.09 + y, 0.165 + z), 0.07, SG));
+                new Vector3d(0.17 + x, -0.09 + y, 0.165 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90),
-                new Vector3d(0.17 + x, -0.09 + y, 0.49 + z), 0.07, SG));
+                new Vector3d(0.17 + x, -0.09 + y, 0.49 + z), 0.07));
 
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI / 2 * .80),
-                new Vector3d(0.13 + x, -0.09 + y, -0.19 + z), 0.07, SG));
+                new Vector3d(0.13 + x, -0.09 + y, -0.19 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI / 2 * .80),
-                new Vector3d(0.13 + x, -0.09 + y, 0.135 + z), 0.07, SG));
+                new Vector3d(0.13 + x, -0.09 + y, 0.135 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI / 2 * .80),
-                new Vector3d(0.13 + x, -0.09 + y, 0.46 + z), 0.07, SG));
+                new Vector3d(0.13 + x, -0.09 + y, 0.46 + z), 0.07));
 
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90),
-                new Vector3d(0.15 + x, -0.09 + y, -0.23 + z), 0.07, SG));
+                new Vector3d(0.15 + x, -0.09 + y, -0.23 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90),
-                new Vector3d(0.15 + x, -0.09 + y, 0.095 + z), 0.07, SG));
+                new Vector3d(0.15 + x, -0.09 + y, 0.095 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.90),
-                new Vector3d(0.15 + x, -0.09 + y, 0.42 + z), 0.07, SG));
+                new Vector3d(0.15 + x, -0.09 + y, 0.42 + z), 0.07));
 
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40),
-                new Vector3d(0.20 + x, -0.09 + y, -0.21 + z), 0.07, SG));
+                new Vector3d(0.20 + x, -0.09 + y, -0.21 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40),
-                new Vector3d(0.20 + x, -0.09 + y, 0.115 + z), 0.07, SG));
+                new Vector3d(0.20 + x, -0.09 + y, 0.115 + z), 0.07));
         BG.addChild(createObject("+middlechair", new AxisAngle4d(0, 1, 0, Math.PI * 1.40),
-                new Vector3d(0.20 + x, -0.09 + y, 0.44 + z), 0.07, SG));
+                new Vector3d(0.20 + x, -0.09 + y, 0.44 + z), 0.07));
 
         return BG;
     }
 
-    public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation, double scale) {
+    public static TransformGroup createLooseObject(String name, AxisAngle4d rotation, Vector3d translation, double scale) {
         Transform3D transform = new Transform3D();
         transform.set(rotation);
         transform.setScale(scale);
@@ -253,146 +258,67 @@ public class createObjects {
         return objTG;
     }
 
-    public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation, double scale, SharedGroup[] tempSG) {
-        if(name == "+middlechair") {
-            SharedGroup SG = tempSG[0];
-            Link link = new Link(SG);
+    public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation, double scale) {
+        String[] objects = {"+middlechair", "+middletable", "+couch", "!highTable", "!chair-high"};
+        for(int i = 0; i < objects.length; i++){
+            if(name.equals(objects[i])){
+                SharedGroup SG = roomSG[i];
+                Link link = new Link(SG);
 
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
+                Transform3D transform = new Transform3D();
+                transform.set(rotation);
+                transform.setScale(scale);
+                transform.setTranslation(translation);
 
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(link);
+                TransformGroup objTG = new TransformGroup(transform);
+                objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                objTG.setName(name);
+                objTG.setUserData(transform);
+                objTG.addChild(link);
 
-            return objTG;
+                return objTG;
+            }
         }
-        else if (name == "+middletable") {
-            SharedGroup SG = tempSG[1];
-            Link link = new Link(SG);
 
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
-
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(link);
-
-            return objTG;
-        }
-        else if (name == "+couch") {
-            SharedGroup SG = tempSG[2];
-            Link link = new Link(SG);    
-
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
-
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(link);
-
-            return objTG;
-        }
-        else if (name == "!highTable") {
-            SharedGroup SG = tempSG[3];
-            Link link = new Link(SG);
-                
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
-
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(link);
-    
-            return objTG;
-        }
-        else if (name == "!chair-high") {
-            SharedGroup SG = tempSG[4];
-            Link link = new Link(SG);
-
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
-
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(link);
-
-            return objTG;
-        }
-        else {
-            Transform3D transform = new Transform3D();
-            transform.set(rotation);
-            transform.setScale(scale);
-            transform.setTranslation(translation);
-
-            TransformGroup objTG = new TransformGroup(transform);
-            objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-            objTG.setName(name);
-            objTG.setUserData(transform);
-            objTG.addChild(LoadObject.loadObject("objects/" + name.substring(1) + ".obj"));
-
-            return objTG;
-        }
+        return createLooseObject(name, rotation, translation, scale);
     }
     
 
-    public static SharedGroup[] createSG() {
-        SharedGroup[] SGs = new SharedGroup[5];
+    public static void createSG() {
+        roomSG = new SharedGroup[5];
 
         BranchGroup middleChairBG = LoadObject.loadObject("objects/middlechair.obj");
         SharedGroup middleChairSG = new SharedGroup();
         middleChairSG.addChild(middleChairBG);
         middleChairSG.compile();
-        SGs[0] = middleChairSG;
+        roomSG[0] = middleChairSG;
 
         BranchGroup middleTableBG = LoadObject.loadObject("objects/middletable.obj");
         SharedGroup middleTableSG = new SharedGroup();
         middleTableSG.addChild(middleTableBG);
         middleTableSG.compile();
-        SGs[1] = middleTableSG;
+        roomSG[1] = middleTableSG;
 
         BranchGroup couchBG = LoadObject.loadObject("objects/couch.obj");
         SharedGroup couchSG = new SharedGroup();
         couchSG.addChild(couchBG);
         couchSG.compile();
-        SGs[2] = couchSG;
+        roomSG[2] = couchSG;
 
         BranchGroup highTableBG = LoadObject.loadObject("objects/highTable.obj");
         SharedGroup highTableSG = new SharedGroup();
         highTableSG.addChild(highTableBG);
         highTableSG.compile();
-        SGs[3] = highTableSG;
+        roomSG[3] = highTableSG;
         
         BranchGroup highChairsBG = LoadObject.loadObject("objects/chair-high.obj");
         SharedGroup highChairsSG = new SharedGroup();
         highChairsSG.addChild(highChairsBG);
         highChairsSG.compile();
-        SGs[4] = highChairsSG;
+        roomSG[4] = highChairsSG;
 
         //TODO: tvs SharedGroup
         //TODO: windows SharedGroup
         //TODO: computers SharedGroup
-
-        return SGs;
     }
 }
