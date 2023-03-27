@@ -72,7 +72,7 @@ public class createObjects {
         roomBG.addChild(new computerPuzzle().positionTextObj());
 
         // Window backgrounds
-        roomBG.addChild(windowBackground("WindowBackground", 2f, 1.0f, 0.01f, 0f, 0.2f, -1f));
+        roomBG.addChild(windowBackground("IMG_6706", 1.2f, 0.35f, 0.01f, 0f, 0f, -1f));
         roomBG.addChild(windowBackground("WindowBackground2", 0.01f, 1.0f, 3f, 0.8f, 0.2f, 0.2f));
         roomBG.addChild(windowBackground("WindowBackground", 2f, 1.0f, 0.01f, 0f, 0.2f, 1.3f));
         
@@ -355,7 +355,6 @@ public class createObjects {
         }
     }
     
-
     public static SharedGroup[] createSG() {
         SharedGroup[] SGs = new SharedGroup[5];
 
