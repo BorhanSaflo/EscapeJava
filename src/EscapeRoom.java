@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import org.jdesktop.j3d.examples.sound.audio.JOALMixer;
 import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.universe.*;
 import org.jogamp.vecmath.*;
@@ -39,11 +38,6 @@ public class EscapeRoom extends JPanel {
 		setLayout(new BorderLayout());
 		add("Center", startScreen);
 
-		frame.setSize(1920, 1080);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-
 		// Add the key and mouse controls
 		su.getCanvas().addKeyListener(controls);
 		su.getCanvas().addMouseListener(controls);
@@ -51,6 +45,11 @@ public class EscapeRoom extends JPanel {
 		su.getViewer().getView().setFieldOfView(1.5);
 		Sounds.enableAudio(su);
 		updateViewer();
+		
+		frame.setSize(1920, 1080);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
 
 		Thread thread = new Thread(controls);
 		thread.start();
