@@ -14,8 +14,6 @@ import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
-import java.util.Arrays;
-
 public class createObjects {
     private static SharedGroup roomSG[];
 
