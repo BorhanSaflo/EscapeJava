@@ -1,3 +1,4 @@
+import org.jogamp.java3d.Alpha;
 import org.jogamp.java3d.Appearance;
 import org.jogamp.java3d.BranchGroup;
 import org.jogamp.java3d.ImageComponent2D;
@@ -88,8 +89,14 @@ public class createObjects {
                 roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
+                TransformGroup fan1 = createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.225, 0.135, 0.0), 0.1);
+                roomBG.addChild(fan1);
+
                 roomBG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(0.0, 0.1, 0.0), 0.05));
+                                new Vector3d(0.225, 0.135, -0.45), 0.1));
+
+                roomBG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0),
+                                new Vector3d(0.225, 0.135, 0.45), 0.1));
 
                 roomBG.addChild(bins(0, 0, 0));
                 roomBG.addChild(tvs(0, 0, 0));
@@ -444,7 +451,6 @@ public class createObjects {
                 BranchGroup BG = new BranchGroup();
         
                 BG.addChild(createBox("redClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.01f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
-
 
                 BG.addChild(createBox("greenClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.1f, 0.01f, 0.05f, LoadObject.obj_Appearance(Green)));
         
