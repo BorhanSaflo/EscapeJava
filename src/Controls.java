@@ -147,6 +147,57 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
     }
 
+    private void pickObject() {
+    	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
+		pickTool.setMode(PickTool.GEOMETRY);
+		
+		int x = canvas.getWidth()/2;
+        int y = canvas.getHeight()/2;        // mouse coordinates
+		Point3d point3d = new Point3d(), center = new Point3d();
+		canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
+		canvas.getCenterEyeInImagePlate(center);           // obtain eye's position in IP coordinates
+		
+		Transform3D transform3D = new Transform3D();       // matrix to relate ImagePlate coordinates~
+		canvas.getImagePlateToVworld(transform3D);         // to Virtual World coordinates
+		transform3D.transform(point3d);                    // transform 'point3d' with 'transform3D'
+		transform3D.transform(center);                     // transform 'center' with 'transform3D'
+	
+		Vector3d mouseVec = new Vector3d();
+		mouseVec.sub(point3d, center);
+		mouseVec.normalize();
+		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
+	
+		if (pickTool.pickClosest() != null) {
+			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
+			
+			if(clickTG.getName().charAt(0) == '+')
+				focus(clickTG);
+			else if(clickTG.getName().charAt(0) == '-')
+				unfocus(clickTG);
+			
+			System.out.println(clickTG.getName()); // For debug purposes
+		}
+    }
+
+    private void focus(TransformGroup focusTG) {
+        focusedGroup = focusTG;
+    	Transform3D popup = new Transform3D();
+    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
+		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
+		
+		focusTG.setTransform(popup);
+		focusTG.setName("-"+focusTG.getName().substring(1));
+		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+    }
+
+    private void unfocus(TransformGroup focusTG) {
+    	focusTG.setTransform((Transform3D)focusTG.getUserData());
+    	focusTG.setName("+"+focusTG.getName().substring(1));
+        resetMouse();
+		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
+    }
+
     @Override
     public void mouseMoved(MouseEvent e) {
         if (!escapeRoom.isPlaying()) {
@@ -287,74 +338,19 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     @Override
     public void keyTyped(KeyEvent e) {}
     
-    private void pickObject() {
-    	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
-		pickTool.setMode(PickTool.GEOMETRY);
-		
-		int x = canvas.getWidth()/2;
-        int y = canvas.getHeight()/2;        // mouse coordinates
-		Point3d point3d = new Point3d(), center = new Point3d();
-		canvas.getPixelLocationInImagePlate(x, y, point3d);// obtain AWT pixel in ImagePlate coordinates
-		canvas.getCenterEyeInImagePlate(center);           // obtain eye's position in IP coordinates
-		
-		Transform3D transform3D = new Transform3D();       // matrix to relate ImagePlate coordinates~
-		canvas.getImagePlateToVworld(transform3D);         // to Virtual World coordinates
-		transform3D.transform(point3d);                    // transform 'point3d' with 'transform3D'
-		transform3D.transform(center);                     // transform 'center' with 'transform3D'
-	
-		Vector3d mouseVec = new Vector3d();
-		mouseVec.sub(point3d, center);
-		mouseVec.normalize();
-		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
-	
-		if (pickTool.pickClosest() != null) {
-			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
-			
-			if(clickTG.getName().charAt(0) == '+')
-				focus(clickTG);
-			else if(clickTG.getName().charAt(0) == '-')
-				unfocus(clickTG);
-			
-			System.out.println(clickTG.getName()); // For debug purposes
-		}
-    }
-
-    private void focus(TransformGroup focusTG) {
-        focusedGroup = focusTG;
-    	Transform3D popup = new Transform3D();
-    	popup.setTranslation(new Vector3d(centerPoint.x*0.1, centerPoint.y*0.1, centerPoint.z*0.1));
-		popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
-		popup.setScale(((Transform3D)focusTG.getUserData()).getScale());
-		
-		focusTG.setTransform(popup);
-		focusTG.setName("-"+focusTG.getName().substring(1));
-		EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
-    }
-
-    private void unfocus(TransformGroup focusTG) {
-    	focusTG.setTransform((Transform3D)focusTG.getUserData());
-    	focusTG.setName("+"+focusTG.getName().substring(1));
-        resetMouse();
-		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
-    }
-    
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mousePressed(MouseEvent e) {
-    }
+    public void mousePressed(MouseEvent e) {}
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 
 }

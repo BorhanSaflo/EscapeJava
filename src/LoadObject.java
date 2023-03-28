@@ -85,7 +85,7 @@ public class LoadObject {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < objGroup.numChildren(); i++) {
+        for (int i = objGroup.numChildren()-1; i >= 0; i--) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
             shape.setAppearance(obj_Appearance(objName));
         }
