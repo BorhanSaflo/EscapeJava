@@ -2,6 +2,7 @@ import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Color3f;
+import org.jogamp.vecmath.Point3d;
 import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
@@ -10,6 +11,7 @@ import java.awt.*;
 
 public class createObjects {
         private static SharedGroup roomSG[];
+        static String[] objectNames = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer" };
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
@@ -81,14 +83,21 @@ public class createObjects {
                 roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
-                TransformGroup fan1 = createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.225, 0.135, 0.0), 0.1);
-                roomBG.addChild(fan1);
 
-                roomBG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(0.225, 0.135, -0.45), 0.1));
+                double z = -0.45;
+                for(int i=0; i<3; i++) {
 
-                roomBG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(0.225, 0.135, 0.45), 0.1));
+                        TransformGroup objRG = new TransformGroup();
+                        objRG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.225, 0.135, z), 0.1));
+                        Transform3D t3d = new Transform3D();
+                        t3d.rotX(Math.PI);
+                        t3d.setTranslation(new Vector3d(0.225 - 0.0055, 0.135, z - 0.0195));
+                        roomBG.addChild(rotate_Behavior(1000, objRG, t3d));
+                        roomBG.addChild(objRG);
+
+                        z+=0.45;
+                }
+
 
                 roomBG.addChild(bins(0, 0, 0));
                 roomBG.addChild(tvs(0, 0, 0));
@@ -343,10 +352,8 @@ public class createObjects {
 
         public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
-                String[] objects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
-                                "computer" };
-                for (int i = 0; i < objects.length; i++) {
-                        if (name.substring(1).equals(objects[i])) {
+                for (int i = 0; i < objectNames.length; i++) {
+                        if (name.substring(1).equals(objectNames[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
 
@@ -371,47 +378,13 @@ public class createObjects {
         public static void createSG() {
                 roomSG = new SharedGroup[7];
 
-                BranchGroup middleChairBG = LoadObject.loadObject("objects/middlechair.obj");
-                SharedGroup middleChairSG = new SharedGroup();
-                middleChairSG.addChild(middleChairBG);
-                middleChairSG.compile();
-                roomSG[0] = middleChairSG;
-
-                BranchGroup middleTableBG = LoadObject.loadObject("objects/middletable.obj");
-                SharedGroup middleTableSG = new SharedGroup();
-                middleTableSG.addChild(middleTableBG);
-                middleTableSG.compile();
-                roomSG[1] = middleTableSG;
-
-                BranchGroup couchBG = LoadObject.loadObject("objects/couch.obj");
-                SharedGroup couchSG = new SharedGroup();
-                couchSG.addChild(couchBG);
-                couchSG.compile();
-                roomSG[2] = couchSG;
-
-                BranchGroup highTableBG = LoadObject.loadObject("objects/highTable.obj");
-                SharedGroup highTableSG = new SharedGroup();
-                highTableSG.addChild(highTableBG);
-                highTableSG.compile();
-                roomSG[3] = highTableSG;
-
-                BranchGroup highChairsBG = LoadObject.loadObject("objects/chair-high.obj");
-                SharedGroup highChairsSG = new SharedGroup();
-                highChairsSG.addChild(highChairsBG);
-                highChairsSG.compile();
-                roomSG[4] = highChairsSG;
-
-                BranchGroup lowChairsBG = LoadObject.loadObject("objects/chair-low.obj");
-                SharedGroup lowChairsSG = new SharedGroup();
-                lowChairsSG.addChild(lowChairsBG);
-                lowChairsSG.compile();
-                roomSG[5] = lowChairsSG;
-
-                BranchGroup computerBG = LoadObject.loadObject("objects/computer.obj");
-                SharedGroup computerSG = new SharedGroup();
-                computerSG.addChild(computerBG);
-                computerSG.compile();
-                roomSG[6] = computerSG;
+                for(int i=0; i<7; i++){
+                        BranchGroup BG = LoadObject.loadObject("objects/"+objectNames[i]+".obj");
+                        SharedGroup SG = new SharedGroup();
+                        SG.addChild(BG);
+                        SG.compile();
+                        roomSG[i] = SG;
+                }
 
                 // TODO: tvs SharedGroup
                 // TODO: windows SharedGroup
@@ -454,5 +427,14 @@ public class createObjects {
                 BG.addChild(createBox("greenClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.1f, 0.01f, 0.05f, LoadObject.obj_Appearance(Green)));
         
                 return BG;
+        }
+
+        public static RotationInterpolator rotate_Behavior(int r_num, TransformGroup rotTG, Transform3D yAxis){
+                rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                Alpha rotationAlpha = new Alpha(-1, r_num);
+                RotationInterpolator rot_beh = new RotationInterpolator(
+                        rotationAlpha, rotTG, yAxis, 0.0f, (float) Math.PI * 2.0f);
+                rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+                return rot_beh;
         }
 }
