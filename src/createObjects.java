@@ -1,20 +1,12 @@
-import org.jogamp.java3d.Alpha;
-import org.jogamp.java3d.Appearance;
-import org.jogamp.java3d.BranchGroup;
-import org.jogamp.java3d.ImageComponent2D;
-import org.jogamp.java3d.Link;
-import org.jogamp.java3d.SharedGroup;
-import org.jogamp.java3d.Texture;
-import org.jogamp.java3d.Texture2D;
-import org.jogamp.java3d.Transform3D;
-import org.jogamp.java3d.TransformGroup;
-import org.jogamp.java3d.TransparencyAttributes;
+import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Color3f;
 import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
+
+import java.awt.*;
 
 public class createObjects {
         private static SharedGroup roomSG[];
@@ -439,8 +431,15 @@ public class createObjects {
                 objTG.setUserData(transform);
                 objTG.addChild(new Box(x, y, z, Primitive.GENERATE_NORMALS, appearance));
 
-                if(name.equals("redClue")){
+                if (name.equals("redClue")) {
+                        Transform3D textTransform = new Transform3D();
+                        textTransform.setScale(0.05);
+                        textTransform.set(new AxisAngle4d(1, 0, 0, Math.PI/2));
 
+                        TransformGroup textTG = new TransformGroup(textTransform);
+                        textTG.addChild(computerPuzzle.createTextObj("3", White));
+
+                        objTG.addChild(textTG);
                 }
 
 
