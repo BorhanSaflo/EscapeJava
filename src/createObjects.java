@@ -434,10 +434,11 @@ public class createObjects {
                 if (name.equals("redClue")) {
                         Transform3D textTransform = new Transform3D();
                         textTransform.setScale(0.05);
-                        textTransform.set(new AxisAngle4d(1, 0, 0, Math.PI/2));
+                        textTransform.set(new AxisAngle4d(0, -1, 0, Math.PI/2));
+                        textTransform.set(new AxisAngle4d(-1, 0, 0, Math.PI));
 
                         TransformGroup textTG = new TransformGroup(textTransform);
-                        textTG.addChild(computerPuzzle.createTextObj("3", White));
+                        textTG.addChild(computerPuzzle.createTextObj("4", White));
 
                         objTG.addChild(textTG);
                 }
