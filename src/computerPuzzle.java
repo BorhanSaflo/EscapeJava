@@ -47,7 +47,7 @@ public class computerPuzzle {
         textTG.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
         textTG.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
 
-        textTG.addChild(createTextObj(white));
+        textTG.addChild(createTextObj(text, white));
     }
 
     public Node positionTextObj() {
@@ -86,7 +86,7 @@ public class computerPuzzle {
     private static void setText(String newText, Color3f color) {
         text = newText;
         textTG.removeChild(0);
-        textTG.addChild(createTextObj(color));
+        textTG.addChild(createTextObj(text, color));
     }
 
     private static void wrongPasscode() {
@@ -108,7 +108,7 @@ public class computerPuzzle {
         return String.format("%04d", passcode);
     }
 
-    protected static BranchGroup createTextObj(Color3f color) {
+    protected static BranchGroup createTextObj(String text, Color3f color) {
         Font textFont = new Font("Arial", Font.PLAIN, 1);
         Font3D font3D = new Font3D(textFont, new FontExtrusion());
         Text3D text3D = new Text3D(font3D, text);
