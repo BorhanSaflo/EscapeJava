@@ -22,6 +22,7 @@ public class createObjects {
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
         public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
         public final static Color3f Red = new Color3f(1.0f, 0.0f, 0.0f);
+        public final static Color3f Green = new Color3f(0.0f, 1.0f, 0.0f);
         // public final static Color3f[] clr_list = {Blue, Green, Red, Yellow, Cyan,
         // Orange, Magenta, Grey};
         public final static int clr_num = 8;
@@ -86,6 +87,9 @@ public class createObjects {
                                 new Vector3d(-0.13, -0.103, 0.884), 0.05));
                 roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
+
+                roomBG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0),
+                                new Vector3d(0.0, 0.1, 0.0), 0.05));
 
                 roomBG.addChild(bins(0, 0, 0));
                 roomBG.addChild(tvs(0, 0, 0));
@@ -434,6 +438,8 @@ public class createObjects {
                 BranchGroup BG = new BranchGroup();
         
                 BG.addChild(createBox("redClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.01f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+
+                BG.addChild(createBox("greenClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.1f, 0.01f, 0.05f, LoadObject.obj_Appearance(Green)));
         
                 return BG;
         }
