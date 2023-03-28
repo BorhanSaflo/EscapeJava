@@ -431,6 +431,12 @@ public class createObjects {
                 objTG.setName(name);
                 objTG.setUserData(transform);
                 objTG.addChild(new Box(x, y, z, Primitive.GENERATE_NORMALS, appearance));
+
+                if(name.equals("redClue")){
+
+                }
+
+
                 return objTG;
         }
 
@@ -438,6 +444,7 @@ public class createObjects {
                 BranchGroup BG = new BranchGroup();
         
                 BG.addChild(createBox("redClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.01f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+
 
                 BG.addChild(createBox("greenClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.1f, 0.01f, 0.05f, LoadObject.obj_Appearance(Green)));
         
