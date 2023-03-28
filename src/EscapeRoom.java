@@ -75,6 +75,7 @@ public class EscapeRoom extends JPanel {
 		if (gameState == GameState.PLAYING) {
 			gameState = GameState.PAUSED;
 			controls.setCursorVisible(frame, true);
+			getCoords();
 		} else if (gameState == GameState.PAUSED) {
 			controls.resetMouse();
 			gameState = GameState.PLAYING;
@@ -126,6 +127,25 @@ public class EscapeRoom extends JPanel {
 
 	public static Point3d getCamera() {
 		return camera;
+	}
+
+	public static void getCoords() {
+		System.out.println("Camera: " + camera.x + ", " + camera.y + ", " + camera.z);
+		
+		Point3d temp = new Point3d();
+
+		Vector3d translation = new Vector3d(camera.x, camera.y, camera.z);
+		AxisAngle4d rotation = new AxisAngle4d(0, 0, 0, Math.PI / 2);
+		Transform3D transform = new Transform3D();
+        transform.setScale(0.05);
+		transform.setTranslation(translation);
+		transform.setRotation(rotation);
+
+		transform.transform(temp);
+
+		System.out.println(temp.toString());
+
+		System.out.println(transform.toString());
 	}
 
 	public static void main(String[] args) throws IOException {
