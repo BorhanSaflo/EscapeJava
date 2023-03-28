@@ -99,7 +99,7 @@ public class LoadObject {
 		return rot_beh;
 	}
     
-    public static PositionInterpolator position_Bheavior(TransformGroup posTG, Transform3D axis, Alpha alpha, float dist) {
+    public static PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha, float dist) {
     	posTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
     	PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist/2, dist/2);
     	pos_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
