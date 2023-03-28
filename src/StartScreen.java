@@ -30,7 +30,7 @@ public class StartScreen extends JPanel implements KeyListener, MouseListener {
         g.setFont(new Font("Arial", Font.BOLD, 50));
         g.drawString("Escape Java", getWidth() / 2 - 150, getHeight() / 2);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Press Enter or Space to Start", getWidth() / 2 - 125, getHeight() / 2 + 50);
+        g.drawString("Click to start", getWidth() / 2 - 50, getHeight() / 2 + 50);
     }
 
     @Override

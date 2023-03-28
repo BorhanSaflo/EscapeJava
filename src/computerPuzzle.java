@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 
 public class computerPuzzle {
     private static TransformGroup textTG;
-    private static int key = 2749;
+    private static int key = 2534;
     private static int passcode = 0;
     private static String text = "0000";
     private static boolean unlocked = false;
