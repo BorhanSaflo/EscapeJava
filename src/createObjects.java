@@ -1,25 +1,23 @@
-import org.jogamp.java3d.Appearance;
-import org.jogamp.java3d.BranchGroup;
-import org.jogamp.java3d.ImageComponent2D;
-import org.jogamp.java3d.Link;
-import org.jogamp.java3d.SharedGroup;
-import org.jogamp.java3d.Texture;
-import org.jogamp.java3d.Texture2D;
-import org.jogamp.java3d.Transform3D;
-import org.jogamp.java3d.TransformGroup;
+import org.jogamp.java3d.*;
 import org.jogamp.java3d.utils.geometry.Primitive;
 import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Color3f;
+import org.jogamp.vecmath.Point3d;
 import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
+import java.awt.*;
+
 public class createObjects {
         private static SharedGroup roomSG[];
+        static String[] objectNames = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer" };
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
         public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
+        public final static Color3f Red = new Color3f(1.0f, 0.0f, 0.0f);
+        public final static Color3f Green = new Color3f(0.0f, 1.0f, 0.0f);
         // public final static Color3f[] clr_list = {Blue, Green, Red, Yellow, Cyan,
         // Orange, Magenta, Grey};
         public final static int clr_num = 8;
@@ -84,6 +82,22 @@ public class createObjects {
                 roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
+
+                double z = -0.45;
+                for(int i=0; i<3; i++) {
+
+                        TransformGroup objRG = new TransformGroup();
+                        objRG.addChild(createObject("!ceilingfan", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.225, 0.135, z), 0.1));
+                        Transform3D t3d = new Transform3D();
+                        t3d.rotX(Math.PI);
+                        t3d.setTranslation(new Vector3d(0.225 - 0.0055, 0.135, z - 0.0195));
+                        roomBG.addChild(rotate_Behavior(1000, objRG, t3d));
+                        roomBG.addChild(objRG);
+
+                        z+=0.45;
+                }
+
+
                 roomBG.addChild(bins(0, 0, 0));
                 roomBG.addChild(tvs(0, 0, 0));
                 roomBG.addChild(computers(0, 0, 0));
@@ -93,6 +107,7 @@ public class createObjects {
 
                 // puzzles
                 roomBG.addChild(new computerPuzzle().positionTextObj());
+                roomBG.addChild(computerPuzzleClues());
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
@@ -336,10 +351,8 @@ public class createObjects {
 
         public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
-                String[] objects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
-                                "computer" };
-                for (int i = 0; i < objects.length; i++) {
-                        if (name.substring(1).equals(objects[i])) {
+                for (int i = 0; i < objectNames.length; i++) {
+                        if (name.substring(1).equals(objectNames[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
 
@@ -376,8 +389,6 @@ public class createObjects {
                         roomSG[i] = objSG;
                 }
 
-                // TODO: tvs SharedGroup
-                // TODO: windows SharedGroup
                 // TODO: computers SharedGroup
         }
 
@@ -393,6 +404,38 @@ public class createObjects {
                 objTG.setName(name);
                 objTG.setUserData(transform);
                 objTG.addChild(new Box(x, y, z, Primitive.GENERATE_NORMALS, appearance));
+
+                if (name.equals("redClue")) {
+                        Transform3D textTransform = new Transform3D();
+                        textTransform.setScale(0.05);
+                        textTransform.set(new AxisAngle4d(1, 0, 0, Math.PI/2));
+
+                        TransformGroup textTG = new TransformGroup(textTransform);
+                        textTG.addChild(computerPuzzle.createTextObj("3", White));
+
+                        objTG.addChild(textTG);
+                }
+
+
                 return objTG;
+        }
+
+        public static BranchGroup computerPuzzleClues() {
+                BranchGroup BG = new BranchGroup();
+        
+                BG.addChild(createBox("redClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.01f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+
+                BG.addChild(createBox("greenClue", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.06, -0.065), 0.1f, 0.1f, 0.01f, 0.05f, LoadObject.obj_Appearance(Green)));
+        
+                return BG;
+        }
+
+        public static RotationInterpolator rotate_Behavior(int r_num, TransformGroup rotTG, Transform3D yAxis){
+                rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                Alpha rotationAlpha = new Alpha(-1, r_num);
+                RotationInterpolator rot_beh = new RotationInterpolator(
+                        rotationAlpha, rotTG, yAxis, 0.0f, (float) Math.PI * 2.0f);
+                rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+                return rot_beh;
         }
 }
