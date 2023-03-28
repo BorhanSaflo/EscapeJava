@@ -93,7 +93,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         double camDX = zAxis * dx - xAxis * dz;
         double camDZ = zAxis * dz + xAxis * dx;
 
-        double y = (camera.x+camDX+4.26)/8.93, x = (camera.z+camDZ+6.97)/16.32;
+        double y = (camera.x+camDX+4.26)/8.93, x = 1-(camera.z+camDZ+6.97)/16.32;
 
         
         if (x>0 && x<1 && y>0 && y<1) {
