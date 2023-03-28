@@ -83,7 +83,9 @@ public class createObjects {
                                 new Vector3d(-0.13, -0.103, 0.884), 0.05));
                 roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
-
+                
+                roomBG.addChild(createObject("!ottoman", new AxisAngle4d(0, 1, 0, Math.PI / 2), 
+                                new Vector3d(0.16, -0.120, -0.515), 0.05));
 
                 double z = -0.45;
                 for(int i=0; i<3; i++) {
