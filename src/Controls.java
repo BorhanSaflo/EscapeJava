@@ -147,8 +147,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
     }
 
-    private void pickObject() {
-    	PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
+    private PickResult generatePT(){
+        PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
 		pickTool.setMode(PickTool.GEOMETRY);
 		
 		int x = canvas.getWidth()/2;
@@ -166,14 +166,37 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		mouseVec.sub(point3d, center);
 		mouseVec.normalize();
 		pickTool.setShapeRay(point3d, mouseVec);           // send a PickRay for intersection
+
+        return pickTool.pickClosest();
+    }
+
+    private void pickObject() {
+    	PickResult pr = generatePT();
 	
-		if (pickTool.pickClosest() != null) {
-			TransformGroup clickTG = (TransformGroup)pickTool.pickClosest().getNode(PickResult.SHAPE3D).getParent().getParent();
-			
+		if (pr != null) {
+			TransformGroup clickTG = (TransformGroup)pr.getNode(PickResult.SHAPE3D).getParent().getParent();
+
 			if(clickTG.getName().charAt(0) == '+')
 				focus(clickTG);
 			else if(clickTG.getName().charAt(0) == '-')
 				unfocus(clickTG);
+            else if(clickTG.getName().charAt(0) == '@')
+                interact(clickTG);
+			
+			System.out.println(clickTG.getName()); // For debug purposes
+		}
+    }
+
+    private void highlightObject(){
+        PickResult pr = generatePT();
+	
+		if (pr != null) {
+            Shape3D clickObj = (Shape3D)pr.getNode(PickResult.SHAPE3D);
+			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
+
+            if(clickTG.getName().charAt(0) != '!'){
+                clickObj.setAppearance(LoadObject.obj_Appearance(LoadObject.Yellow));
+            }
 			
 			System.out.println(clickTG.getName()); // For debug purposes
 		}
@@ -198,11 +221,17 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
 
+    private void interact(TransformGroup focusTG) {
+
+    }
+
     @Override
     public void mouseMoved(MouseEvent e) {
         if (!escapeRoom.isPlaying()) {
             return;
         }
+
+        //highlightObject();
 
         Point mousePosition = e.getPoint();
         if (last == null) {
