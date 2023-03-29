@@ -102,11 +102,15 @@ public class EscapeRoom extends JPanel {
 		PointLight ptLight;
 
 		for(int i = 0; i < 2; i++)
-			for (int j = 0; j < 4; j++) {
-				ptLight = new PointLight(clr, new Point3f(-2+i*4, 5, -4+j*2.5f), atn);
+			for (int j = 0; j < 3; j++) {
+				ptLight = new PointLight(clr, new Point3f(-2+i*4, 5, -4+j*3.3f), atn);
 				ptLight.setInfluencingBounds(hundredBS);
 				lightBG.addChild(ptLight);
 			}
+
+		ptLight = new PointLight(new Color3f(0.5f, 0.5f, 0.5f), new Point3f(0, -5, 0), atn);
+		ptLight.setInfluencingBounds(hundredBS);
+		lightBG.addChild(ptLight);
 
 		return lightBG;
 	}

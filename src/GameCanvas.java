@@ -15,7 +15,8 @@ public class GameCanvas extends Canvas3D {
 
     public void postRender() {
         this.getGraphics2D().setColor(cursorColor);
-        this.getGraphics2D().fillOval(getWidth() / 2 - 10, getHeight() / 2 - 10, 5, 5);
+        this.getGraphics2D().fillRect(getWidth() / 2 - 2, getHeight() / 2 - 8, 4, 16);
+        this.getGraphics2D().fillRect(getWidth() / 2 - 8, getHeight() / 2 - 2, 16, 4);
         this.getGraphics2D().flush(false);
     }
 
