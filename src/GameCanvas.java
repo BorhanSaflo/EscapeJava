@@ -2,20 +2,21 @@ import org.jogamp.java3d.Canvas3D;
 import org.jogamp.java3d.utils.universe.SimpleUniverse;
 
 import java.awt.Font;
-
 import java.awt.Color;
 
 public class GameCanvas extends Canvas3D {
 
 	private static final long serialVersionUID = 1L;
+    private static Color cursorColor = Color.WHITE;
 	
     public GameCanvas() {
         super(SimpleUniverse.getPreferredConfiguration());
     }
 
     public void postRender() {
-        this.getGraphics2D().setColor(Color.white);
-        this.getGraphics2D().fillOval(getWidth() / 2 - 10, getHeight() / 2 - 10, 5, 5);
+        this.getGraphics2D().setColor(cursorColor);
+        this.getGraphics2D().fillRect(getWidth() / 2 - 2, getHeight() / 2 - 8, 4, 16);
+        this.getGraphics2D().fillRect(getWidth() / 2 - 8, getHeight() / 2 - 2, 16, 4);
         this.getGraphics2D().flush(false);
     }
 
@@ -32,5 +33,9 @@ public class GameCanvas extends Canvas3D {
             this.getGraphics2D().fillRect(0, 0, getWidth(), getHeight());
         }
         this.getGraphics2D().flush(false);
+    }
+
+    public static void setCursorColor(Color color) {
+        cursorColor = color;
     }
 }

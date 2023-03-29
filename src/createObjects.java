@@ -8,22 +8,25 @@ import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
 public class createObjects {
-        private static SharedGroup roomSG[];
-        static String[] objectNames = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
-                        "computer" };
+        private static SharedGroup[] roomSG = new SharedGroup[7];
+        static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer" };
+        public static RotationInterpolator door1Rot, door2Rot;
+        private static BranchGroup roomBG = new BranchGroup();
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
         public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
-        public final static Color3f Red = new Color3f(1.0f, 0.0f, 0.0f);
-        public final static Color3f Green = new Color3f(0.0f, 1.0f, 0.0f);
-        public final static Color3f Blue = new Color3f(0.0f, 0.0f, 1.0f);
-        public final static Color3f Yellow = new Color3f(1.0f, 1.0f, 0.0f);
+        public final static Color3f Red = new Color3f(0.8f, 0.0f, 0.0f);
+        public final static Color3f Green = new Color3f(0.0f, 0.8f, 0.0f);
+        public final static Color3f Blue = new Color3f(0.0f, 0.0f, 0.8f);
+        public final static Color3f Yellow = new Color3f(0.8f, 0.8f, 0.0f);
+        // public final static Color3f[] clr_list = {Blue, Green, Red, Yellow, Cyan,
+        // Orange, Magenta, Grey};
+        public final static int clr_num = 8;
+        private static Color3f[] mtl_clrs = { White, Grey, Black };
 
         public static BranchGroup room() {
                 createSG();
-
-                BranchGroup roomBG = new BranchGroup();
 
                 /*
                  * Prefixes:
@@ -198,13 +201,13 @@ public class createObjects {
         public static BranchGroup lowStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
-                BG.addChild(createBox("desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.2, -0.065, 0.875), 0.3f,
+                BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.2, -0.065, 0.875), 0.3f,
                                 0.005f, 0.1f, 0.5, LoadObject.obj_Appearance(Grey)));
-                BG.addChild(createBox("desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, 0.615), 0.1f,
+                BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, 0.615), 0.1f,
                                 0.005f, 0.35f, 0.5, LoadObject.obj_Appearance(Grey)));
-                BG.addChild(createBox("desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, 0.125), 0.1f,
+                BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, 0.125), 0.1f,
                                 0.005f, 0.45f, 0.5, LoadObject.obj_Appearance(Grey)));
-                BG.addChild(createBox("desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, -0.32), 0.1f,
+                BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, -0.32), 0.1f,
                                 0.005f, 0.265f, 0.5, LoadObject.obj_Appearance(Grey)));
 
                 BG.addChild(createObject("!chair-low", new AxisAngle4d(0, 0, 0, 0),
@@ -352,8 +355,23 @@ public class createObjects {
 
         public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
-                for (int i = 0; i < objectNames.length; i++) {
-                        if (name.substring(1).equals(objectNames[i])) {
+                if(name.substring(1, name.length()-1).equals("doorKnob")){
+                        TransformGroup RG = new TransformGroup();
+                        RG.addChild(createLooseObject(name, rotation, translation, scale));
+
+                        RotationInterpolator rot = rotate_Behavior(0, RG, new Transform3D());
+                        roomBG.addChild(rot);
+
+                        if (name.substring(9).charAt(0) - '0' == 1)
+                                door1Rot = rot;
+                        else
+                                door2Rot = rot;
+
+                        return RG;
+                }
+
+                for (int i = 0; i < SGObjects.length; i++) {
+                        if (name.substring(1).equals(SGObjects[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
 
@@ -376,14 +394,10 @@ public class createObjects {
         }
 
         public static void createSG() {
-                roomSG = new SharedGroup[7];
-                String[] objects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
-                                "computer" };
-
-                for (int i = 0; i < 7; i++) {
+                for(int i = 0; i < 7; i++){
                         TransformGroup objTG = new TransformGroup();
                         objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-                        objTG.addChild(LoadObject.loadObject("objects/" + objects[i] + ".obj"));
+                        objTG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
                         SharedGroup objSG = new SharedGroup();
                         objSG.addChild(objTG);
                         objSG.compile();
@@ -422,48 +436,24 @@ public class createObjects {
 
         public static BranchGroup computerPuzzleClues() {
                 BranchGroup BG = new BranchGroup();
+                
+                BG.addChild(createBox("+redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+                BG.addChild(createBox("+redBox2", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.425, -0.0575, 0.05), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
 
-                BG.addChild(createBox("+redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f,
-                                0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
-                BG.addChild(createBox("+redBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
-                                new Vector3d(0.425, -0.0575, 0.05), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Red)));
+                BG.addChild(createBox("+greenBox1", new AxisAngle4d(0, -1, 0, Math.PI/6), new Vector3d(0.385, -0.0575, 0.3), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
+                BG.addChild(createBox("+greenBox2", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.424, -0.0575, -0.055), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
+                BG.addChild(createBox("+greenBox3", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.4, -0.0575, -0.085), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
+                BG.addChild(createBox("+greenBox4", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.45, -0.0575, -0.2), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
+                BG.addChild(createBox("+greenBox5", new AxisAngle4d(0, -1, 0, Math.PI/6), new Vector3d(0.375, -0.0575, 0.5), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
 
-                BG.addChild(createBox("+greenBox1", new AxisAngle4d(0, -1, 0, Math.PI / 6),
-                                new Vector3d(0.385, -0.0575, 0.3), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
-                                new Vector3d(0.424, -0.0575, -0.055), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox3", new AxisAngle4d(0, -1, 0, Math.PI / 4),
-                                new Vector3d(0.4, -0.0575, -0.085), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox4", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.45, -0.0575, -0.2),
-                                0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox5", new AxisAngle4d(0, -1, 0, Math.PI / 6),
-                                new Vector3d(0.375, -0.0575, 0.5), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Green)));
-
-                BG.addChild(createBox("+blueBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.435, -0.0575, -0.3),
-                                0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
-                BG.addChild(createBox("+blueBox2", new AxisAngle4d(0, 1, 0, Math.PI / 4),
-                                new Vector3d(0.435, -0.0575, 0.775), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Blue)));
-                BG.addChild(createBox("+blueBox3", new AxisAngle4d(0, 1, 0, Math.PI / 6),
-                                new Vector3d(0.1, -0.0575, 0.9), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Blue)));
-
-                BG.addChild(createBox("+yellowBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.425, -0.0575, -0.08),
-                                0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox2", new AxisAngle4d(0, -1, 0, Math.PI / 3),
-                                new Vector3d(0.4, -0.0575, -0.435), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox3", new AxisAngle4d(0, 1, 0, Math.PI / 4),
-                                new Vector3d(0.425, -0.0575, -0.34), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox4", new AxisAngle4d(0, -1, 0, Math.PI / 6),
-                                new Vector3d(0.08, -0.0575, 0.85), 0.1f, 0.1f, 0.1f, 0.05f,
-                                LoadObject.obj_Appearance(Yellow)));
+                BG.addChild(createBox("+blueBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.435, -0.0575, -0.3), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
+                BG.addChild(createBox("+blueBox2", new AxisAngle4d(0, 1, 0, Math.PI/4), new Vector3d(0.435, -0.0575, 0.775), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
+                BG.addChild(createBox("+blueBox3", new AxisAngle4d(0, 1, 0, Math.PI/6), new Vector3d(0.1, -0.0575, 0.9), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
+                
+                BG.addChild(createBox("+yellowBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.425, -0.0575, -0.08), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
+                BG.addChild(createBox("+yellowBox2", new AxisAngle4d(0, -1, 0, Math.PI/3), new Vector3d(0.4, -0.0575, -0.435), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
+                BG.addChild(createBox("+yellowBox3", new AxisAngle4d(0, 1, 0, Math.PI/4), new Vector3d(0.425, -0.0575, -0.34), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
+                BG.addChild(createBox("+yellowBox4", new AxisAngle4d(0, -1, 0, Math.PI/6), new Vector3d(0.08, -0.0575, 0.85), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
 
                 // legend
                 BG.addChild(createBox("+redBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.175, 0.04, -0.695),
