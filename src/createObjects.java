@@ -435,8 +435,8 @@ public class createObjects {
         public static BranchGroup computerPuzzleClues() {
                 BranchGroup BG = new BranchGroup();
                 
-                BG.addChild(createBox("+red1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
-                BG.addChild(createBox("+red2", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.425, -0.0575, 0.05), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+                BG.addChild(createBox("+redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
+                BG.addChild(createBox("+redBox2", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.425, -0.0575, 0.05), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
 
                 BG.addChild(createBox("+greenBox1", new AxisAngle4d(0, -1, 0, Math.PI/6), new Vector3d(0.385, -0.0575, 0.3), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
                 BG.addChild(createBox("+greenBox2", new AxisAngle4d(0, -1, 0, Math.PI/4), new Vector3d(0.424, -0.0575, -0.055), 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
