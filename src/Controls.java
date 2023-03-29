@@ -194,9 +194,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             Shape3D clickObj = (Shape3D)pr.getNode(PickResult.SHAPE3D);
 			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
 
-            if(clickTG.getName().charAt(0) != '!'){
-                clickObj.setAppearance(LoadObject.obj_Appearance(LoadObject.Yellow));
-            }
+            if(clickTG.getName().charAt(0) == '!')
+                return;
+
+            clickObj.setAppearance(LoadObject.obj_Appearance(LoadObject.Yellow));
 			
 			System.out.println(clickTG.getName()); // For debug purposes
 		}
@@ -222,7 +223,16 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void interact(TransformGroup focusTG) {
+        PickResult pr = generatePT();
+	
+		if (pr != null) {
+            Shape3D clickObj = (Shape3D)pr.getNode(PickResult.SHAPE3D);
+			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
 
+            if(clickTG.getName().charAt(0) == '@')
+                return;
+
+        }
     }
 
     @Override
@@ -231,7 +241,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
         }
 
-        //highlightObject();
+        highlightObject();
 
         Point mousePosition = e.getPoint();
         if (last == null) {

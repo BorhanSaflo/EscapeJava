@@ -88,6 +88,7 @@ public class LoadObject {
         for (int i = objGroup.numChildren()-1; i >= 0; i--) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
             shape.setAppearance(obj_Appearance(objName));
+            shape.setCapability(Shape3D.ALLOW_APPEARANCE_WRITE);
         }
         return objGroup;
     }
