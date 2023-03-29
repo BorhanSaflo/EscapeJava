@@ -17,17 +17,30 @@ public class MTLFile {
 	public float transparency = 0;
 	public Texture texture = null;
 	
-	public MTLFile(String fileName) {
+	public MTLFile(String fileName, int mtlNum) {
 		File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
+		File objFile = new File(fileName.substring(0, fileName.length()-3)+"obj");
     	Scanner sc = null;
+		String mtlName = "";
     	
-		try { sc = new Scanner(mtlFile); }
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-    	
-		for(int i = 0; i < 4; i++)
+		try { sc = new Scanner(objFile); }
+		catch (FileNotFoundException e) { e.printStackTrace(); }
+
+		while(mtlNum >= 0) {
 			sc.nextLine();
+			if(sc.next().equals("usemtl")) 
+				mtlNum--;
+		}
+		mtlName = sc.next();
+		sc.close();
+
+		try { sc = new Scanner(mtlFile); }
+		catch (FileNotFoundException e) { e.printStackTrace(); }
+
+		while(!mtlName.equals(sc.next())) {
+			sc.nextLine();
+			sc.next();
+		}
 		
 		while(sc.hasNext()) {
 			switch(sc.next()) {

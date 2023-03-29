@@ -41,14 +41,14 @@ public class LoadObject {
         return app;
     }
     
-    public static Appearance obj_Appearance(String fileName) {
+    public static Appearance obj_Appearance(String fileName, int mtlNum) {
         Material mtl = new Material(); // define material's attributes
 
         File mtlFile = new File(fileName.substring(0, fileName.length()-3)+"mtl");
         if(!mtlFile.exists())
             return obj_Appearance(Black);
 
-        MTLFile mtlfile = new MTLFile(fileName);
+        MTLFile mtlfile = new MTLFile(fileName, mtlNum);
         
         mtl.setShininess(mtlfile.shininess);
         mtl.setAmbientColor(mtlfile.ambient);
@@ -69,6 +69,8 @@ public class LoadObject {
         return app;
     }
 
+    
+
     public static BranchGroup loadObject(String objName) {
 
         ObjectFile loader = new ObjectFile(ObjectFile.RESIZE, (float) (60 * Math.PI /
@@ -87,7 +89,7 @@ public class LoadObject {
 
         for (int i = objGroup.numChildren()-1; i >= 0; i--) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
-            shape.setAppearance(obj_Appearance(objName));
+            shape.setAppearance(obj_Appearance(objName, i));
         }
         return objGroup;
     }
