@@ -221,8 +221,26 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 		EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
 
-    private void interact(TransformGroup focusTG) {
+    private void interact(TransformGroup clickTG){
+        if(clickTG.getName().substring(1, clickTG.getName().length()-1).equals("doorKnob")){
+            RotationInterpolator rot;
+            Transform3D t3d = new Transform3D();
+            t3d.rotZ(-Math.PI/2);
 
+            // TODO: fix coordinates and change alpha + angles
+
+            if (clickTG.getName().substring(9).charAt(0) - '0' == 1) {
+                rot = createObjects.door1Rot;
+                t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
+            }
+            else {
+                rot = createObjects.door2Rot;
+                t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
+            }
+
+            rot.setAlpha(new Alpha(-1, 1000));
+            rot.setTransformAxis(t3d);
+        }
     }
 
     @Override

@@ -7,11 +7,11 @@ import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
-import java.awt.*;
-
 public class createObjects {
-        private static SharedGroup roomSG[];
-        static String[] objectNames = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer" };
+        private static SharedGroup[] roomSG = new SharedGroup[7];
+        static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low", "computer" };
+        public static RotationInterpolator door1Rot, door2Rot;
+        private static BranchGroup roomBG = new BranchGroup();
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
@@ -27,8 +27,6 @@ public class createObjects {
 
         public static BranchGroup room() {
                 createSG();
-
-                BranchGroup roomBG = new BranchGroup();
 
                 /*
                  * Prefixes:
@@ -355,8 +353,23 @@ public class createObjects {
 
         public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
-                for (int i = 0; i < objectNames.length; i++) {
-                        if (name.substring(1).equals(objectNames[i])) {
+                if(name.substring(1, name.length()-1).equals("doorKnob")){
+                        TransformGroup RG = new TransformGroup();
+                        RG.addChild(createLooseObject(name, rotation, translation, scale));
+
+                        RotationInterpolator rot = rotate_Behavior(0, RG, new Transform3D());
+                        roomBG.addChild(rot);
+
+                        if (name.substring(9).charAt(0) - '0' == 1)
+                                door1Rot = rot;
+                        else
+                                door2Rot = rot;
+
+                        return RG;
+                }
+
+                for (int i = 0; i < SGObjects.length; i++) {
+                        if (name.substring(1).equals(SGObjects[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
 
@@ -379,14 +392,10 @@ public class createObjects {
         }
 
         public static void createSG() {
-                roomSG = new SharedGroup[7];
-                String[] objects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
-                                "computer" };
-
                 for(int i = 0; i < 7; i++){
                         TransformGroup objTG = new TransformGroup();
                         objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-                        objTG.addChild(LoadObject.loadObject("objects/" + objects[i] + ".obj"));
+                        objTG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
                         SharedGroup objSG = new SharedGroup();
                         objSG.addChild(objTG);
                         objSG.compile();
