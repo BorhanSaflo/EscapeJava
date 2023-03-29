@@ -1,4 +1,5 @@
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
@@ -195,11 +196,11 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 			TransformGroup clickTG = (TransformGroup)clickObj.getParent().getParent();
 
             if(clickTG.getName().charAt(0) == '!')
-                return;
-
-            clickObj.setAppearance(LoadObject.obj_Appearance(LoadObject.Yellow));
+                GameCanvas.setCursorColor(Color.WHITE);
+            else
+                GameCanvas.setCursorColor(Color.YELLOW);
 			
-			System.out.println(clickTG.getName()); // For debug purposes
+			//System.out.println(clickTG.getName()); // For debug purposes
 		}
     }
 
@@ -232,6 +233,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             if(clickTG.getName().charAt(0) == '@')
                 return;
 
+            // Code goes here
+            
         }
     }
 
