@@ -30,7 +30,6 @@ public class createObjects {
                  * + Focusable (eg. clues, puzzles)
                  * - Focused (shouldn't be used here)
                  * ! Immovable (eg. room, windows)
-                 * 
                  * @ Interactable (eg. door, trash bin)
                  * # Equipable (eg. key, tool)
                  * 
@@ -46,43 +45,18 @@ public class createObjects {
                 roomBG.addChild(createObject("!windows", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.028, 0.04, 0.118),
                                 0.82));
 
-                roomBG.addChild(createObject("@door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.208, -0.02, 0.937),
+                roomBG.addChild(createObject("!door1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.208, -0.02, 0.937),
                                 0.22));
                 roomBG.addChild(createObject("@doorKnob1", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.153, -0.045, 0.937), 0.18));
-                roomBG.addChild(createObject("@door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347),
+                roomBG.addChild(createObject("!door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347),
                                 0.36));
                 roomBG.addChild(createObject("@doorKnob2", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.153, -0.045, -0.352), 0.36));
 
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(-0.1, 0.04, -0.348), 0.344));
-                roomBG.addChild(createObject("!whiteboardFrame", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(-0.1, 0.04, -0.355), 0.35));
-                roomBG.addChild(createObject("!whiteboardHolder", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(-0.095, -0.042, -0.343), 0.35));
+                                new Vector3d(-0.1, 0.04, -0.36), 0.344));
 
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                                new Vector3d(0.05, -0.103, -0.648), 0.05));
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                                new Vector3d(0.15, -0.103, -0.648), 0.05));
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
-                                new Vector3d(0.25, -0.103, -0.648), 0.05));
-
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
-                                new Vector3d(0.382, -0.103, -0.62), 0.05));
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
-                                new Vector3d(0.382, -0.103, -0.52), 0.05));
-
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
-                                new Vector3d(-0.01, -0.103, 0.844), 0.05));
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                                new Vector3d(-0.13, -0.103, 0.884), 0.05));
-                roomBG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                                new Vector3d(-0.23, -0.103, 0.884), 0.05));
-
-                roomBG.addChild(createObject("!ottoman", new AxisAngle4d(0, 1, 0, Math.PI / 2),
-                                new Vector3d(0.16, -0.120, -0.515), 0.05));
 
                 double z = -0.45;
                 for (int i = 0; i < 3; i++) {
@@ -99,6 +73,7 @@ public class createObjects {
                         z += 0.45;
                 }
 
+                roomBG.addChild(couches(0, 0, 0));
                 roomBG.addChild(bins(0, 0, 0));
                 roomBG.addChild(tvs(0, 0, 0));
                 roomBG.addChild(computers(0, 0, 0));
@@ -111,9 +86,9 @@ public class createObjects {
                 roomBG.addChild(computerPuzzleClues());
 
                 // Window backgrounds
-                roomBG.addChild(windowBackground("WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
-                roomBG.addChild(windowBackground("WindowBackground2", 3.8f, 0.85f, 0.01f, 0f, -0.025f, -1f));
-                roomBG.addChild(windowBackground("WindowBackground3", 3.8f, 0.85f, 0.01f, 0f, -0.025f, 1.3f));
+                roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
+                roomBG.addChild(windowBackground("!WindowBackground2", 3.8f, 0.85f, 0.01f, 0f, -0.025f, -1f));
+                roomBG.addChild(windowBackground("!WindowBackground3", 3.8f, 0.85f, 0.01f, 0f, -0.025f, 1.3f));
 
                 // sound Effects
                 roomBG.addChild(Sounds.keyboardSound);
@@ -125,7 +100,7 @@ public class createObjects {
 
         public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
                         float y, float z) {
-                TextureLoader loader = new TextureLoader("objects/images/" + fileName + ".jpg", null);
+                TextureLoader loader = new TextureLoader("objects/images/" + fileName.substring(1) + ".jpg", null);
                 ImageComponent2D image = loader.getImage();
 
                 Texture2D texture = new Texture2D(Texture.BASE_LEVEL, Texture.RGB, image.getWidth(), image.getHeight());
@@ -150,6 +125,34 @@ public class createObjects {
                 backgroundTG.addChild(background);
 
                 return backgroundTG;
+        }
+
+        public static BranchGroup couches(double x, double y, double z) {
+                BranchGroup BG = new BranchGroup();
+                
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
+                                new Vector3d(0.05, -0.103, -0.648), 0.05));
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
+                                new Vector3d(0.15, -0.103, -0.648), 0.05));
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
+                                new Vector3d(0.25, -0.103, -0.648), 0.05));
+
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
+                                new Vector3d(0.382, -0.103, -0.62), 0.05));
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
+                                new Vector3d(0.382, -0.103, -0.52), 0.05));
+
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI),
+                                new Vector3d(-0.01, -0.103, 0.844), 0.05));
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
+                                new Vector3d(-0.13, -0.103, 0.884), 0.05));
+                BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
+                                new Vector3d(-0.23, -0.103, 0.884), 0.05));
+
+                BG.addChild(createObject("!ottoman", new AxisAngle4d(0, 1, 0, Math.PI / 2),
+                                new Vector3d(0.16, -0.12, -0.515), 0.07));
+
+                return BG;
         }
 
         public static BranchGroup tvs(double x, double y, double z) {
@@ -243,11 +246,11 @@ public class createObjects {
         public static BranchGroup bins(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
-                BG.addChild(createObject("+blueBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
+                BG.addChild(createObject("@blueBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.103 + y, 0.70 + z), 0.15));
-                BG.addChild(createObject("+redBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
+                BG.addChild(createObject("@redBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.103 + y, 0.745 + z), 0.15));
-                BG.addChild(createObject("+blackBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
+                BG.addChild(createObject("@blackBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.103 + y, 0.79 + z), 0.15));
 
                 return BG;
