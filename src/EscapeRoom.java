@@ -68,7 +68,7 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public boolean isPlaying() {
-		return gameState == GameState.PLAYING;
+		return gameState == GameState.PLAYING || gameState == GameState.FOCUSED;
 	}
 
 	public void togglePause() {

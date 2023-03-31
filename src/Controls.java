@@ -106,6 +106,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
 
         escapeRoom.updateViewer();
+        updateFocus();
 
         /*
          * System.out.println("x - "+camera.x);
@@ -127,6 +128,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             centerPoint.x = camera.x + Math.cos(theta);
             centerPoint.z = camera.z + Math.sin(theta);
         }
+
         escapeRoom.updateViewer();
     }
 
@@ -175,18 +177,23 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (pr != null) {
             TransformGroup clickTG = (TransformGroup) pr.getNode(PickResult.SHAPE3D).getParent().getParent();
 
-            if (clickTG.getName().charAt(0) == '+')
-                focus(clickTG);
-            else if (clickTG.getName().charAt(0) == '-')
-                unfocus(clickTG);
-            else if (clickTG.getName().charAt(0) == '@')
-                interact(clickTG);
+            switch (clickTG.getName().charAt(0)) {
+                case '+':
+                    focus(clickTG);
+                    break;
+                case '-':
+                    unfocus(clickTG);
+                    break;
+                case '@':
+                    interact(clickTG);
+                    break;
+            }
 
             System.out.println(clickTG.getName()); // For debug purposes
         }
     }
 
-    private void highlightObject() {
+    private void highlightCursor() {
         PickResult pr = generatePT();
 
         if (pr != null) {
@@ -210,13 +217,27 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
 
         focusTG.setTransform(popup);
-        focusTG.setName("-" + focusTG.getName().substring(1));
+        focusTG.setName("=" + focusTG.getName().substring(1));
         EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
+    }
+
+    private void updateFocus() {
+        if (focusedGroup == null)
+            return;
+
+        Transform3D popup = new Transform3D();
+        popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setScale(((Transform3D) focusedGroup.getUserData()).getScale());
+
+        focusedGroup.setTransform(popup);
     }
 
     private void unfocus(TransformGroup focusTG) {
         focusTG.setTransform((Transform3D) focusTG.getUserData());
         focusTG.setName("+" + focusTG.getName().substring(1));
+        focusedGroup = null;
+
         resetMouse();
         EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
     }
@@ -230,17 +251,19 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             // TODO: fix coordinates and change alpha + angles
 
             if (clickTG.getName().equals("@doorKnob1")) {
-                rot = createObjects.door1Rot;
-                t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
-            } else if (clickTG.getName().equals("@doorKnob2")) {
-                rot = createObjects.door2Rot;
-                t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
-            }
+                if (clickTG.getName().equals("@doorKnob1")) {
+                    rot = createObjects.door1Rot;
+                    t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
+                } else if (clickTG.getName().equals("@doorKnob2")) {
+                    rot = createObjects.door2Rot;
+                    t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
+                }
 
-            rot.setAlpha(new Alpha(-1, 1000));
-            rot.setTransformAxis(t3d);
+                rot.setAlpha(new Alpha(-1, 1000));
+                rot.setTransformAxis(t3d);
+            }
         }
-        
+
         if (clickTG.getName().equals("@chair-high")) {
             ChairsPuzzle.rotateChair(1, clickTG);
         }
@@ -252,7 +275,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
         }
 
-        highlightObject();
+        highlightCursor();
 
         Point mousePosition = e.getPoint();
         if (last == null) {
@@ -281,6 +304,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         escapeRoom.updateViewer();
         resetMouse();
+        updateFocus();
         last = mousePosition;
     }
 
