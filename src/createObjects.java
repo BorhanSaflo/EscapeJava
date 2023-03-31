@@ -382,9 +382,9 @@ public class createObjects {
                         RotationInterpolator rot = rotate_Behavior(0, RG, new Transform3D());
                         roomBG.addChild(rot);
 
-                        if (name.substring(9).charAt(0) - '0' == 1)
+                        if (name.charAt(9) == '1')
                                 door1Rot = rot;
-                        else
+                        else if (name.charAt(9) == '2')
                                 door2Rot = rot;
 
                         return RG;
@@ -394,7 +394,7 @@ public class createObjects {
                         if (name.substring(1).equals(SGObjects[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
-                                link.setName(SGObjects[i]);
+                                link.setName(name);
 
                                 Transform3D transform = new Transform3D();
                                 transform.set(rotation);

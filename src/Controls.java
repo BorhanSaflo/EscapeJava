@@ -183,9 +183,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             if(clickTG.getName() == null)
                 break;
             else if(clickTG.getName().equals(createObjects.SGObjects[i])){
-                clickTG = (SharedGroup)clickTG.getParent();
-                System.out.println(pr.getNode(PickResult.SHAPE3D).getUserData());
-                clickTG = ((SharedGroup)clickTG).getLinks()[(int)pr.getNode(PickResult.SHAPE3D).getUserData()];
+                clickTG = (Link)pr.getNode(PickResult.LINK);
                 break;
             }
         }
@@ -218,8 +216,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             if(clickTG.getName() == null)
                 break;
             else if(clickTG.getName().equals(createObjects.SGObjects[i])){
-                clickTG = (SharedGroup)clickTG.getParent();
-                clickTG = ((SharedGroup)clickTG).getLinks()[(int)pr.getNode(PickResult.SHAPE3D).getUserData()];
+                clickTG = (Link)pr.getNode(PickResult.LINK);
                 break;
             }
         }

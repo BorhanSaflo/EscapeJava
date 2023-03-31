@@ -26,7 +26,6 @@ public class LoadObject {
     public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
     public final static int clr_num = 8;
     private static Color3f[] mtl_clrs = { White, Grey, Black };
-    public static int objNum = 0;
 
     public static Appearance obj_Appearance(Color3f m_clr) {
         Material mtl = new Material(); // define material's attributes
@@ -89,7 +88,6 @@ public class LoadObject {
         for (int i = objGroup.numChildren()-1; i >= 0; i--) {
             Shape3D shape = (Shape3D) objGroup.getChild(i);
             shape.setAppearance(obj_Appearance(objName, i));
-            shape.setUserData(objNum);
         }
         return objGroup;
     }
