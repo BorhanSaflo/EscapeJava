@@ -9,7 +9,7 @@ import org.jogamp.java3d.utils.image.TextureLoader;
 
 public class createObjects {
         private static SharedGroup[] roomSG = new SharedGroup[7];
-        static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
+        public static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high", "chair-low",
                         "computer" };
         public static RotationInterpolator door1Rot, door2Rot;
         private static BranchGroup roomBG = new BranchGroup();
@@ -296,13 +296,11 @@ public class createObjects {
                 return BG;
         }
 
-        static TransformGroup chairTG;
-
         public static void rotateChair(double angle, TransformGroup chairTG) {
-                Transform3D chairTranslation = new Transform3D();
-                chairTG.getTransform(chairTranslation);
-                chairTranslation.setRotation(new AxisAngle4d(0, 1, 0, angle));
-                chairTG.setTransform(chairTranslation);
+                Transform3D chairTransform = new Transform3D();
+                chairTG.getTransform(chairTransform);
+                chairTransform.setRotation(new AxisAngle4d(0, 1, 0, angle));
+                chairTG.setTransform(chairTransform);
         }
 
         public static BranchGroup middleStuff(double x, double y, double z) {
@@ -383,6 +381,7 @@ public class createObjects {
                         if (name.substring(1).equals(SGObjects[i])) {
                                 SharedGroup SG = roomSG[i];
                                 Link link = new Link(SG);
+                                link.setName(SGObjects[i]);
 
                                 Transform3D transform = new Transform3D();
                                 transform.set(rotation);
@@ -392,9 +391,8 @@ public class createObjects {
                                 TransformGroup objTG = new TransformGroup(transform);
                                 objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                                 objTG.addChild(link);
-
-                                roomSG[i].getChild(0).setName(name);
-                                roomSG[i].getChild(0).setUserData(transform);
+                                objTG.setName(name);
+                                objTG.setUserData(transform);
 
                                 return objTG;
                         }
@@ -405,11 +403,11 @@ public class createObjects {
 
         public static void createSG() {
                 for (int i = 0; i < 7; i++) {
-                        TransformGroup objTG = new TransformGroup();
-                        objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-                        objTG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
                         SharedGroup objSG = new SharedGroup();
-                        objSG.addChild(objTG);
+                        objSG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
+                        objSG.getChild(0).setName(SGObjects[i]);
+                        objSG.setName(SGObjects[i]);
+                        objSG.setUserData(objSG.getLinks().length);
                         objSG.compile();
                         roomSG[i] = objSG;
                 }

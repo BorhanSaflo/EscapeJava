@@ -174,39 +174,53 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void pickObject() {
         PickResult pr = generatePT();
 
-        if (pr != null) {
-            TransformGroup clickTG = (TransformGroup) pr.getNode(PickResult.SHAPE3D).getParent().getParent();
+        if (pr == null) return;
 
-            switch (clickTG.getName().charAt(0)) {
-                case '+':
-                    focus(clickTG);
-                    break;
-                case '-':
-                    unfocus(clickTG);
-                    break;
-                case '@':
-                    interact(clickTG);
-                    break;
-            }
+        Group clickTG = (Group)pr.getNode(PickResult.SHAPE3D).getParent().getParent();
+        for(int i = 0; i < 7; i++)
+            if(clickTG.getName().equals(createObjects.SGObjects[i]))
+                clickTG = (TransformGroup)clickTG.getParent();
+
+        switch (clickTG.getName().charAt(0)) {
+            case '+':
+                focus((TransformGroup)clickTG);
+                break;
+            case '-':
+                unfocus((TransformGroup)clickTG);
+                break;
+            case '@':
+                interact((TransformGroup)clickTG);
+                break;
+        }
 
             System.out.println(clickTG.getName()); // For debug purposes
-        }
     }
 
     private void highlightCursor() {
         PickResult pr = generatePT();
+        if (pr == null) return;
 
-        if (pr != null) {
-            Shape3D clickObj = (Shape3D) pr.getNode(PickResult.SHAPE3D);
-            TransformGroup clickTG = (TransformGroup) clickObj.getParent().getParent();
+        Node clickTG = pr.getNode(PickResult.SHAPE3D).getParent();
+        if(clickTG == null) return;
 
-            if (clickTG.getName().charAt(0) == '!')
-                GameCanvas.setCursorColor(Color.WHITE);
-            else
-                GameCanvas.setCursorColor(Color.YELLOW);
+
+        for(int i = 0; i < 7; i++){
+            if(clickTG.getName() == null)
+                break;
+            else if(clickTG.getName().equals(createObjects.SGObjects[i])){
+                clickTG = (SharedGroup)clickTG.getParent();
+                clickTG = ((SharedGroup)clickTG).getLinks()[(int)clickTG.getUserData()];
+                break;
+            }
+        }
+        clickTG = (TransformGroup)clickTG.getParent();
+
+        if (clickTG.getName().charAt(0) == '!')
+            GameCanvas.setCursorColor(Color.WHITE);
+        else
+            GameCanvas.setCursorColor(Color.YELLOW);
 
             // System.out.println(clickTG.getName()); // For debug purposes
-        }
     }
 
     private void focus(TransformGroup focusTG) {
@@ -265,7 +279,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
 
         if (clickTG.getName().equals("@chair-high")) {
-            ChairsPuzzle.rotateChair(1, clickTG);
+            ChairsPuzzle.rotateChair(clickTG);
         }
     }
 
