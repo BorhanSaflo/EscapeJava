@@ -115,6 +115,24 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
          */
     }
 
+    private void crouch(){
+        if (!escapeRoom.isPlaying())
+            return;
+
+        camera.y = -0.2;
+        centerPoint.y -= 0.7;
+        escapeRoom.updateViewer();
+    }
+
+    private void uncrouch(){
+        if (!escapeRoom.isPlaying())
+            return;
+
+        camera.y = 0.5;
+        centerPoint.y += 0.7;
+        escapeRoom.updateViewer();
+    }
+
     private void turn(boolean verticalAxis, int magnitude) {
         if (!escapeRoom.isPlaying()) {
             return;
@@ -368,6 +386,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 turn(false, -1);
                 break;
 
+            case KeyEvent.VK_CONTROL:
+                crouch();
+                break;
+
             // Pause
             case KeyEvent.VK_P:
             case KeyEvent.VK_ESCAPE:
@@ -423,6 +445,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             case KeyEvent.VK_S:
                 down = false;
+                break;
+            case KeyEvent.VK_CONTROL:
+                uncrouch();
                 break;
             default:
                 break;
