@@ -24,6 +24,7 @@ public class createObjects {
 
         public static BranchGroup room() {
                 createSG();
+                                
 
                 /*
                  * Prefixes:
@@ -58,6 +59,7 @@ public class createObjects {
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.1, 0.04, -0.36), 0.344));
 
+                
                 double z = -0.45;
                 for (int i = 0; i < 3; i++) {
 
@@ -129,6 +131,7 @@ public class createObjects {
 
         public static BranchGroup couches(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
                                 new Vector3d(0.05, -0.103, -0.648), 0.05));
@@ -149,6 +152,7 @@ public class createObjects {
                 BG.addChild(createObject("!couch", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.23, -0.103, 0.884), 0.05));
 
+                
                 BG.addChild(createObject("!ottoman", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(0.16, -0.12, -0.515), 0.07));
 
@@ -157,6 +161,7 @@ public class createObjects {
 
         public static BranchGroup tvs(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4 + x, 0.08 + y, 0.4 + z),
                                 0.05));
@@ -170,6 +175,7 @@ public class createObjects {
 
         public static BranchGroup computers(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createObject("!computer", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(0.155 + x, -0.03 + y, 0.875 + z), 0.05));
@@ -200,6 +206,7 @@ public class createObjects {
 
         public static BranchGroup lowStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.2, -0.065, 0.875), 0.3f,
                                 0.005f, 0.1f, 0.5, LoadObject.obj_Appearance(Grey)));
@@ -210,6 +217,7 @@ public class createObjects {
                 BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.415, -0.065, -0.32), 0.1f,
                                 0.005f, 0.265f, 0.5, LoadObject.obj_Appearance(Grey)));
 
+                
                 BG.addChild(createObject("!chair-low", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(0.275 + x, -0.086 + y, 0.85 + z), 0.0575));
                 BG.addChild(createObject("!chair-low", new AxisAngle4d(0, 0, 0, 0),
@@ -246,6 +254,7 @@ public class createObjects {
         public static BranchGroup bins(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
+                
                 BG.addChild(createObject("@blueBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.103 + y, 0.70 + z), 0.15));
                 BG.addChild(createObject("@redBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
@@ -258,6 +267,7 @@ public class createObjects {
 
         public static BranchGroup highStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.085 + y, 0.4 + z), 0.15));
@@ -266,6 +276,7 @@ public class createObjects {
                 BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.085 + y, -0.2 + z), 0.15));
 
+                
                 BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.35 + x, -0.063 + y, 0.5 + z), 0.08));
                 BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
@@ -305,6 +316,7 @@ public class createObjects {
 
         public static BranchGroup middleStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createObject("!middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(0.16 + x, -0.10 + y, -0.2 + z), 0.06));
@@ -313,6 +325,7 @@ public class createObjects {
                 BG.addChild(createObject("!middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(0.16 + x, -0.10 + y, 0.45 + z), 0.06));
 
+                
                 BG.addChild(createObject("!middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90),
                                 new Vector3d(0.17 + x, -0.09 + y, -0.16 + z), 0.07));
                 BG.addChild(createObject("!middlechair", new AxisAngle4d(0, 1, 0, Math.PI * .90),
@@ -407,7 +420,6 @@ public class createObjects {
                         objSG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
                         objSG.getChild(0).setName(SGObjects[i]);
                         objSG.setName(SGObjects[i]);
-                        objSG.setUserData(objSG.getLinks().length);
                         objSG.compile();
                         roomSG[i] = objSG;
                 }
@@ -442,6 +454,7 @@ public class createObjects {
 
         public static BranchGroup computerPuzzleClues() {
                 BranchGroup BG = new BranchGroup();
+                
 
                 BG.addChild(createBox("+redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f,
                                 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));

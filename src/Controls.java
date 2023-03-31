@@ -173,13 +173,23 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
     private void pickObject() {
         PickResult pr = generatePT();
-
         if (pr == null) return;
 
-        Group clickTG = (Group)pr.getNode(PickResult.SHAPE3D).getParent().getParent();
-        for(int i = 0; i < 7; i++)
-            if(clickTG.getName().equals(createObjects.SGObjects[i]))
-                clickTG = (TransformGroup)clickTG.getParent();
+        Node clickTG = pr.getNode(PickResult.SHAPE3D).getParent();
+        if(clickTG == null) return;
+
+
+        for(int i = 0; i < 7; i++){
+            if(clickTG.getName() == null)
+                break;
+            else if(clickTG.getName().equals(createObjects.SGObjects[i])){
+                clickTG = (SharedGroup)clickTG.getParent();
+                System.out.println(pr.getNode(PickResult.SHAPE3D).getUserData());
+                clickTG = ((SharedGroup)clickTG).getLinks()[(int)pr.getNode(PickResult.SHAPE3D).getUserData()];
+                break;
+            }
+        }
+        clickTG = (TransformGroup)clickTG.getParent();
 
         switch (clickTG.getName().charAt(0)) {
             case '+':
@@ -209,7 +219,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             else if(clickTG.getName().equals(createObjects.SGObjects[i])){
                 clickTG = (SharedGroup)clickTG.getParent();
-                clickTG = ((SharedGroup)clickTG).getLinks()[(int)clickTG.getUserData()];
+                clickTG = ((SharedGroup)clickTG).getLinks()[(int)pr.getNode(PickResult.SHAPE3D).getUserData()];
                 break;
             }
         }
