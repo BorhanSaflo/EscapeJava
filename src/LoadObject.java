@@ -67,9 +67,7 @@ public class LoadObject {
         	app.setTexture(mtlfile.texture);
         
         return app;
-    }
-
-    
+    }    
 
     public static BranchGroup loadObject(String objName) {
 

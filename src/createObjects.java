@@ -30,6 +30,7 @@ public class createObjects {
                  * + Focusable (eg. clues, puzzles)
                  * - Focused (shouldn't be used here)
                  * ! Immovable (eg. room, windows)
+                 * 
                  * @ Interactable (eg. door, trash bin)
                  * # Equipable (eg. key, tool)
                  * 
@@ -56,7 +57,6 @@ public class createObjects {
 
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.1, 0.04, -0.36), 0.344));
-
 
                 double z = -0.45;
                 for (int i = 0; i < 3; i++) {
@@ -129,7 +129,7 @@ public class createObjects {
 
         public static BranchGroup couches(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
-                
+
                 BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
                                 new Vector3d(0.05, -0.103, -0.648), 0.05));
                 BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
@@ -266,34 +266,43 @@ public class createObjects {
                 BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
                                 new Vector3d(-0.27 + x, -0.085 + y, -0.2 + z), 0.15));
 
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.35 + x, -0.063 + y, 0.5 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.2 + x, -0.063 + y, 0.5 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.35 + x, -0.063 + y, 0.32 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.2 + x, -0.063 + y, 0.32 + z), 0.08));
 
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.35 + x, -0.063 + y, 0.18 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.2 + x, -0.063 + y, 0.18 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.35 + x, -0.063 + y, 0.01 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.2 + x, -0.063 + y, 0.01 + z), 0.08));
 
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.35 + x, -0.063 + y, -0.12 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 1, 0, Math.PI),
                                 new Vector3d(-0.2 + x, -0.063 + y, -0.12 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.35 + x, -0.063 + y, -0.3 + z), 0.08));
-                BG.addChild(createObject("!chair-high", new AxisAngle4d(0, 0, 0, 0),
-                                new Vector3d(-0.2 + x, -0.063 + y, -0.3 + z), 0.08));
+                BG.addChild(createObject("@chair-high", new AxisAngle4d(0, 0, 0, 0),
+                new Vector3d(-0.2 + x, -0.063 + y, -0.3 + z), 0.08));
 
                 return BG;
+        }
+
+        static TransformGroup chairTG;
+
+        public static void rotateChair(double angle, TransformGroup chairTG) {
+                Transform3D chairTranslation = new Transform3D();
+                chairTG.getTransform(chairTranslation);
+                chairTranslation.setRotation(new AxisAngle4d(0, 1, 0, angle));
+                chairTG.setTransform(chairTranslation);
         }
 
         public static BranchGroup middleStuff(double x, double y, double z) {
@@ -379,8 +388,9 @@ public class createObjects {
                                 transform.set(rotation);
                                 transform.setScale(scale);
                                 transform.setTranslation(translation);
-
+                                
                                 TransformGroup objTG = new TransformGroup(transform);
+                                objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                                 objTG.addChild(link);
 
                                 roomSG[i].getChild(0).setName(name);
