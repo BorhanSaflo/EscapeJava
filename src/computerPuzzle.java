@@ -70,11 +70,12 @@ public class computerPuzzle {
                 Sounds.playSound(Sounds.successSound);
                 setText(formatText(), green);
                 unlocked = true;
+                ChairsPuzzle.setUsable(true);
             } else
                 wrongPasscode();
         }
     }
-    
+
     private static Point3d getDistance() {
         Transform3D transform = new Transform3D();
         textTG.getTransform(transform);

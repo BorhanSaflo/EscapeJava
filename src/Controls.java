@@ -115,7 +115,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
          */
     }
 
-    private void crouch(){
+    private void crouch() {
         if (!escapeRoom.isPlaying())
             return;
 
@@ -124,7 +124,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         escapeRoom.updateViewer();
     }
 
-    private void uncrouch(){
+    private void uncrouch() {
         if (!escapeRoom.isPlaying())
             return;
 
@@ -191,61 +191,63 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
     private void pickObject() {
         PickResult pr = generatePT();
-        if (pr == null) return;
+        if (pr == null)
+            return;
 
         Node clickTG = pr.getNode(PickResult.SHAPE3D).getParent();
-        if(clickTG == null) return;
+        if (clickTG == null)
+            return;
 
-
-        for(int i = 0; i < 7; i++){
-            if(clickTG.getName() == null)
+        for (int i = 0; i < 7; i++) {
+            if (clickTG.getName() == null)
                 break;
-            else if(clickTG.getName().equals(createObjects.SGObjects[i])){
-                clickTG = (Link)pr.getNode(PickResult.LINK);
+            else if (clickTG.getName().equals(createObjects.SGObjects[i])) {
+                clickTG = (Link) pr.getNode(PickResult.LINK);
                 break;
             }
         }
-        clickTG = (TransformGroup)clickTG.getParent();
+        clickTG = (TransformGroup) clickTG.getParent();
 
         switch (clickTG.getName().charAt(0)) {
             case '+':
-                focus((TransformGroup)clickTG);
+                focus((TransformGroup) clickTG);
                 break;
             case '-':
-                unfocus((TransformGroup)clickTG);
+                unfocus((TransformGroup) clickTG);
                 break;
             case '@':
-                interact((TransformGroup)clickTG);
+                interact((TransformGroup) clickTG);
                 break;
         }
 
-            System.out.println(clickTG.getName()); // For debug purposes
+        // System.out.println(clickTG.getName()); // For debug purposes
     }
 
     private void highlightCursor() {
         PickResult pr = generatePT();
-        if (pr == null) return;
+        if (pr == null)
+            return;
 
         Node clickTG = pr.getNode(PickResult.SHAPE3D).getParent();
-        if(clickTG == null) return;
+        if (clickTG == null)
+            return;
 
-
-        for(int i = 0; i < 7; i++){
-            if(clickTG.getName() == null)
+        for (int i = 0; i < 7; i++) {
+            if (clickTG.getName() == null)
                 break;
-            else if(clickTG.getName().equals(createObjects.SGObjects[i])){
-                clickTG = (Link)pr.getNode(PickResult.LINK);
+            else if (clickTG.getName().equals(createObjects.SGObjects[i])) {
+                clickTG = (Link) pr.getNode(PickResult.LINK);
                 break;
             }
         }
-        clickTG = (TransformGroup)clickTG.getParent();
+        clickTG = (TransformGroup) clickTG.getParent();
 
         if (clickTG.getName().charAt(0) == '!')
             GameCanvas.setCursorColor(Color.WHITE);
         else
             GameCanvas.setCursorColor(Color.YELLOW);
 
-            // System.out.println(clickTG.getName()); // For debug purposes
+        // System.out.println(clickTG.getName()); // For debug purposes
     }
 
     private void focus(TransformGroup focusTG) {
@@ -302,8 +304,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 rot.setTransformAxis(t3d);
             }
         }
-
-        if (clickTG.getName().equals("@chair-high")) {
+        
+        String name = clickTG.getName();
+        if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
             ChairsPuzzle.rotateChair(clickTG);
         }
     }
