@@ -121,7 +121,7 @@ public class EscapeRoom extends JPanel {
 		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
 
-		scaleTG.addChild(createObjects.room());
+		scaleTG.addChild(CreateObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(0.1f, 0.1f, 0.1f)));
 		sceneBG.addChild(Sounds.bkgdSound());

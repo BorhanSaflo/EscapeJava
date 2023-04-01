@@ -201,7 +201,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         for (int i = 0; i < 7; i++) {
             if (clickTG.getName() == null)
                 break;
-            else if (clickTG.getName().equals(createObjects.SGObjects[i])) {
+            else if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
                 clickTG = (Link) pr.getNode(PickResult.LINK);
                 break;
             }
@@ -235,7 +235,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         for (int i = 0; i < 7; i++) {
             if (clickTG.getName() == null)
                 break;
-            else if (clickTG.getName().equals(createObjects.SGObjects[i])) {
+            else if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
                 clickTG = (Link) pr.getNode(PickResult.LINK);
                 break;
             }
@@ -293,10 +293,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
             if (clickTG.getName().equals("@doorKnob1")) {
                 if (clickTG.getName().equals("@doorKnob1")) {
-                    rot = createObjects.door1Rot;
+                    rot = CreateObjects.door1Rot;
                     t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
                 } else if (clickTG.getName().equals("@doorKnob2")) {
-                    rot = createObjects.door2Rot;
+                    rot = CreateObjects.door2Rot;
                     t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
                 }
 
@@ -425,7 +425,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_9:
             case KeyEvent.VK_0:
                 int digit = e.getKeyCode() - KeyEvent.VK_0;
-                computerPuzzle.addDigit(digit);
+                ComputerPuzzle.addDigit(digit);
                 break;
 
             default:

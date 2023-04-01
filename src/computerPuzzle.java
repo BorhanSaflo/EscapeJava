@@ -16,7 +16,7 @@ import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class computerPuzzle {
+public class ComputerPuzzle {
     private static TransformGroup textTG;
     private static int key = 2534;
     private static int passcode = 0;
@@ -27,7 +27,7 @@ public class computerPuzzle {
     private static Color3f red = new Color3f(1.0f, 0.0f, 0.0f);
     private static Color3f green = new Color3f(0.0f, 1.0f, 0.0f);
 
-    public computerPuzzle() {
+    public ComputerPuzzle() {
         Transform3D translation = new Transform3D();
         translation.setTranslation(new Vector3d(-26, -2.5, -43.2));
 
@@ -71,6 +71,7 @@ public class computerPuzzle {
                 setText(formatText(), green);
                 unlocked = true;
                 ChairsPuzzle.setUsable(true);
+                CreateObjects.createTVClues();
             } else
                 wrongPasscode();
         }

@@ -1,4 +1,6 @@
+import org.jogamp.java3d.Transform3D;
 import org.jogamp.java3d.TransformGroup;
+import org.jogamp.vecmath.AxisAngle4d;
 
 public class ChairsPuzzle {
     private static boolean firstChair = false;
@@ -19,7 +21,7 @@ public class ChairsPuzzle {
 
         switch (chairTG.getName().charAt(chairTG.getName().length() - 1)) {
             case '1':
-                if (angle == Math.PI) { //North-East
+                if (angle == Math.PI) { // North-East
                     System.out.println("Chair 1 is now in the correct position");
                     firstChair = true;
                 } else
@@ -52,7 +54,9 @@ public class ChairsPuzzle {
         angle += Math.PI / 4;
         angle %= 2 * Math.PI;
         chairTG.setUserData(angle);
-        createObjects.rotateChair(angle, chairTG);
+        Transform3D chairTransform = new Transform3D();
+        chairTG.getTransform(chairTransform);
+        chairTransform.setRotation(new AxisAngle4d(0, 1, 0, angle));
+        chairTG.setTransform(chairTransform);
     }
-
 }

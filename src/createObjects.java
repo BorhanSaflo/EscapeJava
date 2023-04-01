@@ -7,7 +7,7 @@ import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
-public class createObjects {
+public class CreateObjects {
         private static SharedGroup[] roomSG = new SharedGroup[7];
         public static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high",
                         "chair-low",
@@ -83,7 +83,8 @@ public class createObjects {
                 roomBG.addChild(lowStuff(0, 0, 0));
 
                 // puzzles
-                roomBG.addChild(new computerPuzzle().positionTextObj());
+                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+                roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
 
                 // Window backgrounds
@@ -97,6 +98,20 @@ public class createObjects {
                 roomBG.addChild(Sounds.successSound);
 
                 return roomBG;
+        }
+
+        public static void createTVClues() {
+                BranchGroup tvClues = new BranchGroup();
+                tvClues.addChild(createBox("!greenTV", new AxisAngle4d(),
+                                new Vector3d(-0.4065, 0.08025, 0.1), 0.00025f, 0.155f, 0.245f, 0.2f,
+                                LoadObject.obj_Appearance(Green)));
+                tvClues.addChild(createBox("!redTV", new AxisAngle4d(),
+                                new Vector3d(-0.4065, 0.08025, 0.4), 0.00025f, 0.155f, 0.245f, 0.2f,
+                                LoadObject.obj_Appearance(Red)));
+                tvClues.addChild(createBox("!blueTV", new AxisAngle4d(),
+                                new Vector3d(-0.4065, 0.08025, -0.2), 0.00025f, 0.155f, 0.245f, 0.2f,
+                                LoadObject.obj_Appearance(Blue)));
+                roomBG.addChild(tvClues);
         }
 
         public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
@@ -297,13 +312,6 @@ public class createObjects {
                 return BG;
         }
 
-        public static void rotateChair(double angle, TransformGroup chairTG) {
-                Transform3D chairTransform = new Transform3D();
-                chairTG.getTransform(chairTransform);
-                chairTransform.setRotation(new AxisAngle4d(0, 1, 0, angle));
-                chairTG.setTransform(chairTransform);
-        }
-
         public static BranchGroup middleStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
@@ -442,7 +450,7 @@ public class createObjects {
                         textTransform.set(new AxisAngle4d(0, -1, 0, Math.PI / 2));
 
                         TransformGroup textTG = new TransformGroup(textTransform);
-                        textTG.addChild(computerPuzzle.createTextObj("4", White));
+                        textTG.addChild(ComputerPuzzle.createTextObj("4", White));
 
                         objTG.addChild(textTG);
                 }
