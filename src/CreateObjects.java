@@ -15,6 +15,7 @@ public class CreateObjects {
                         "chair-low",
                         "computer" };
         public static RotationInterpolator door1Rot, door2Rot;
+        public static LockPuzzle lockPuzzle = new LockPuzzle();
         private static BranchGroup roomBG = new BranchGroup();
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
@@ -86,6 +87,8 @@ public class CreateObjects {
                 roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
+
+                roomBG.addChild(lockPuzzle.positionObj());
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
