@@ -235,14 +235,13 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (clickTG == null)
             return;
 
-        for (int i = 0; i < 7; i++) {
-            if (clickTG.getName() == null)
-                break;
-            else if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
-                clickTG = (Link) pr.getNode(PickResult.LINK);
-                break;
-            }
-        }
+        if(clickTG.getName() != null)
+            for (int i = 0; i < 7; i++) 
+                if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
+                    clickTG = (Link) pr.getNode(PickResult.LINK);
+                    break;
+                }
+
         clickTG = (TransformGroup) clickTG.getParent();
 
         if (clickTG.getName().charAt(0) == '!')
