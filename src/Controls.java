@@ -244,10 +244,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         clickTG = (TransformGroup) clickTG.getParent();
 
-        if (clickTG.getName().charAt(0) == '!')
-            GameCanvas.setCursorColor(Color.WHITE);
-        else
+        if (clickTG.getName()==null || clickTG.getName().charAt(0) != '!')
             GameCanvas.setCursorColor(Color.YELLOW);
+        else
+            GameCanvas.setCursorColor(Color.WHITE);
 
         // System.out.println(clickTG.getName()); // For debug purposes
     }
