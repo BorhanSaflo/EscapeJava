@@ -27,6 +27,8 @@ public class LoadObject {
     public final static int clr_num = 8;
     private static Color3f[] mtl_clrs = { White, Grey, Black };
 
+    public static Appearance app;
+
     public static Appearance obj_Appearance(Color3f m_clr) {
         Material mtl = new Material(); // define material's attributes
         mtl.setShininess(32);
@@ -57,7 +59,7 @@ public class LoadObject {
         mtl.setEmissiveColor(mtlfile.emissive);
         mtl.setLightingEnable(true);
         
-        Appearance app = new Appearance();
+        app = new Appearance();
         app.setMaterial(mtl); // set appearance's material
         
         if(mtlfile.transparency != 1.0f)
@@ -65,6 +67,8 @@ public class LoadObject {
         
         if(mtlfile.texture != null)
         	app.setTexture(mtlfile.texture);
+
+        app.setUserData(app.getTexture());
         
         return app;
     }    
