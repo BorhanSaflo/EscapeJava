@@ -218,6 +218,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case '@':
                 interact((TransformGroup) clickTG);
                 break;
+            case '#':
+                pickup((TransformGroup) clickTG);
+                break;
         }
 
         // System.out.println(clickTG.getName()); // For debug purposes
@@ -258,12 +261,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
 
         focusTG.setTransform(popup);
-        focusTG.setName("=" + focusTG.getName().substring(1));
+        focusTG.setName("-" + focusTG.getName().substring(1));
         EscapeRoom.gameState = EscapeRoom.GameState.FOCUSED;
     }
 
     private void updateFocus() {
-        if (focusedGroup == null)
+        if (focusedGroup == null || !escapeRoom.isPlaying())
             return;
 
         Transform3D popup = new Transform3D();
@@ -281,6 +284,18 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         resetMouse();
         EscapeRoom.gameState = EscapeRoom.GameState.PLAYING;
+    }
+
+    private void pickup(TransformGroup focusTG) {
+        focusedGroup = focusTG;
+        Transform3D popup = new Transform3D();
+        popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
+
+        focusTG.setTransform(popup);
+        focusTG.setName("=" + focusTG.getName().substring(1));
+        EscapeRoom.gameState = EscapeRoom.GameState.PICKUP;
     }
 
     private void interact(TransformGroup clickTG) {
@@ -304,6 +319,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 rot.setTransformAxis(t3d);
             }
         }
+
         
         String name = clickTG.getName();
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
@@ -371,10 +387,17 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 down = true;
                 break;
             case KeyEvent.VK_E:
-                if (EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
-                    unfocus(focusedGroup);
-                else if (EscapeRoom.gameState == EscapeRoom.GameState.PLAYING)
-                    pickObject();
+                switch(EscapeRoom.gameState){
+                    case FOCUSED:
+                    case PICKUP:
+                        unfocus(focusedGroup);
+                        break;
+                    case PLAYING:
+                        pickObject();
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case KeyEvent.VK_UP:
                 turn(true, 1);

@@ -29,9 +29,7 @@ public class CreateObjects {
                 /*
                  * Prefixes:
                  * + Focusable (eg. clues, puzzles)
-                 * - Focused (shouldn't be used here)
                  * ! Immovable (eg. room, windows)
-                 * 
                  * @ Interactable (eg. door, trash bin)
                  * # Equipable (eg. key, tool)
                  * 
@@ -461,57 +459,57 @@ public class CreateObjects {
         public static BranchGroup computerPuzzleClues() {
                 BranchGroup BG = new BranchGroup();
 
-                BG.addChild(createBox("+redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f,
+                BG.addChild(createBox("#redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f,
                                 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
-                BG.addChild(createBox("+redBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
+                BG.addChild(createBox("#redBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
                                 new Vector3d(0.425, -0.0575, 0.05), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Red)));
 
-                BG.addChild(createBox("+greenBox1", new AxisAngle4d(0, -1, 0, Math.PI / 6),
+                BG.addChild(createBox("#greenBox1", new AxisAngle4d(0, -1, 0, Math.PI / 6),
                                 new Vector3d(0.385, -0.0575, 0.3), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
+                BG.addChild(createBox("#greenBox2", new AxisAngle4d(0, -1, 0, Math.PI / 4),
                                 new Vector3d(0.424, -0.0575, -0.055), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox3", new AxisAngle4d(0, -1, 0, Math.PI / 4),
+                BG.addChild(createBox("#greenBox3", new AxisAngle4d(0, -1, 0, Math.PI / 4),
                                 new Vector3d(0.4, -0.0575, -0.085), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox4", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.45, -0.0575, -0.2),
+                BG.addChild(createBox("#greenBox4", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.45, -0.0575, -0.2),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+greenBox5", new AxisAngle4d(0, -1, 0, Math.PI / 6),
+                BG.addChild(createBox("#greenBox5", new AxisAngle4d(0, -1, 0, Math.PI / 6),
                                 new Vector3d(0.375, -0.0575, 0.5), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Green)));
 
-                BG.addChild(createBox("+blueBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.435, -0.0575, -0.3),
+                BG.addChild(createBox("#blueBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.435, -0.0575, -0.3),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
-                BG.addChild(createBox("+blueBox2", new AxisAngle4d(0, 1, 0, Math.PI / 4),
+                BG.addChild(createBox("#blueBox2", new AxisAngle4d(0, 1, 0, Math.PI / 4),
                                 new Vector3d(0.435, -0.0575, 0.775), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Blue)));
-                BG.addChild(createBox("+blueBox3", new AxisAngle4d(0, 1, 0, Math.PI / 6),
+                BG.addChild(createBox("#blueBox3", new AxisAngle4d(0, 1, 0, Math.PI / 6),
                                 new Vector3d(0.1, -0.0575, 0.9), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Blue)));
 
-                BG.addChild(createBox("+yellowBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.425, -0.0575, -0.08),
+                BG.addChild(createBox("#yellowBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.425, -0.0575, -0.08),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox2", new AxisAngle4d(0, -1, 0, Math.PI / 3),
+                BG.addChild(createBox("#yellowBox2", new AxisAngle4d(0, -1, 0, Math.PI / 3),
                                 new Vector3d(0.4, -0.0575, -0.435), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox3", new AxisAngle4d(0, 1, 0, Math.PI / 4),
+                BG.addChild(createBox("#yellowBox3", new AxisAngle4d(0, 1, 0, Math.PI / 4),
                                 new Vector3d(0.425, -0.0575, -0.34), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Yellow)));
-                BG.addChild(createBox("+yellowBox4", new AxisAngle4d(0, -1, 0, Math.PI / 6),
+                BG.addChild(createBox("#yellowBox4", new AxisAngle4d(0, -1, 0, Math.PI / 6),
                                 new Vector3d(0.08, -0.0575, 0.85), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Yellow)));
 
                 // legend
                 BG.addChild(createBox("+redBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.175, 0.04, -0.695),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
-                BG.addChild(createBox("+greenBoxLegend", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createBox("#greenBoxLegend", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.125, 0.04, -0.695), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Green)));
-                BG.addChild(createBox("+blueBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.075, 0.04, -0.695),
+                BG.addChild(createBox("#blueBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.075, 0.04, -0.695),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Blue)));
-                BG.addChild(createBox("+yellowBoxLegend", new AxisAngle4d(0, 0, 0, 0),
+                BG.addChild(createBox("#yellowBoxLegend", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.025, 0.04, -0.695), 0.1f, 0.1f, 0.1f, 0.05f,
                                 LoadObject.obj_Appearance(Yellow)));
 

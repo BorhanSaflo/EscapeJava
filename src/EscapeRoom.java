@@ -9,7 +9,7 @@ import java.io.IOException;
 public class EscapeRoom extends JPanel {
 
 	public enum GameState {
-		START, PLAYING, PAUSED, GAMEOVER, FOCUSED
+		START, PLAYING, PAUSED, GAMEOVER, FOCUSED, PICKUP
 	}
 
 	public static GameState gameState = GameState.START;
@@ -68,7 +68,7 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public boolean isPlaying() {
-		return gameState == GameState.PLAYING || gameState == GameState.FOCUSED;
+		return gameState == GameState.PLAYING || gameState == GameState.PICKUP;
 	}
 
 	public void togglePause() {
