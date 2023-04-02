@@ -14,7 +14,9 @@ public class EscapeRoom extends JPanel {
 
 	public static GameState gameState = GameState.START;
 	public static BranchGroup sceneBG;
+	BranchGroup lightBG = new BranchGroup();
 
+	private static boolean lightsActive = false;
 	private static final long serialVersionUID = 1L;
 	private static JFrame frame;
 	private GameCanvas canvas = new GameCanvas();
@@ -30,6 +32,8 @@ public class EscapeRoom extends JPanel {
 
 	public EscapeRoom() throws IOException {
 		sceneBG = createScene();
+		sceneBG.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+		sceneBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
 		sceneBG.compile(); // optimize the BranchGroup
 		su.addBranchGraph(sceneBG); // attach the scene to SimpleUniverse
 
@@ -84,6 +88,15 @@ public class EscapeRoom extends JPanel {
 		canvas.togglePause(gameState);
 	}
 
+	public void toggleLights() {
+		if (lightsActive) 
+			sceneBG.removeChild(lightBG);
+		else 
+			sceneBG.addChild(lightBG);
+		lightsActive = !lightsActive;
+			
+	}
+
 	public void updateViewer() {
 		viewTM.lookAt(camera, centerPoint, upDir);
 		if (Double.isNaN(viewTM.determinant())) {
@@ -97,7 +110,7 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public BranchGroup addLights(Color3f clr) {
-		BranchGroup lightBG = new BranchGroup();
+		lightBG.setCapability(BranchGroup.ALLOW_DETACH);
 		Point3f atn = new Point3f(0.5f, 0.0f, 0.0f);
 		PointLight ptLight;
 
@@ -111,6 +124,7 @@ public class EscapeRoom extends JPanel {
 		ptLight = new PointLight(new Color3f(0.5f, 0.5f, 0.5f), new Point3f(0, -5, 0), atn);
 		ptLight.setInfluencingBounds(hundredBS);
 		lightBG.addChild(ptLight);
+		lightsActive = true;
 
 		return lightBG;
 	}

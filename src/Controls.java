@@ -119,8 +119,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (!escapeRoom.isPlaying())
             return;
 
-        camera.y = -0.2;
-        centerPoint.y -= 0.7;
+        camera.y = -0.5;
+        centerPoint.y -= 1;
         escapeRoom.updateViewer();
     }
 
@@ -129,7 +129,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
 
         camera.y = 0.5;
-        centerPoint.y += 0.7;
+        centerPoint.y += 1;
         escapeRoom.updateViewer();
     }
 
@@ -400,6 +400,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                     default:
                         break;
                 }
+                break;
+            case KeyEvent.VK_L:
+                escapeRoom.toggleLights();
                 break;
             case KeyEvent.VK_UP:
                 turn(true, 1);
