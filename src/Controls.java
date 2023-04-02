@@ -208,6 +208,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
         clickTG = (TransformGroup) clickTG.getParent();
 
+        if (clickTG.getName() == null)
+            return;
+
         switch (clickTG.getName().charAt(0)) {
             case '+':
                 focus((TransformGroup) clickTG);
@@ -409,6 +412,17 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 break;
             case KeyEvent.VK_LEFT:
                 turn(false, -1);
+                break;
+
+            case KeyEvent.VK_U:
+                System.out.println(CreateObjects.lockPuzzle.tryUnlock()? "Unlocked!" : "Locked");
+                break;
+
+            case KeyEvent.VK_I:
+                CreateObjects.lockPuzzle.rotateDial(-Math.PI/30);
+                break;
+            case KeyEvent.VK_O:
+                CreateObjects.lockPuzzle.rotateDial(Math.PI/30);
                 break;
 
             case KeyEvent.VK_CONTROL:
