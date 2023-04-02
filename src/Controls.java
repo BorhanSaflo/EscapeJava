@@ -301,32 +301,23 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void interact(TransformGroup clickTG) {
-        if (clickTG.getName().substring(1, clickTG.getName().length() - 1).equals("doorKnob")) {
-            RotationInterpolator rot = null;
-            Transform3D t3d = new Transform3D();
-            t3d.rotZ(-Math.PI / 2);
-
-            // TODO: fix coordinates and change alpha + angles
-
-            if (clickTG.getName().equals("@doorKnob1")) {
-                if (clickTG.getName().equals("@doorKnob1")) {
-                    rot = CreateObjects.door1Rot;
-                    t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
-                } else if (clickTG.getName().equals("@doorKnob2")) {
-                    rot = CreateObjects.door2Rot;
-                    t3d.setTranslation(new Vector3d(-3, 0.5, -6.5));
-                }
-
-                rot.setAlpha(new Alpha(-1, 1000));
-                rot.setTransformAxis(t3d);
-            }
-        }
-
-        
         String name = clickTG.getName();
-        if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
-            ChairsPuzzle.rotateChair(clickTG);
+
+        if (name.equals("@doorKnob1")) {
+            Transform3D t3d = new Transform3D();
+            t3d.rotX(Math.PI / 2);
+            t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
+
+            RotationInterpolator rot = new RotationInterpolator(new Alpha(1, 
+            Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 0, 0, 1000, 200, 100, 1000, 200, 100), 
+            CreateObjects.door1Rot.getTarget(),
+            t3d, 0.0f, (float) Math.PI/2.0f);
+
+            EscapeRoom.sceneBG.addChild(rot);
         }
+        
+        if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
+            ChairsPuzzle.rotateChair(clickTG);
     }
 
     @Override
