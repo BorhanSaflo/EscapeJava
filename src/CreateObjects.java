@@ -7,6 +7,8 @@ import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
+import org.jogamp.java3d.utils.geometry.ColorCube; //collision detection testing
+
 public class CreateObjects {
         private static SharedGroup[] roomSG = new SharedGroup[7];
         public static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high",
@@ -94,6 +96,10 @@ public class CreateObjects {
                 roomBG.addChild(Sounds.keyboardSound);
                 roomBG.addChild(Sounds.wrongSound);
                 roomBG.addChild(Sounds.successSound);
+
+
+                //extra
+                //roomBG.addChild(Collision());
 
                 return roomBG;
         }
@@ -523,5 +529,23 @@ public class CreateObjects {
                                 rotationAlpha, rotTG, yAxis, 0.0f, (float) Math.PI * 2.0f);
                 rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
                 return rot_beh;
+        }
+
+        public static BranchGroup Collision() {
+                BranchGroup BG = new BranchGroup();
+
+                Transform3D temp = new Transform3D();
+                temp.setTranslation(new Vector3d(0, .05f, 0));
+                temp.setScale(0.05);
+                TransformGroup TG = new TransformGroup(temp);
+                TG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                
+                Shape3D shape = new ColorCube();
+                CollisionDetection cd = new CollisionDetection(shape);
+                TG.addChild(cd);
+                TG.addChild(shape);
+                
+                BG.addChild(TG);
+                return BG;
         }
 }
