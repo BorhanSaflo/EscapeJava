@@ -303,18 +303,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void interact(TransformGroup clickTG) {
         String name = clickTG.getName();
 
-        if (name.equals("@doorKnob1")) {
-            Transform3D t3d = new Transform3D();
-            t3d.rotX(Math.PI / 2);
-            t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
-
-            RotationInterpolator rot = new RotationInterpolator(new Alpha(1, 
-            Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 0, 0, 1000, 200, 100, 1000, 200, 100), 
-            CreateObjects.door1Rot.getTarget(),
-            t3d, 0.0f, (float) Math.PI/2.0f);
-
-            EscapeRoom.sceneBG.addChild(rot);
-        }
+        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) 
+            CreateObjects.door1Rot.getAlpha().resume();
         
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
             ChairsPuzzle.rotateChair(clickTG);

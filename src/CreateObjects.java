@@ -14,7 +14,7 @@ public class CreateObjects {
         public static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high",
                         "chair-low",
                         "computer" };
-        public static RotationInterpolator door1Rot, door2Rot;
+        public static RotationInterpolator door1Rot;
         public static LockPuzzle lockPuzzle = new LockPuzzle();
         private static BranchGroup roomBG = new BranchGroup();
 
@@ -370,7 +370,7 @@ public class CreateObjects {
                 TransformGroup objTG = new TransformGroup(transform);
                 objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 objTG.setName(name);
-                objTG.setUserData((double) rotation.angle); // used for chairs puzzle
+                objTG.setUserData(transform);
 
                 // Check if the object is one of the special chairs indicated by a digit at the
                 // end of the name
@@ -381,24 +381,24 @@ public class CreateObjects {
                 }
                 // else, its a normal object
                 else
-                        objTG.addChild(LoadObject.loadObject(
-                                        "objects/" + name.substring(1) + ".obj"));
+                        objTG.addChild(LoadObject.loadObject("objects/" + name.substring(1) + ".obj"));
                 return objTG;
         }
 
         public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
-                if (name.substring(1, name.length() - 1).equals("doorKnob")) {
+                if (name.equals("@doorKnob1")) {
                         TransformGroup RG = new TransformGroup();
                         RG.addChild(createLooseObject(name, rotation, translation, scale));
 
-                        RotationInterpolator rot = rotate_Behavior(0, RG, new Transform3D());
-                        roomBG.addChild(rot);
+                        Transform3D t3d = new Transform3D();
+                        t3d.rotX(Math.PI / 2);
+                        t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        if (name.charAt(9) == '1')
-                                door1Rot = rot;
-                        else if (name.charAt(9) == '2')
-                                door2Rot = rot;
+                        Alpha alpha = new Alpha(2, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100, 100, 500, 100, 100);
+                        door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
+                        roomBG.addChild(door1Rot);
+                        door1Rot.getAlpha().pause();
 
                         return RG;
                 }
@@ -511,7 +511,7 @@ public class CreateObjects {
                                 LoadObject.obj_Appearance(Yellow)));
 
                 // legend
-                BG.addChild(createBox("+redBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.175, 0.04, -0.695),
+                BG.addChild(createBox("#redBoxLegend", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.175, 0.04, -0.695),
                                 0.1f, 0.1f, 0.1f, 0.05f, LoadObject.obj_Appearance(Red)));
                 BG.addChild(createBox("#greenBoxLegend", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.125, 0.04, -0.695), 0.1f, 0.1f, 0.1f, 0.05f,
@@ -532,6 +532,20 @@ public class CreateObjects {
                                 rotationAlpha, rotTG, yAxis, 0.0f, (float) Math.PI * 2.0f);
                 rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
                 return rot_beh;
+        }
+
+        public static RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha, float rad) {
+		rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+		RotationInterpolator rot_beh = new RotationInterpolator(alpha, rotTG, axis, 0, (float)(Math.PI * rad));
+		rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+		return rot_beh;
+	}
+    
+        public static PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha, float dist) {
+                posTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist/2, dist/2);
+                pos_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+                return pos_beh;
         }
 
         public static BranchGroup Collision() {

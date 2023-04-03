@@ -5,11 +5,13 @@ import org.jogamp.vecmath.Vector3d;
 public class LockPuzzle {
     private int numSections = 10, lastSection=0, n=0, phase = 0, combination[] = {5, 3, 7};
     private double adjustmentAngle = 104*(Math.PI/180);
-    private boolean cw = true, unlocked = false;
+    private boolean cw = true;
     private Vector3d dialTranslation = new Vector3d(-0.048, 0.3, 1.06);
     private double dialScale = 0.245;
     private TransformGroup lockTG, dialTG;
     private double dialAng = 0;
+
+    public static boolean unlocked = false;
 
     public LockPuzzle(){
         TransformGroup safeTG = CreateObjects.createLooseObject("!safe", new AxisAngle4d(), new Vector3d(0, 0, 0), 1);

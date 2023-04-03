@@ -14,7 +14,7 @@ public class EscapeRoom extends JPanel {
 
 	public static GameState gameState = GameState.START;
 	public static BranchGroup sceneBG;
-	BranchGroup lightBG = new BranchGroup();
+	private BranchGroup lightBG = new BranchGroup();
 
 	private static boolean lightsActive = false;
 	private static final long serialVersionUID = 1L;
@@ -73,6 +73,10 @@ public class EscapeRoom extends JPanel {
 
 	public boolean isPlaying() {
 		return gameState == GameState.PLAYING || gameState == GameState.PICKUP;
+	}
+
+	public SimpleUniverse getSU(){
+		return su;
 	}
 
 	public void togglePause() {
