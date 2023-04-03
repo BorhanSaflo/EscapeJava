@@ -122,9 +122,9 @@ public class CreateObjects {
                 roomBG.addChild(tvClues);
 
                 clues.setCapability(BranchGroup.ALLOW_DETACH);
-                BranchGroup clue1 = ChairsPuzzle.createTextObj("NE", White, new Vector3d(-14, 2.3, -13.73));
-                BranchGroup clue2 = ChairsPuzzle.createTextObj("NW", White, new Vector3d(-4.1, 2.3, -13.73));
-                BranchGroup clue3 = ChairsPuzzle.createTextObj("SE", CreateObjects.White,
+                BranchGroup clue1 = ChairsPuzzle.createTextObj("SW", White, new Vector3d(-14, 2.3, -13.73));
+                BranchGroup clue2 = ChairsPuzzle.createTextObj("SE", White, new Vector3d(-4.1, 2.3, -13.73));
+                BranchGroup clue3 = ChairsPuzzle.createTextObj("NW", CreateObjects.White,
                                 new Vector3d(6, 2.3, -13.73));
                 clues.addChild(clue1);
                 clues.addChild(clue2);
