@@ -93,8 +93,7 @@ public class CreateObjects {
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
                 roomBG.addChild(lockPuzzle.positionObj());
-                // roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new
-                // Vector3d(0.06, -0.054, 0.45), 0.01));
+                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
@@ -126,9 +125,9 @@ public class CreateObjects {
                 roomBG.addChild(tvClues);
 
                 clues.setCapability(BranchGroup.ALLOW_DETACH);
-                BranchGroup clue1 = ChairsPuzzle.createTextObj("NE", White, new Vector3d(-14, 2.3, -13.73));
-                BranchGroup clue2 = ChairsPuzzle.createTextObj("NW", White, new Vector3d(-4.1, 2.3, -13.73));
-                BranchGroup clue3 = ChairsPuzzle.createTextObj("SE", CreateObjects.White,
+                BranchGroup clue1 = ChairsPuzzle.createTextObj("SW", White, new Vector3d(-14, 2.3, -13.73));
+                BranchGroup clue2 = ChairsPuzzle.createTextObj("SE", White, new Vector3d(-4.1, 2.3, -13.73));
+                BranchGroup clue3 = ChairsPuzzle.createTextObj("NW", CreateObjects.White,
                                 new Vector3d(6, 2.3, -13.73));
                 clues.addChild(clue1);
                 clues.addChild(clue2);
