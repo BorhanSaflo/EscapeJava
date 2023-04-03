@@ -62,6 +62,7 @@ public class CreateObjects {
 
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.1, 0.04, -0.36), 0.344));
+                roomBG.addChild(createObject("!compass", new AxisAngle4d(0, 1, 0, Math.PI/6.0), new Vector3d(0.05, -0.057, 0.1), 0.01));
 
                 roomBG.addChild(createObject("!posterSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.34, 0.038, 0.32), 0.615));
                 roomBG.addChild(createObject("!faceSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.015, 0.105, -0.29), 0.4));
