@@ -116,7 +116,7 @@ public class LockPuzzle {
             unlocked = true;
         }
 
-        if(unlocked)
+        if(unlocked) 
             Sounds.playSound(Sounds.successSound);
         else
             Sounds.playSound(Sounds.wrongSound);

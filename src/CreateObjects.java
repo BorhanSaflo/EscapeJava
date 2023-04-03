@@ -90,7 +90,7 @@ public class CreateObjects {
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
                 roomBG.addChild(lockPuzzle.positionObj());
-                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
+                // roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
@@ -411,7 +411,7 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(2, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100,
+                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100,
                                         100, 500, 100, 100);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
