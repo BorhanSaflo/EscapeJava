@@ -354,8 +354,20 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void interact(TransformGroup clickTG) {
         String name = clickTG.getName();
 
-        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) 
+        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) {
+            CreateObjects.door1Rot.getAlpha().setLoopCount(1);
             CreateObjects.door1Rot.getAlpha().resume();
+        }
+        if (LockPuzzle.unlocked == false && name.equals("@doorKnob1")) {
+            CreateObjects.door1Rot.getAlpha().resume();
+            try {
+                Thread.sleep(1200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            CreateObjects.door1Rot.getAlpha().pause();
+            Sounds.playSound(Sounds.wrongSound);
+        }
         
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
             ChairsPuzzle.rotateChair(clickTG);
