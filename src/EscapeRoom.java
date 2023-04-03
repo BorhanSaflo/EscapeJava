@@ -9,7 +9,7 @@ import java.io.IOException;
 public class EscapeRoom extends JPanel {
 
 	public enum GameState {
-		START, PLAYING, PAUSED, GAMEOVER, FOCUSED, PICKUP
+		START, PLAYING, PAUSED, GAMEOVER, FOCUSED, PICKUP, ESCAPED
 	}
 
 	public static GameState gameState = GameState.START;
@@ -49,7 +49,7 @@ public class EscapeRoom extends JPanel {
 		su.getViewer().getView().setFieldOfView(1.5);
 		Sounds.enableAudio(su);
 		updateViewer();
-		
+
 		frame.setSize(1920, 1080);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setLocationRelativeTo(null);
@@ -71,11 +71,24 @@ public class EscapeRoom extends JPanel {
 		gameState = GameState.PLAYING;
 	}
 
+	public void endGame(boolean escaped) {
+		if (escaped) {
+			gameState = GameState.ESCAPED;
+			controls.setCursorVisible(frame, true);
+			removeAll();
+			add("Center", new WinScreen());
+			frame.validate();
+		} else {
+			gameState = GameState.GAMEOVER;
+			controls.setCursorVisible(frame, true);
+		}
+	}
+
 	public boolean isPlaying() {
 		return gameState == GameState.PLAYING || gameState == GameState.PICKUP;
 	}
 
-	public SimpleUniverse getSU(){
+	public SimpleUniverse getSU() {
 		return su;
 	}
 
@@ -93,12 +106,12 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public void toggleLights() {
-		if (lightsActive) 
+		if (lightsActive)
 			sceneBG.removeChild(lightBG);
-		else 
+		else
 			sceneBG.addChild(lightBG);
 		lightsActive = !lightsActive;
-			
+
 	}
 
 	public void updateViewer() {
@@ -118,9 +131,9 @@ public class EscapeRoom extends JPanel {
 		Point3f atn = new Point3f(0.5f, 0.0f, 0.0f);
 		PointLight ptLight;
 
-		for(int i = 0; i < 2; i++)
+		for (int i = 0; i < 2; i++)
 			for (int j = 0; j < 3; j++) {
-				ptLight = new PointLight(clr, new Point3f(-2+i*4, 5, -4+j*3.3f), atn);
+				ptLight = new PointLight(clr, new Point3f(-2 + i * 4, 5, -4 + j * 3.3f), atn);
 				ptLight.setInfluencingBounds(hundredBS);
 				lightBG.addChild(ptLight);
 			}
@@ -152,7 +165,8 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public static void getCoords() {
-		//System.out.println("Camera: " + camera.x + ", " + camera.y + ", " + camera.z);
+		// System.out.println("Camera: " + camera.x + ", " + camera.y + ", " +
+		// camera.z);
 	}
 
 	public static void main(String[] args) throws IOException {
