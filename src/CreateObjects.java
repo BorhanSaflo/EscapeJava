@@ -412,7 +412,7 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 0, 0, 500, 100, 100, 500, 100, 100);
+                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 100, 0, 500, 100, 100, 500, 100, 100);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
                         alpha.pause();
