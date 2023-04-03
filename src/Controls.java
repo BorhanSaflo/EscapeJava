@@ -38,7 +38,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private boolean down = false;
     private boolean right = false;
 
-    private boolean dialFocused = false;
+    private boolean dialFocused = false, keyGrabbed = false;
     private double[] tempCoords = new double[6];
 
     private Robot robot = null;
@@ -230,20 +230,11 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
 
         switch (clickTG.getName().charAt(0)) {
-            case '+':
-                focus((TransformGroup) clickTG);
-                break;
-            case '-':
-                unfocus((TransformGroup) clickTG);
-                break;
-            case '@':
-                interact((TransformGroup) clickTG);
-                break;
-            case '#':
-                pickup((TransformGroup) clickTG);
-                break;
-            case '*':
-                dialFocus();
+            case '+' -> focus((TransformGroup) clickTG);
+            case '-' -> unfocus((TransformGroup) clickTG);
+            case '@' -> interact((TransformGroup) clickTG);
+            case '#' -> pickup((TransformGroup) clickTG);
+            case '*' -> dialFocus();
         }
 
         // System.out.println(clickTG.getName()); // For debug purposes
@@ -276,6 +267,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void dialFocus() {
+        if(LockPuzzle.unlocked)
+            return;
+
         tempCoords[0] = camera.x;
         tempCoords[1] = camera.y;
         tempCoords[2] = camera.z;
@@ -342,6 +336,19 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void pickup(TransformGroup focusTG) {
+        if(focusTG.getName().equals("#key")){
+            Transform3D key = new Transform3D();
+            key.setScale(0.001);
+            key.setTranslation(new Vector3d(0, -10, 0));
+            focusTG.setTransform(key);
+
+            keyGrabbed = true;
+            Sounds.playSound(Sounds.successSound);
+
+            return;
+        }
+
+
         focusedGroup = focusTG;
         Transform3D popup = new Transform3D();
         popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
@@ -356,7 +363,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void interact(TransformGroup clickTG) {
         String name = clickTG.getName();
 
-        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) {
+        if (keyGrabbed && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
             Sounds.playSound(Sounds.successSound);
             new Timer().schedule(new TimerTask() {
@@ -367,7 +374,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                 }
             }, 1200);
         }
-        if (LockPuzzle.unlocked == false && name.equals("@doorKnob1")) {
+        if (!keyGrabbed && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
             new Timer().schedule(new TimerTask() {
                 @Override
@@ -441,7 +448,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_S -> down = true;
             case KeyEvent.VK_E -> {
                 if (dialFocused) {
-                    CreateObjects.lockPuzzle.tryUnlock();
+                    if(CreateObjects.lockPuzzle.tryUnlock())
+                        dialUnfocus();
                     break;
                 }
                 switch (EscapeRoom.gameState) {

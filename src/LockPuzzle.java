@@ -8,15 +8,18 @@ public class LockPuzzle {
     private boolean cw = true;
     private Vector3d dialTranslation = new Vector3d(-0.048, 0.3, 1.06);
     private double dialScale = 0.245;
-    private TransformGroup lockTG, dialTG;
+    private TransformGroup lockTG, dialTG, safeDoorTG;
     private double dialAng = 0;
 
     public static boolean unlocked = false;
 
     public LockPuzzle(){
         TransformGroup safeTG = CreateObjects.createLooseObject("*safe", new AxisAngle4d(), new Vector3d(0, 0, 0), 1);
-        TransformGroup safeDoorTG = CreateObjects.createLooseObject("*safe-door", new AxisAngle4d(), new Vector3d(-0.03, 0, 0.9), 0.83);
+        safeDoorTG = CreateObjects.createLooseObject("*safe-door", new AxisAngle4d(), new Vector3d(-0.03, 0, 0.9), 0.83);
         dialTG = CreateObjects.createLooseObject("*safe-dial", new AxisAngle4d(0, 0, 1, adjustmentAngle), dialTranslation, dialScale);
+
+        safeDoorTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        safeDoorTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
 
         Transform3D lockT3D = new Transform3D();
         lockT3D.rotY(-Math.PI/4);
@@ -24,6 +27,11 @@ public class LockPuzzle {
         lockT3D.setTranslation(new Vector3d(0.06, -0.038, 0.45));
 
         lockTG = new TransformGroup(lockT3D);
+
+        safeTG.setCapability(TransformGroup.ALLOW_CHILDREN_EXTEND);
+        safeTG.setCapability(TransformGroup.ALLOW_CHILDREN_WRITE);
+        safeTG.setCapability(TransformGroup.ALLOW_CHILDREN_READ);
+
         lockTG.addChild(safeTG);
         lockTG.addChild(safeDoorTG);
         lockTG.addChild(dialTG);
@@ -34,6 +42,9 @@ public class LockPuzzle {
     }
 
     public void rotateDial(double angle){
+        if(unlocked)
+            return;
+
         dialAng += angle;
 
         if(dialAng>2*Math.PI)
@@ -112,12 +123,30 @@ public class LockPuzzle {
     }
 
     public boolean tryUnlock(){
+        if(unlocked)
+            return false;
+
         if(phase==3 && lastSection==combination[2] && n<numSections){
             unlocked = true;
         }
 
-        if(unlocked) 
+        if(unlocked) {
             Sounds.playSound(Sounds.successSound);
+
+            Transform3D doort3d = new Transform3D();
+            doort3d.rotY(Math.PI/2);
+            doort3d.setScale(0.83);
+            doort3d.setTranslation(new Vector3d(0.7, -0.038, 1.7));
+
+            safeDoorTG.setTransform(doort3d);
+
+            Transform3D dialt3d = new Transform3D();
+            dialt3d.setScale(0.001);
+            dialt3d.rotX(Math.PI/2);
+            dialt3d.setTranslation(new Vector3d(0,-10,0));
+
+            dialTG.setTransform(dialt3d);
+        }
         else
             Sounds.playSound(Sounds.wrongSound);
 
