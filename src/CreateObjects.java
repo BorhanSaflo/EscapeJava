@@ -25,10 +25,12 @@ public class CreateObjects {
         public final static Color3f Green = new Color3f(0.0f, 0.8f, 0.0f);
         public final static Color3f Blue = new Color3f(0.0f, 0.0f, 0.8f);
         public final static Color3f Yellow = new Color3f(0.8f, 0.8f, 0.0f);
+        public static BranchGroup clues = new BranchGroup();
 
         public static BranchGroup room() {
+                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
                 createSG();
-
                 /*
                  * Prefixes:
                  * + Focusable (eg. clues, puzzles)
@@ -85,7 +87,6 @@ public class CreateObjects {
                 roomBG.addChild(lowStuff(0, 0, 0));
 
                 // puzzles
-                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
                 roomBG.addChild(lockPuzzle.positionObj());
@@ -118,6 +119,16 @@ public class CreateObjects {
                                 new Vector3d(-0.4065, 0.08025, -0.2), 0.00025f, 0.155f, 0.245f, 0.2f,
                                 LoadObject.obj_Appearance(Blue)));
                 roomBG.addChild(tvClues);
+
+                clues.setCapability(BranchGroup.ALLOW_DETACH);
+                BranchGroup clue1 = ChairsPuzzle.createTextObj("NE", White, new Vector3d(-14, 2.3, -13.73));
+                BranchGroup clue2 = ChairsPuzzle.createTextObj("NW", White, new Vector3d(-4.1, 2.3, -13.73));
+                BranchGroup clue3 = ChairsPuzzle.createTextObj("SE", CreateObjects.White,
+                                new Vector3d(6, 2.3, -13.73));
+                clues.addChild(clue1);
+                clues.addChild(clue2);
+                clues.addChild(clue3);
+                roomBG.addChild(clues);
         }
 
         public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
@@ -369,11 +380,13 @@ public class CreateObjects {
                 TransformGroup objTG = new TransformGroup(transform);
                 objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 objTG.setName(name);
-                objTG.setUserData(transform);
 
                 if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
                         objTG.setUserData((double) rotation.angle);
+                } else {
+                        objTG.setUserData(transform);
                 }
+
                 // Check if the object is one of the special chairs indicated by a digit at the
                 // end of the name
                 if (name.length() > 10 && name.substring(1, 11).equals("chair-high")

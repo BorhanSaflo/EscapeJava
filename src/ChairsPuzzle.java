@@ -59,8 +59,13 @@ public class ChairsPuzzle {
             if (firstChair && secondChair && thirdChair) {
                 unlocked = true;
                 System.out.println("All chairs are in the correct position");
-                CreateObjects.roomBG.addChild(createTextObj("54", CreateObjects.White, new Vector3d(-13.8, 2.3, -13.73)));
-                CreateObjects.roomBG.addChild(createTextObj("33", CreateObjects.White, new Vector3d(-3.9, 2.3, -13.73)));
+
+                CreateObjects.roomBG.removeChild(CreateObjects.clues);
+
+                CreateObjects.roomBG
+                        .addChild(createTextObj("54", CreateObjects.White, new Vector3d(-13.8, 2.3, -13.73)));
+                CreateObjects.roomBG
+                        .addChild(createTextObj("33", CreateObjects.White, new Vector3d(-3.9, 2.3, -13.73)));
                 CreateObjects.roomBG.addChild(createTextObj("76", CreateObjects.White, new Vector3d(6.1, 2.3, -13.73)));
                 Sounds.playSound(Sounds.successSound);
             }
