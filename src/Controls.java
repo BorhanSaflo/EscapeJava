@@ -35,6 +35,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private boolean up = false;
     private boolean down = false;
     private boolean right = false;
+
+    private boolean dialFocused = false;
+    private double[] tempCoords = new double[6];
+
     private Robot robot = null;
     private static final double ROTATION_FACTOR = 0.2;
     private static final double Y_FACTOR = 1.5;
@@ -81,6 +85,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void move(int xAxis, int zAxis) {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying()) {
             return;
         }
@@ -116,6 +123,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void crouch() {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying())
             return;
 
@@ -125,6 +135,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void uncrouch() {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying())
             return;
 
@@ -134,6 +147,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void turn(boolean verticalAxis, int magnitude) {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying()) {
             return;
         }
@@ -224,6 +240,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case '#':
                 pickup((TransformGroup) clickTG);
                 break;
+            case '*':
+                dialFocus();
         }
 
         // System.out.println(clickTG.getName()); // For debug purposes
@@ -253,6 +271,39 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             GameCanvas.setCursorColor(Color.WHITE);
 
         // System.out.println(clickTG.getName()); // For debug purposes
+    }
+
+    private void dialFocus(){
+        tempCoords[0] = camera.x;
+        tempCoords[1] = camera.y;
+        tempCoords[2] = camera.z;
+        tempCoords[3] = centerPoint.x;
+        tempCoords[4] = centerPoint.y;
+        tempCoords[5] = centerPoint.z;
+
+        camera.x = 0.14738;
+        camera.y = -0.32;
+        camera.z = 4.94815;
+
+        centerPoint.x = 0.84454;
+        centerPoint.y = -0.34447;
+        centerPoint.z = 4.23124;
+
+        escapeRoom.updateViewer();
+        dialFocused = true;
+    }
+
+    private void dialUnfocus(){
+        camera.x = tempCoords[0];
+        camera.y = tempCoords[1];
+        camera.z = tempCoords[2];
+        centerPoint.x = tempCoords[3];
+        centerPoint.y = tempCoords[4];
+        centerPoint.z = tempCoords[5];
+
+        escapeRoom.updateViewer();
+        updateFocus();
+        dialFocused = false;
     }
 
     private void focus(TransformGroup focusTG) {
@@ -330,6 +381,12 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
         }
 
+        if(dialFocused){
+            CreateObjects.lockPuzzle.rotateDial(-2*Math.PI * dx/canvas.getWidth());
+            resetMouse();
+            return;
+        }
+
         double normalizedY = dy / (canvas.getHeight() / 2.0);
         double yFactor = Math.sin(normalizedY * Math.PI / 2.0) * Y_FACTOR;
         direction += dx * ROTATION_FACTOR;
@@ -357,99 +414,54 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             // Movement
-            case KeyEvent.VK_A:
-                left = true;
-                break;
-            case KeyEvent.VK_D:
-                right = true;
-                break;
-            case KeyEvent.VK_W:
-                up = true;
-                break;
-            case KeyEvent.VK_S:
-                down = true;
-                break;
-            case KeyEvent.VK_E:
-                switch(EscapeRoom.gameState){
-                    case FOCUSED:
-                    case PICKUP:
-                        unfocus(focusedGroup);
-                        break;
-                    case PLAYING:
-                        pickObject();
-                        break;
-                    default:
-                        break;
+            case KeyEvent.VK_A -> left = true;
+            case KeyEvent.VK_D -> right = true;
+            case KeyEvent.VK_W -> up = true;
+            case KeyEvent.VK_S -> down = true;
+            case KeyEvent.VK_E -> {
+                if (dialFocused) {
+                    CreateObjects.lockPuzzle.tryUnlock();
+                    break;
                 }
-                break;
-            case KeyEvent.VK_L:
-                escapeRoom.toggleLights();
-                break;
-            case KeyEvent.VK_UP:
-                turn(true, 1);
-                break;
-            case KeyEvent.VK_DOWN:
-                turn(true, -1);
-                break;
-            case KeyEvent.VK_RIGHT:
-                turn(false, 1);
-                break;
-            case KeyEvent.VK_LEFT:
-                turn(false, -1);
-                break;
+                switch (EscapeRoom.gameState) {
+                    case FOCUSED, PICKUP -> unfocus(focusedGroup);
+                    case PLAYING -> pickObject();
+                }
+            }
+            case KeyEvent.VK_L -> escapeRoom.toggleLights();
+            case KeyEvent.VK_UP -> turn(true, 1);
+            case KeyEvent.VK_DOWN -> turn(true, -1);
+            case KeyEvent.VK_RIGHT -> turn(false, 1);
+            case KeyEvent.VK_LEFT -> turn(false, -1);
+            case KeyEvent.VK_U -> CreateObjects.lockPuzzle.tryUnlock();
+            case KeyEvent.VK_CONTROL -> crouch();
 
-            case KeyEvent.VK_U:
-                System.out.println(CreateObjects.lockPuzzle.tryUnlock()? "Unlocked!" : "Locked");
-                break;
-
-            case KeyEvent.VK_I:
-                CreateObjects.lockPuzzle.rotateDial(-Math.PI/30);
-                break;
-            case KeyEvent.VK_O:
-                CreateObjects.lockPuzzle.rotateDial(Math.PI/30);
-                break;
-
-            case KeyEvent.VK_CONTROL:
-                crouch();
-                break;
 
             // Pause
-            case KeyEvent.VK_P:
-            case KeyEvent.VK_ESCAPE:
+            case KeyEvent.VK_P, KeyEvent.VK_ESCAPE -> {
+                if(dialFocused) {
+                    dialUnfocus();
+                    break;
+                }
                 if (EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
                     unfocus(focusedGroup);
                 else
                     escapeRoom.togglePause();
-                break;
+            }
 
             // temporary
-            case KeyEvent.VK_C:
-                camera.y -= 0.2;
-                break;
-            case KeyEvent.VK_SPACE:
-                camera.y += 0.2;
-                break;
-            case KeyEvent.VK_G:
-                camera.y += 0.2;
-                break;
+            case KeyEvent.VK_C -> camera.y -= 0.2;
+            case KeyEvent.VK_SPACE -> camera.y += 0.2;
+            case KeyEvent.VK_G -> camera.y += 0.2;
+
 
             // Numbers
-            case KeyEvent.VK_1:
-            case KeyEvent.VK_2:
-            case KeyEvent.VK_3:
-            case KeyEvent.VK_4:
-            case KeyEvent.VK_5:
-            case KeyEvent.VK_6:
-            case KeyEvent.VK_7:
-            case KeyEvent.VK_8:
-            case KeyEvent.VK_9:
-            case KeyEvent.VK_0:
+            case KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0 -> {
                 int digit = e.getKeyCode() - KeyEvent.VK_0;
                 ComputerPuzzle.addDigit(digit);
-                break;
-
-            default:
-                break;
+            }
+            default -> {
+            }
         }
 
     }
@@ -457,23 +469,13 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_A:
-                left = false;
-                break;
-            case KeyEvent.VK_D:
-                right = false;
-                break;
-            case KeyEvent.VK_W:
-                up = false;
-                break;
-            case KeyEvent.VK_S:
-                down = false;
-                break;
-            case KeyEvent.VK_CONTROL:
-                uncrouch();
-                break;
-            default:
-                break;
+            case KeyEvent.VK_A -> left = false;
+            case KeyEvent.VK_D -> right = false;
+            case KeyEvent.VK_W -> up = false;
+            case KeyEvent.VK_S -> down = false;
+            case KeyEvent.VK_CONTROL -> uncrouch();
+            default -> {
+            }
         }
     }
 

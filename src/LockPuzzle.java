@@ -14,9 +14,9 @@ public class LockPuzzle {
     public static boolean unlocked = false;
 
     public LockPuzzle(){
-        TransformGroup safeTG = CreateObjects.createLooseObject("!safe", new AxisAngle4d(), new Vector3d(0, 0, 0), 1);
-        TransformGroup safeDoorTG = CreateObjects.createLooseObject("!safe-door", new AxisAngle4d(), new Vector3d(-0.03, 0, 0.9), 0.83);
-        dialTG = CreateObjects.createLooseObject("+safe-dial", new AxisAngle4d(0, 0, 1, adjustmentAngle), dialTranslation, dialScale);
+        TransformGroup safeTG = CreateObjects.createLooseObject("*safe", new AxisAngle4d(), new Vector3d(0, 0, 0), 1);
+        TransformGroup safeDoorTG = CreateObjects.createLooseObject("*safe-door", new AxisAngle4d(), new Vector3d(-0.03, 0, 0.9), 0.83);
+        dialTG = CreateObjects.createLooseObject("*safe-dial", new AxisAngle4d(0, 0, 1, adjustmentAngle), dialTranslation, dialScale);
 
         Transform3D lockT3D = new Transform3D();
         lockT3D.rotY(-Math.PI/4);
@@ -95,14 +95,12 @@ public class LockPuzzle {
         if(section==lastSection)
             return;
 
-        System.out.println("Phase " + phase + " Section: " + section);
-
         if(section==(lastSection+1)%numSections) {          // if turned clockwise
 
             if(cw) {                                        // if continuing clockwise
                 n++;
 
-                if(n>=numSections*3){
+                if(n>=numSections){
                     phase = 1;
                     n = 1;
                 }
