@@ -16,7 +16,7 @@ public class CreateObjects {
                         "computer" };
         public static RotationInterpolator door1Rot, door2Rot;
         public static LockPuzzle lockPuzzle = new LockPuzzle();
-        private static BranchGroup roomBG = new BranchGroup();
+        public static BranchGroup roomBG = new BranchGroup();
 
         public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
         public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
@@ -33,6 +33,7 @@ public class CreateObjects {
                  * Prefixes:
                  * + Focusable (eg. clues, puzzles)
                  * ! Immovable (eg. room, windows)
+                 * 
                  * @ Interactable (eg. door, trash bin)
                  * # Equipable (eg. key, tool)
                  * 
@@ -87,7 +88,6 @@ public class CreateObjects {
                 roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
-
                 roomBG.addChild(lockPuzzle.positionObj());
 
                 // Window backgrounds
@@ -100,9 +100,8 @@ public class CreateObjects {
                 roomBG.addChild(Sounds.wrongSound);
                 roomBG.addChild(Sounds.successSound);
 
-
-                //extra
-                //roomBG.addChild(Collision());
+                // extra
+                // roomBG.addChild(Collision());
 
                 return roomBG;
         }
@@ -542,12 +541,12 @@ public class CreateObjects {
                 temp.setScale(0.05);
                 TransformGroup TG = new TransformGroup(temp);
                 TG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-                
+
                 Shape3D shape = new ColorCube();
                 CollisionDetection cd = new CollisionDetection(shape);
                 TG.addChild(cd);
                 TG.addChild(shape);
-                
+
                 BG.addChild(TG);
                 return BG;
         }
