@@ -93,8 +93,6 @@ public class LockPuzzle {
         if(section==lastSection)
             return;
 
-        System.out.println("Phase " + phase + " Section: " + section);
-
         if(section==(lastSection+1)%numSections) {          // if turned clockwise
 
             if(cw) {                                        // if continuing clockwise

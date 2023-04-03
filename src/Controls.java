@@ -85,6 +85,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void move(int xAxis, int zAxis) {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying()) {
             return;
         }
@@ -120,6 +123,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void crouch() {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying())
             return;
 
@@ -129,6 +135,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void uncrouch() {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying())
             return;
 
@@ -138,6 +147,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void turn(boolean verticalAxis, int magnitude) {
+        if(dialFocused)
+            return;
+
         if (!escapeRoom.isPlaying()) {
             return;
         }
@@ -441,8 +453,6 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                     dialUnfocus();
                     break;
                 }
-                System.out.println("Camera: " + camera);
-                System.out.println("Center: " + centerPoint);
                 if (EscapeRoom.gameState == EscapeRoom.GameState.FOCUSED)
                     unfocus(focusedGroup);
                 else
