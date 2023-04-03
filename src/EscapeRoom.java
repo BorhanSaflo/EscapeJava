@@ -148,7 +148,7 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public static void getCoords() {
-		System.out.println("Camera: " + camera.x + ", " + camera.y + ", " + camera.z);
+		//System.out.println("Camera: " + camera.x + ", " + camera.y + ", " + camera.z);
 	}
 
 	public static void main(String[] args) throws IOException {
