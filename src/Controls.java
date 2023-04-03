@@ -358,11 +358,11 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         if (LockPuzzle.unlocked && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
+            Sounds.playSound(Sounds.successSound);
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     CreateObjects.door1Rot.getAlpha().pause();
-                    Sounds.playSound(Sounds.successSound);
                     escapeRoom.endGame(true);
                 }
             }, 1200);
