@@ -357,24 +357,25 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         String name = clickTG.getName();
 
         if (LockPuzzle.unlocked && name.equals("@doorKnob1")) {
-            CreateObjects.door1Rot.getAlpha().setLoopCount(2);
             CreateObjects.door1Rot.getAlpha().resume();
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
+                    CreateObjects.door1Rot.getAlpha().pause();
+                    Sounds.playSound(Sounds.successSound);
                     escapeRoom.endGame(true);
                 }
-            }, 2000);
+            }, 1200);
         }
         if (LockPuzzle.unlocked == false && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
-            try {
-                Thread.sleep(1200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            CreateObjects.door1Rot.getAlpha().pause();
-            Sounds.playSound(Sounds.wrongSound);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    CreateObjects.door1Rot.getAlpha().pause();
+                    Sounds.playSound(Sounds.wrongSound);
+                }
+            }, 1200);
         }
 
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
