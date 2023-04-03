@@ -96,7 +96,7 @@ public class EscapeRoom extends JPanel {
 		if (gameState == GameState.PLAYING) {
 			gameState = GameState.PAUSED;
 			controls.setCursorVisible(frame, true);
-			getCoords();
+			//getCoords(); // for debugging
 		} else if (gameState == GameState.PAUSED) {
 			controls.resetMouse();
 			gameState = GameState.PLAYING;
@@ -141,6 +141,11 @@ public class EscapeRoom extends JPanel {
 		ptLight = new PointLight(new Color3f(0.5f, 0.5f, 0.5f), new Point3f(0, -5, 0), atn);
 		ptLight.setInfluencingBounds(hundredBS);
 		lightBG.addChild(ptLight);
+
+		ptLight = new PointLight(new Color3f(0.3f, 0.3f, 0.3f), new Point3f(0, 2, 7.5f), atn);
+		ptLight.setInfluencingBounds(hundredBS);
+		lightBG.addChild(ptLight);
+
 		lightsActive = true;
 
 		return lightBG;
@@ -165,8 +170,8 @@ public class EscapeRoom extends JPanel {
 	}
 
 	public static void getCoords() {
-		// System.out.println("Camera: " + camera.x + ", " + camera.y + ", " +
-		// camera.z);
+		 System.out.println("Camera: " + camera.x + ", " + camera.y + ", " +
+		 camera.z);
 	}
 
 	public static void main(String[] args) throws IOException {

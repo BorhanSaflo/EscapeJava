@@ -365,9 +365,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                     CreateObjects.door1Rot.getAlpha().pause();
                     escapeRoom.endGame(true);
                 }
-            }, 1200);
+            }, 900);
         }
-        if (LockPuzzle.unlocked == false && name.equals("@doorKnob1")) {
+        if (!LockPuzzle.unlocked && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
             new Timer().schedule(new TimerTask() {
                 @Override
@@ -375,7 +375,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
                     CreateObjects.door1Rot.getAlpha().pause();
                     Sounds.playSound(Sounds.wrongSound);
                 }
-            }, 1200);
+            }, 900);
         }
 
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))

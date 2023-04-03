@@ -57,11 +57,14 @@ public class CreateObjects {
                                 new Vector3d(-0.153, -0.045, 0.937), 0.18));
                 roomBG.addChild(createObject("!door2", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.21, -0.022, -0.347),
                                 0.36));
-                roomBG.addChild(createObject("@doorKnob2", new AxisAngle4d(0, 0, 0, 0),
+                roomBG.addChild(createObject("!doorKnob2", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.153, -0.045, -0.352), 0.36));
 
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.1, 0.04, -0.36), 0.344));
+
+                roomBG.addChild(createObject("!posterSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.34, 0.038, 0.32), 0.615));
+                roomBG.addChild(createObject("!faceSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.015, 0.105, -0.29), 0.4));
 
                 double z = -0.45;
                 for (int i = 0; i < 3; i++) {
@@ -412,7 +415,7 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 100, 0, 500, 100, 100, 500, 100, 100);
+                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 1200, 0, 400, 150, 50, 400, 150, 50);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
                         alpha.pause();
