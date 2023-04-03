@@ -27,44 +27,6 @@ public class LockPuzzle {
         lockTG.addChild(safeTG);
         lockTG.addChild(safeDoorTG);
         lockTG.addChild(dialTG);
-
-        /*
-        BranchGroup dialObjBG = (BranchGroup) CreateObjects.createObject("*dial", new AxisAngle4d(), new Vector3d(), 0.2).getChild(0);
-
-        BranchGroup objBG = (BranchGroup) CreateObjects.createObject("*lock", new AxisAngle4d(), new Vector3d(), 0.2).getChild(0);
-        Node bodyShape = objBG.getChild(0);
-        Node dialShape = dialObjBG.getChild(0);
-        Node shackleShape = objBG.getChild(2);
-
-        for(int i=0; i<3; i++)
-            objBG.removeChild(0);
-
-        dialObjBG.removeChild(0);
-
-        BranchGroup bodyBG = new BranchGroup();
-        BranchGroup dialBG = new BranchGroup();
-        BranchGroup shackleBG = new BranchGroup();
-
-        bodyBG.addChild(bodyShape);
-        dialBG.addChild(dialShape);
-        shackleBG.addChild(shackleShape);
-
-        dialTG = new TransformGroup();
-        dialTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        dialTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-        dialTG.addChild(dialBG);
-
-        Transform3D lockT3D = new Transform3D();
-        lockT3D.set(axis);
-        lockT3D.setTranslation(translation);
-        lockT3D.setScale(scale);
-
-        lockTG = new TransformGroup(lockT3D);
-        lockTG.addChild(bodyBG);
-        lockTG.addChild(dialTG);
-        lockTG.addChild(shackleBG);
-         */
-
     }
 
     public TransformGroup positionObj(){
