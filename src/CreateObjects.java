@@ -371,6 +371,9 @@ public class CreateObjects {
                 objTG.setName(name);
                 objTG.setUserData(transform);
 
+                if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
+                        objTG.setUserData((double) rotation.angle);
+                }
                 // Check if the object is one of the special chairs indicated by a digit at the
                 // end of the name
                 if (name.length() > 10 && name.substring(1, 11).equals("chair-high")
@@ -394,7 +397,8 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(2, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100, 100, 500, 100, 100);
+                        Alpha alpha = new Alpha(2, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100,
+                                        100, 500, 100, 100);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
                         door1Rot.getAlpha().pause();
@@ -533,16 +537,18 @@ public class CreateObjects {
                 return rot_beh;
         }
 
-        public static RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha, float rad) {
-		rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-		RotationInterpolator rot_beh = new RotationInterpolator(alpha, rotTG, axis, 0, (float)(Math.PI * rad));
-		rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
-		return rot_beh;
-	}
-    
-        public static PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha, float dist) {
+        public static RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha,
+                        float rad) {
+                rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                RotationInterpolator rot_beh = new RotationInterpolator(alpha, rotTG, axis, 0, (float) (Math.PI * rad));
+                rot_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
+                return rot_beh;
+        }
+
+        public static PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha,
+                        float dist) {
                 posTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-                PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist/2, dist/2);
+                PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist / 2, dist / 2);
                 pos_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
                 return pos_beh;
         }
