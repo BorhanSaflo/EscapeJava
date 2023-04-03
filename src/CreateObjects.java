@@ -90,6 +90,7 @@ public class CreateObjects {
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
                 roomBG.addChild(lockPuzzle.positionObj());
+                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
