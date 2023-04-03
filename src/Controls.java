@@ -8,6 +8,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
@@ -85,7 +87,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void move(int xAxis, int zAxis) {
-        if(dialFocused)
+        if (dialFocused)
             return;
 
         if (!escapeRoom.isPlaying()) {
@@ -123,7 +125,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void crouch() {
-        if(dialFocused)
+        if (dialFocused)
             return;
 
         if (!escapeRoom.isPlaying())
@@ -135,7 +137,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void uncrouch() {
-        if(dialFocused)
+        if (dialFocused)
             return;
 
         if (!escapeRoom.isPlaying())
@@ -147,7 +149,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void turn(boolean verticalAxis, int magnitude) {
-        if(dialFocused)
+        if (dialFocused)
             return;
 
         if (!escapeRoom.isPlaying()) {
@@ -256,8 +258,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (clickTG == null)
             return;
 
-        if(clickTG.getName() != null)
-            for (int i = 0; i < 7; i++) 
+        if (clickTG.getName() != null)
+            for (int i = 0; i < 7; i++)
                 if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
                     clickTG = (Link) pr.getNode(PickResult.LINK);
                     break;
@@ -265,7 +267,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         clickTG = (TransformGroup) clickTG.getParent();
 
-        if (clickTG.getName()==null || clickTG.getName().charAt(0) != '!')
+        if (clickTG.getName() == null || clickTG.getName().charAt(0) != '!')
             GameCanvas.setCursorColor(Color.YELLOW);
         else
             GameCanvas.setCursorColor(Color.WHITE);
@@ -273,7 +275,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         // System.out.println(clickTG.getName()); // For debug purposes
     }
 
-    private void dialFocus(){
+    private void dialFocus() {
         tempCoords[0] = camera.x;
         tempCoords[1] = camera.y;
         tempCoords[2] = camera.z;
@@ -293,7 +295,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         dialFocused = true;
     }
 
-    private void dialUnfocus(){
+    private void dialUnfocus() {
         camera.x = tempCoords[0];
         camera.y = tempCoords[1];
         camera.z = tempCoords[2];
@@ -354,9 +356,28 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private void interact(TransformGroup clickTG) {
         String name = clickTG.getName();
 
-        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) 
+        if (LockPuzzle.unlocked && name.equals("@doorKnob1")) {
             CreateObjects.door1Rot.getAlpha().resume();
-        
+            Sounds.playSound(Sounds.successSound);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    CreateObjects.door1Rot.getAlpha().pause();
+                    escapeRoom.endGame(true);
+                }
+            }, 1200);
+        }
+        if (LockPuzzle.unlocked == false && name.equals("@doorKnob1")) {
+            CreateObjects.door1Rot.getAlpha().resume();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    CreateObjects.door1Rot.getAlpha().pause();
+                    Sounds.playSound(Sounds.wrongSound);
+                }
+            }, 1200);
+        }
+
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
             ChairsPuzzle.rotateChair(clickTG);
     }
@@ -381,8 +402,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
         }
 
-        if(dialFocused){
-            CreateObjects.lockPuzzle.rotateDial(-2*Math.PI * dx/canvas.getWidth());
+        if (dialFocused) {
+            CreateObjects.lockPuzzle.rotateDial(-2 * Math.PI * dx / canvas.getWidth());
             resetMouse();
             return;
         }
@@ -436,10 +457,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_U -> CreateObjects.lockPuzzle.tryUnlock();
             case KeyEvent.VK_CONTROL -> crouch();
 
-
             // Pause
             case KeyEvent.VK_P, KeyEvent.VK_ESCAPE -> {
-                if(dialFocused) {
+                if (dialFocused) {
                     dialUnfocus();
                     break;
                 }
@@ -454,9 +474,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_SPACE -> camera.y += 0.2;
             case KeyEvent.VK_G -> camera.y += 0.2;
 
-
             // Numbers
-            case KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6, KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0 -> {
+            case KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6,
+                    KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0 -> {
                 int digit = e.getKeyCode() - KeyEvent.VK_0;
                 ComputerPuzzle.addDigit(digit);
             }

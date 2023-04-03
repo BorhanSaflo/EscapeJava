@@ -25,10 +25,12 @@ public class CreateObjects {
         public final static Color3f Green = new Color3f(0.0f, 0.8f, 0.0f);
         public final static Color3f Blue = new Color3f(0.0f, 0.0f, 0.8f);
         public final static Color3f Yellow = new Color3f(0.8f, 0.8f, 0.0f);
+        public static BranchGroup clues = new BranchGroup();
 
         public static BranchGroup room() {
+                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
                 createSG();
-
                 /*
                  * Prefixes:
                  * + Focusable (eg. clues, puzzles)
@@ -85,11 +87,11 @@ public class CreateObjects {
                 roomBG.addChild(lowStuff(0, 0, 0));
 
                 // puzzles
-                roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
                 roomBG.addChild(new ComputerPuzzle().positionTextObj());
                 roomBG.addChild(computerPuzzleClues());
                 roomBG.addChild(lockPuzzle.positionObj());
-                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
+                // roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new
+                // Vector3d(0.06, -0.054, 0.45), 0.01));
 
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
@@ -119,6 +121,16 @@ public class CreateObjects {
                                 new Vector3d(-0.4065, 0.08025, -0.2), 0.00025f, 0.155f, 0.245f, 0.2f,
                                 LoadObject.obj_Appearance(Blue)));
                 roomBG.addChild(tvClues);
+
+                clues.setCapability(BranchGroup.ALLOW_DETACH);
+                BranchGroup clue1 = ChairsPuzzle.createTextObj("NE", White, new Vector3d(-14, 2.3, -13.73));
+                BranchGroup clue2 = ChairsPuzzle.createTextObj("NW", White, new Vector3d(-4.1, 2.3, -13.73));
+                BranchGroup clue3 = ChairsPuzzle.createTextObj("SE", CreateObjects.White,
+                                new Vector3d(6, 2.3, -13.73));
+                clues.addChild(clue1);
+                clues.addChild(clue2);
+                clues.addChild(clue3);
+                roomBG.addChild(clues);
         }
 
         public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
@@ -370,11 +382,13 @@ public class CreateObjects {
                 TransformGroup objTG = new TransformGroup(transform);
                 objTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 objTG.setName(name);
-                objTG.setUserData(transform);
 
                 if (name.length() > 10 && name.substring(1, 11).equals("chair-high")) {
                         objTG.setUserData((double) rotation.angle);
+                } else {
+                        objTG.setUserData(transform);
                 }
+
                 // Check if the object is one of the special chairs indicated by a digit at the
                 // end of the name
                 if (name.length() > 10 && name.substring(1, 11).equals("chair-high")
@@ -398,11 +412,10 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(2, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 2000, 0, 500, 100,
-                                        100, 500, 100, 100);
+                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 100, 0, 500, 100, 100, 500, 100, 100);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
-                        door1Rot.getAlpha().pause();
+                        alpha.pause();
 
                         return RG;
                 }
