@@ -3,35 +3,41 @@ import org.jogamp.vecmath.AxisAngle4d;
 import org.jogamp.vecmath.Vector3d;
 
 public class LockPuzzle {
-    private int numSections = 12, lastSection=0, n=0, phase = 0, combination[] = {5, 3, 7};
+    private int numSections = 10, lastSection=0, n=0, phase = 0, combination[] = {5, 3, 7};
+    private double adjustmentAngle = 104*(Math.PI/180);
     private boolean cw = true, unlocked = false;
-    private AxisAngle4d axis = new AxisAngle4d(1, 0, 0, Math.PI/2);
-    private Vector3d translation = new Vector3d(0, 0, 0);
-    private double scale = 0.05;
+    private Vector3d dialTranslation = new Vector3d(-0.048, 0.3, 1.06);
+    private double dialScale = 0.245;
     private TransformGroup lockTG, dialTG;
     private double dialAng = 0;
 
     public LockPuzzle(){
-        /*
-        bodyTG = CreateObjects.createObject("*lock-body", new AxisAngle4d(), new Vector3d(x, y, z), 0.2);
-        dialTG = CreateObjects.createObject("*lock-dial", new AxisAngle4d(), new Vector3d(x, y, z), 0.2);
-        shackleTG = CreateObjects.createObject("*lock-shackle", new AxisAngle4d(), new Vector3d(x, y, z), 0.2);
+        TransformGroup safeTG = CreateObjects.createLooseObject("!safe", new AxisAngle4d(), new Vector3d(0, 0, 0), 1);
+        TransformGroup safeDoorTG = CreateObjects.createLooseObject("!safe-door", new AxisAngle4d(), new Vector3d(-0.03, 0, 0.9), 0.83);
+        dialTG = CreateObjects.createLooseObject("+safe-dial", new AxisAngle4d(0, 0, 1, adjustmentAngle), dialTranslation, dialScale);
 
-        lockTG = new TransformGroup();
-        lockTG.addChild(bodyTG);
+        Transform3D lockT3D = new Transform3D();
+        lockT3D.rotY(-Math.PI/4);
+        lockT3D.setScale(0.02);
+        lockT3D.setTranslation(new Vector3d(0.06, -0.038, 0.45));
+
+        lockTG = new TransformGroup(lockT3D);
+        lockTG.addChild(safeTG);
+        lockTG.addChild(safeDoorTG);
         lockTG.addChild(dialTG);
-        lockTG.addChild(shackleTG);
 
-         */
-
+        /*
+        BranchGroup dialObjBG = (BranchGroup) CreateObjects.createObject("*dial", new AxisAngle4d(), new Vector3d(), 0.2).getChild(0);
 
         BranchGroup objBG = (BranchGroup) CreateObjects.createObject("*lock", new AxisAngle4d(), new Vector3d(), 0.2).getChild(0);
         Node bodyShape = objBG.getChild(0);
-        Node dialShape = objBG.getChild(1);
+        Node dialShape = dialObjBG.getChild(0);
         Node shackleShape = objBG.getChild(2);
 
         for(int i=0; i<3; i++)
             objBG.removeChild(0);
+
+        dialObjBG.removeChild(0);
 
         BranchGroup bodyBG = new BranchGroup();
         BranchGroup dialBG = new BranchGroup();
@@ -55,6 +61,7 @@ public class LockPuzzle {
         lockTG.addChild(bodyBG);
         lockTG.addChild(dialTG);
         lockTG.addChild(shackleBG);
+         */
 
     }
 
@@ -70,17 +77,12 @@ public class LockPuzzle {
         else if(dialAng<0)
             dialAng += 2*Math.PI;
 
-        Transform3D t1 = new Transform3D(), t2 = new Transform3D(), t3 = new Transform3D();
-        t1.setTranslation(new Vector3d(0, 0, -0.393));
-        t2.rotY(dialAng);
-        t3.setTranslation(new Vector3d(0, 0, 0.393));
+        Transform3D t3d = new Transform3D();
+        t3d.set(new AxisAngle4d(0, 0, 1, dialAng+adjustmentAngle));
+        t3d.setScale(dialScale);
+        t3d.setTranslation(dialTranslation);
 
-        Transform3D all = new Transform3D();
-        all.mul(t1, all);
-        all.mul(t2, all);
-        all.mul(t3, all);
-
-        dialTG.setTransform(all);
+        dialTG.setTransform(t3d);
 
         updateLogic();
     }
@@ -151,6 +153,11 @@ public class LockPuzzle {
         if(phase==3 && lastSection==combination[2] && n<numSections){
             unlocked = true;
         }
+
+        if(unlocked)
+            Sounds.playSound(Sounds.successSound);
+        else
+            Sounds.playSound(Sounds.wrongSound);
 
         return unlocked;
     }
