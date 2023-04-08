@@ -66,9 +66,28 @@ At the start of each sprint, we dedicated a meeting to identifying and assigning
 
 To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. 
 
+
+
+We used the INVEST criteria to create well defined tasks and Product Backlog Items (PBIs) that met the following criteria:
+- **Independent:** The PBI is self-contained and is not reliant on other PBIs.
+- **Negotiable:** The PBI is not an explicit contract and leaves space for discussion. The 'What' and 'Why' of the task is described, but not the 'How'.
+- **Valuable:** The PBI must deliver value to the stakeholders.
+- **Estimable:** The size of the PBI must be estimable to become part of the iteration. If it is not estimable, it should be split.
+- **Small:** The PBI is not too big such that it is impossible to plan and prioritize with a level of accuracy, small enough to complete in a Sprint.
+- **Testable:** The PBI's description provides the necessary information for development testing. Acceptance criterion can be written immediately.
+
 ### **2.3 Planning and Carrying out the Sprint**
 
-Our sprints were a week long, our first one starting the week after reading week. Our first sprint was heavily focused on the research and requirements gathering portion of the project and spread out evenly among all team members. Borhan, our Scrum master, continuously and regularly monitored the sprints to ensure we were on track, adjusting tasks and our capacities as needed. By default, our sprints were set for only weekdays. We recognized later that this was not representative of our work done, as a lot of us used our weekends to work on the project.
+Our sprints were a week long, our first one starting the week after reading week. Our first sprint was heavily focused on the research and requirements gathering portion of the project and spread out evenly among all team members. Borhan, our Scrum master, continuously and regularly monitored the sprints to ensure we were on track, adjusting tasks and our capacities as needed. By default, our sprints were set for only weekdays. We recognized later that this was not representative of our work done, as a lot of us used our weekends to work on the project. We ended up having 4 complete sprint cycles.
+
+We carried out the Sprints on the basis of the the three roles in Scrum: Scrum Master (Borhan), Product Owner (XY), and Development Team (all). Borhan was in charge of ensuring that our board was on track, our requirements were given by XY, and everyone on our team implemented the feautres as the development team.
+
+![burndownchart1.jpg](burndownchart1.jpg)
+![burndownchart2.jpg](burndownchart2.jpg)
+![burndownchart3.jpg](burndownchart3.jpg)
+![burndownchart4.jpg](burndownchart4.jpg)
+
+The above are screenshots from our burndown charts for each sprint. As you can tell in the first screenshot, our understanding of implementing the Agile methodology through Scrum practices was still developing. We did not add our capacity and added tasks mid-sprint without an accurate estimate of the time they would take to complete. By the last burndown chart, we were more comfortable with Scrum and the slope of the graph began to decline. It's worth mentioning that there were a few instances where we had unfinished tasks at the end of our sprint. This was because there were a lot of added features we wished to implement but couldn't because we didn't have the time to. 
 
 ### **2.4 Team management**
 
@@ -84,13 +103,6 @@ To manage our team effectively, we made sure to enforce clear roles and responsi
 - also help
 
 ### **3.3 Techniques of implementation**
-- test-driven development
-- abstratction
-- encapsulation
-- inheritance
-- polymorphisom
-- design patterns
-- this is all bs
 
 We used abstraction to simplify the design of our game and make it more manageable. This helped us create simple and reusable objects that could be easily integrated into the game, including the chairs and tables that were regularly repeated around the room. We also used polymorphism to create objects that could behave differently based on their context. This enabled us to create a more dynamic and flexible game with objects that could adapt to different situations, including the clues that the user was able to interact with.
 
