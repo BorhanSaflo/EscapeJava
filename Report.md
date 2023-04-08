@@ -64,9 +64,12 @@ Then, we started to implement puzzles and clues around the room to increase the 
 
 At the start of each sprint, we dedicated a meeting to identifying and assigning the tasks of the upcoming week to everyone on our team. We made a list of the tasks we aimed to complete based on the above use cases and assigned them based on everyone's capacity for that week and their projected availability. Due to the intertwined nature of a lot of our features, each backlog item had a set of tasks associated with it. Typically, we aimed to assign specific items to someone that was skilled or interested in that task. 
 
-To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. 
+To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. Here are a few screenshots to show some of the tasks and backlog items we created.
 
-
+![ADOss1.jpg](ADOss1.jpg)
+![ADOss2.jpg](ADOss2.jpg)
+![ADOss3.jpg](ADOss3.jpg)
+![ADOss4.jpg](ADOss4.jpg)
 
 We used the INVEST criteria to create well defined tasks and Product Backlog Items (PBIs) that met the following criteria:
 - **Independent:** The PBI is self-contained and is not reliant on other PBIs.
@@ -97,14 +100,31 @@ To manage our team effectively, we made sure to enforce clear roles and responsi
 
 ## **3. (Object-Oriented) Software Development**
 ### **3.1 Identification of classes**
-- idk help
+We have the following classes for our project:
+- **ChairsPuzzle**: contains the logic for the rotating chairs puzzle.
+- **CollisionDetection**: handles and detects any collision during user navigation and interaction.
+- **ComputerPuzzle**: contains the logic for the passcode puzzle on the computer.
+- **Controls**: handles the details of the user navigation and their ability to interact with the virtual space.
+- **CreateObjects**: creates and renders all the objects that appear in the room.
+- **EscapeRoom**: launches the virtual escape room experience.
+- **GameCanvas**: creates the canvas for the game.
+- **LoadObject**: loads each object from its corresponding 3D model.
+- **LockPuzzle**: contains the logic for the lock combination puzzle on the safe.
+- **MTLFile**: parses material files to add textures.
+- **Sounds**: incorporates both background music and sound effects to the game.
+- **StartScreen**: loads the start screen at the beginning of the game.
+- **WinScreen**: displays a success message at the end of the game upon escape.
 
 ### **3.2 Software design with class diagram(s)**
-- also help
+- help
 
 ### **3.3 Techniques of implementation**
 
 We used abstraction to simplify the design of our game and make it more manageable. This helped us create simple and reusable objects that could be easily integrated into the game, including the chairs and tables that were regularly repeated around the room. We also used polymorphism to create objects that could behave differently based on their context. This enabled us to create a more dynamic and flexible game with objects that could adapt to different situations, including the clues that the user was able to interact with.
+
+We used polymorphism to create objects that take on multiple forms, especially to create visual differences (size, height, texture) between them. This was extremely useful and effective when creating multiple objects that were very similar but shared slight differences. This was used to create the colored cubes around the room and the furniture that was positioned.
+
+In hindsight, there were a lot more object-oriented software development practices and design patterns we could have incorporated and implemented into our project. Encapsulation would have been helpful to hide the internal details of an object to only expose the public interface to others, like the clues that were hidden around the room. Inheritance could have been implemented for the creation of each puzzle, since they shared a lot of the same characteristics and had the same user interaction. 
 
 ### **3.4 Software testing and operation**
 
@@ -122,10 +142,16 @@ Throughout our testing process, the most important thing was to regularly monito
 
 ## **4. Discussions and Recommendations**
 ### **4.1 Discussions about the team projects**
-- we're bestestest of friends now
+
+The team project was a testament to our ability to work in a group to accomplish a common goal. The skills we learned by working on a team are skills that we can later directly apply to our jobs in the tech industry, especially as software engineers. Alone, we would not have been able to complete the project within the given time frame. It was only by working as a team that we were able to pool our resources, skills, and shared experiences to come up with an impressive result.
+
+Within our own team, we had many discussions and open conversations. We discussed the scope of the project to clearly define the boundaries we would work within. Wee discussed how to approach the logic of each puzzle as we implemented it, and even discussed how we should manage ourselves using Scrum. The Scrum framework was crucial in ensuring that we were getting work done in an efficient and effective manner, and it was a visual representation of our progress as we approached our ddeadlines.
+
 ### **4.2 Recommendations for better practices**
-- starting earlier
-- clear set roles
+
+If we were to do this group project again, we probably would have started earlier. Although we were instructed to start after reading week, it would have been beneficial to get a head start on these process and the understanding of Scrum and the Agile methodology beforehand.
+
+It would have also helped us to clearly define our roles at the beginning of the project. We started to identify roles as tasks came up to be able to accurately identify everyone's strengths and weaknesses, but it may have saved us some time and conflict to clearly define them earlier.
 
 ## **Appendix A: List of Use Cases and Tasks with Brief Descriptions**
 
