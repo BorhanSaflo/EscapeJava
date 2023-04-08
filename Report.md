@@ -153,23 +153,135 @@ If we were to do this group project again, we probably would have started earlie
 
 It would have also helped us to clearly define our roles at the beginning of the project. We started to identify roles as tasks came up to be able to accurately identify everyone's strengths and weaknesses, but it may have saved us some time and conflict to clearly define them earlier.
 
-## **Appendix A: List of Use Cases and Tasks with Brief Descriptions**
+## **Appendix A: Feature Descriptions**
 
-- uhhh
+- F1: Java Lounge Model
+- F2: Pick up objects
+- F3: Focus on objects
+- F4: Computer Puzzle
+- F5: Chair Puzzle
+- F6: Lock Puzzle
+- F7: Computer Puzzle Clues
+- F8: Chair Puzzle Clues
+- F9: Lock Puzzle Clubes
+- F10: Background sounds
+- F11: Room lights
+- F12: Navigating the room
+
+| | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Background | X | | | | | | | | | | | X
+| Sound(s) | | | | X | X | X | | | | X | | X
+| Light(s) |  | | | | | | | | | | X | X
+| 3D objects (texture mapping) | X | | | | X | X | | | | | |
+| 3D objects (shape changes) | X | | | | | | | | | | |
+| Animation (pre-defined) | X | X | | | | | | | | | | 
+| Self-defined behaviour | | | | X | X | X | | | | | | X
+| Collision detection | X | X | | X | X | X | X | | | | | X
+| Mouse picking | | X | | X | X |  | X | X | X | | |
+| LOD | | X | X | | | X | | | | | | X
+| Navigation | X | | | X | X | | X | X | X | | | X 
+| Multi-view | | X | X | | X | | X | X | X | | | X
+
 
 ## **Appendix B: Contribution Table**
 
 | Backlog Item Title | Task Title | Borhan | Laila | Tanzim | Ryan | Yousef |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Backlog_Item_Title1  | task_title11  | x  |
-|   | task_title12  | x  |
-
-
+| Cross Hair | Cross Hair  | | | | | |
+| Game States | Game States | | | | | |
+| | Paused Screen | | | | | |
+| | Start Screen | | | | | |
+| Model Room | Model Couches | | | | | |
+| | Model Computer Chairs | | | | | |
+| | Model High Tables | | | | | |
+| | Model High Chairs | | | | | |
+| | Model Middle Tables | | | | | |
+| | Model Middle Chairs | | | | | |
+| | Model Recycling Bins | | | | | |
+| | Model Trash Bin | | | | | |
+| | Model Clock | | | | | |
+| | Model Window | | | | | |
+| | Model Computer | | | | | |
+| | Model Computer Desks | | | | | |
+| | Model TVs | | | | | |
+| | Model Whiteboard | | | | | |
+| | Model Door | | | | | |
+| | Model Ottoman | | | | | |
+| | Model Lights | | | | | |
+| | Model Fan | | | | | |
+| Positioning Objects | Positioning Couch | 
+| | Positioning High Chairs | | | | | |
+| | Positioning Low Chairs | | | | | |
+| | Positioning Low Tables | | | | | |
+| | Positioning Middle Chairs | | | | | |
+| | Positioning Middle Tables | | | | | |
+| | Positioning Safe | | | | | |
+| Model Textures | Wooden Texture | | | | | |
+| | Floor Texture | | | | | |
+| | Wall Texture | | | | | |
+| | Couch Texture | | | | | |
+| | Ceiling Texture | | | | | |
+| Collision Detection | Develop Collision Detection | | | | | |
+| | Implement Wall Collision | | | | | |
+| | Test Collision Detection | | | | | |
+| Camera Movement | Develop Keyboard Movement | | | | | |
+| | Develop Mouse Movement | | | | | |
+| | Test Mouse Movement | | | | | |
+| Object Interaction | Focus Object | | | | | |
+| | Unfocus Object | | | | | |
+| | Object Highlighting | | | | | |
+| Refactor Code | Create SharedGroups | | | | | |
+| | Optimize object rendering | | | | | |
+| Sounds | Background Music | | | | | |
+| | Success Sound Effect | | | | | |
+| | Failure Sound Effect | | | | | |
+| Computer Puzzle | Design User Interface | | | | | |
+| | Implement Numpad Logic | | | | | |
+| | Hide Clues | | | | | |
+| | Display Numbers | | | | | |
+| | Reset Numbers For Wrong Passcode | | | | | |
+| | Incoroporate Sound To Interaction | | | | | |
+| Animations | Door Knob | | | | | |
+| | Door | | | | | |
+| | Chair | | | | | |
+| | Safe | | | | | |
 
 ## **Appendix C: Participation Table**
+
+*Note: all durations are in minutes.*
+
 | Meeting Date | Duration | Borhan | Laila | Tanzim | Ryan | Yousef |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| date1 | t1 | x
-| date2 | t2 | x
-| **Total** | x | x
+| 27.Feb.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 01.Mar.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 02.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 03.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 06.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 07.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 08.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 09.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 10.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 11.Mar.2023 | 45 | 45 | 45 | 45 | 45 | 45 |
+| 13.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 14.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 15.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 16.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 21.Mar.2034 | 45 | 45 | 45 | 45 | 45 | 45 |
+| 22.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 23.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 24.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 25.Mar.2023 | 60 | 60 | 60 | 60 | 60 | 60 |
+| 26.Mar.2023 | 120 | 120 | 120 | 120 | 120 | 120 |
+| 27.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 28.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 29.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 01.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 02.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 03.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 04.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 05.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 08.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| **Total** | 690 | 690 | 690 | 690 | 690 | 690 |
+
 
