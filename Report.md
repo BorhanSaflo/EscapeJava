@@ -242,6 +242,14 @@ It would have also helped us to clearly define our roles at the beginning of the
 | | Display Numbers | | | | | |
 | | Reset Numbers For Wrong Passcode | | | | | |
 | | Incoroporate Sound To Interaction | | | | | |
+| Chairs Puzzle | Make Chairs Interactable | | | | | |
+| | Rotate Chair | | | | | |
+| | Add TV Clues | | | | | |
+| | Add Colored Chairs | | | | | |
+| | Implement Puzzle Logic | | | | | |
+| Lock Puzzle | Implement Combination Logic | | | | | |
+| | Open Safe | | | | | |
+| | Add Key | | | | | |
 | Animations | Door Knob | | | | | |
 | | Door | | | | | |
 | | Chair | | | | | |
