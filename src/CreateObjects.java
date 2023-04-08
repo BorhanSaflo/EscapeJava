@@ -7,27 +7,32 @@ import org.jogamp.vecmath.Vector3d;
 import org.jogamp.java3d.utils.geometry.Box;
 import org.jogamp.java3d.utils.image.TextureLoader;
 
-import org.jogamp.java3d.utils.geometry.ColorCube; //collision detection testing
-
 public class CreateObjects {
-        private static SharedGroup[] roomSG = new SharedGroup[7];
-        public static String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high",
+        private SharedGroup[] roomSG = new SharedGroup[7];
+        public String[] SGObjects = { "middlechair", "middletable", "couch", "highTable", "chair-high",
                         "chair-low",
                         "computer" };
-        public static RotationInterpolator door1Rot;
-        public static LockPuzzle lockPuzzle = new LockPuzzle();
-        public static BranchGroup roomBG = new BranchGroup();
+        public RotationInterpolator door1Rot;
+        private ComputerPuzzle computerPuzzle;
+        private LockPuzzle lockPuzzle;
+        private ChairsPuzzle chairsPuzzle;
+        public BranchGroup roomBG = new BranchGroup();
+        public final Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
+        public final Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
+        public final Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
+        public final Color3f Red = new Color3f(0.8f, 0.0f, 0.0f);
+        public final Color3f Green = new Color3f(0.0f, 0.8f, 0.0f);
+        public final Color3f Blue = new Color3f(0.0f, 0.0f, 0.8f);
+        public final Color3f Yellow = new Color3f(0.8f, 0.8f, 0.0f);
+        public BranchGroup clues = new BranchGroup();
 
-        public final static Color3f White = new Color3f(1.0f, 1.0f, 1.0f);
-        public final static Color3f Grey = new Color3f(0.35f, 0.35f, 0.35f);
-        public final static Color3f Black = new Color3f(0.0f, 0.0f, 0.0f);
-        public final static Color3f Red = new Color3f(0.8f, 0.0f, 0.0f);
-        public final static Color3f Green = new Color3f(0.0f, 0.8f, 0.0f);
-        public final static Color3f Blue = new Color3f(0.0f, 0.0f, 0.8f);
-        public final static Color3f Yellow = new Color3f(0.8f, 0.8f, 0.0f);
-        public static BranchGroup clues = new BranchGroup();
+        public CreateObjects(ComputerPuzzle computerPuzzle, ChairsPuzzle chairsPuzzle, LockPuzzle lockPuzzle) {
+                this.computerPuzzle = computerPuzzle;
+                this.chairsPuzzle = chairsPuzzle;
+                this.lockPuzzle = lockPuzzle;
+        }
 
-        public static BranchGroup room() {
+        public BranchGroup room() {
                 roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
                 roomBG.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
                 createSG();
@@ -62,10 +67,13 @@ public class CreateObjects {
 
                 roomBG.addChild(createObject("!whiteboard", new AxisAngle4d(0, 0, 0, 0),
                                 new Vector3d(-0.1, 0.04, -0.36), 0.344));
-                roomBG.addChild(createObject("!compass", new AxisAngle4d(0, 1, 0, Math.PI/6.0), new Vector3d(0.05, -0.057, 0.1), 0.01));
+                roomBG.addChild(createObject("!compass", new AxisAngle4d(0, 1, 0, Math.PI / 6.0),
+                                new Vector3d(0.05, -0.057, 0.1), 0.01));
 
-                roomBG.addChild(createObject("!posterSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.34, 0.038, 0.32), 0.615));
-                roomBG.addChild(createObject("!faceSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.015, 0.105, -0.29), 0.4));
+                roomBG.addChild(createObject("!posterSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.34, 0.038, 0.32),
+                                0.615));
+                roomBG.addChild(createObject("!faceSet", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.015, 0.105, -0.29),
+                                0.4));
 
                 double z = -0.45;
                 for (int i = 0; i < 3; i++) {
@@ -90,12 +98,6 @@ public class CreateObjects {
                 roomBG.addChild(middleStuff(-0.1, 0, 0));
                 roomBG.addChild(lowStuff(0, 0, 0));
 
-                // puzzles
-                roomBG.addChild(new ComputerPuzzle().positionTextObj());
-                roomBG.addChild(computerPuzzleClues());
-                roomBG.addChild(lockPuzzle.positionObj());
-                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45), 0.01));
-
                 // Window backgrounds
                 roomBG.addChild(windowBackground("!WindowBackground", 0.01f, 0.85f, 6.5f, 0.8f, -0.025f, 0.2f));
                 roomBG.addChild(windowBackground("!WindowBackground2", 3.8f, 0.85f, 0.01f, 0f, -0.025f, -1f));
@@ -106,13 +108,17 @@ public class CreateObjects {
                 roomBG.addChild(Sounds.wrongSound);
                 roomBG.addChild(Sounds.successSound);
 
-                // extra
-                // roomBG.addChild(Collision());
+                // puzzles
+                roomBG.addChild(computerPuzzle.positionTextObj());
+                roomBG.addChild(computerPuzzleClues());
+                roomBG.addChild(lockPuzzle.positionObj());
+                roomBG.addChild(createObject("#key", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.06, -0.054, 0.45),
+                                0.01));
 
                 return roomBG;
         }
 
-        public static void createTVClues() {
+        public void createTVClues() {
                 BranchGroup tvClues = new BranchGroup();
                 tvClues.addChild(createBox("!greenTV", new AxisAngle4d(),
                                 new Vector3d(-0.4065, 0.08025, 0.1), 0.00025f, 0.155f, 0.245f, 0.2f,
@@ -126,9 +132,9 @@ public class CreateObjects {
                 roomBG.addChild(tvClues);
 
                 clues.setCapability(BranchGroup.ALLOW_DETACH);
-                BranchGroup clue1 = ChairsPuzzle.createTextObj("SW", White, new Vector3d(-14, 2.3, -13.73));
-                BranchGroup clue2 = ChairsPuzzle.createTextObj("SE", White, new Vector3d(-4.1, 2.3, -13.73));
-                BranchGroup clue3 = ChairsPuzzle.createTextObj("NW", CreateObjects.White,
+                BranchGroup clue1 = chairsPuzzle.createTextObj("SW", White, new Vector3d(-14, 2.3, -13.73));
+                BranchGroup clue2 = chairsPuzzle.createTextObj("SE", White, new Vector3d(-4.1, 2.3, -13.73));
+                BranchGroup clue3 = chairsPuzzle.createTextObj("NW", White,
                                 new Vector3d(6, 2.3, -13.73));
                 clues.addChild(clue1);
                 clues.addChild(clue2);
@@ -136,7 +142,7 @@ public class CreateObjects {
                 roomBG.addChild(clues);
         }
 
-        public static TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
+        public TransformGroup windowBackground(String fileName, float width, float height, float depth, float x,
                         float y, float z) {
                 TextureLoader loader = new TextureLoader("objects/images/" + fileName.substring(1) + ".jpg", null);
                 ImageComponent2D image = loader.getImage();
@@ -165,7 +171,7 @@ public class CreateObjects {
                 return backgroundTG;
         }
 
-        public static BranchGroup couches(double x, double y, double z) {
+        public BranchGroup couches(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("!couch", new AxisAngle4d(0, -1, 0, Math.PI / 2),
@@ -193,7 +199,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup tvs(double x, double y, double z) {
+        public BranchGroup tvs(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("!tv", new AxisAngle4d(0, 0, 0, 0), new Vector3d(-0.4 + x, 0.08 + y, 0.4 + z),
@@ -206,7 +212,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup computers(double x, double y, double z) {
+        public BranchGroup computers(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("!computer", new AxisAngle4d(0, 1, 0, Math.PI),
@@ -236,7 +242,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup lowStuff(double x, double y, double z) {
+        public BranchGroup lowStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createBox("!desk", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.2, -0.065, 0.875), 0.3f,
@@ -281,7 +287,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup bins(double x, double y, double z) {
+        public BranchGroup bins(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("@blueBin", new AxisAngle4d(0, 0, 0, Math.PI / 2),
@@ -294,7 +300,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup highStuff(double x, double y, double z) {
+        public BranchGroup highStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("!highTable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
@@ -334,7 +340,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static BranchGroup middleStuff(double x, double y, double z) {
+        public BranchGroup middleStuff(double x, double y, double z) {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createObject("!middletable", new AxisAngle4d(0, 1, 0, Math.PI / 2),
@@ -375,7 +381,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static TransformGroup createLooseObject(String name, AxisAngle4d rotation, Vector3d translation,
+        public TransformGroup createLooseObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
                 Transform3D transform = new Transform3D();
                 transform.set(rotation);
@@ -405,7 +411,7 @@ public class CreateObjects {
                 return objTG;
         }
 
-        public static TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
+        public TransformGroup createObject(String name, AxisAngle4d rotation, Vector3d translation,
                         double scale) {
                 if (name.equals("@doorKnob1")) {
                         TransformGroup RG = new TransformGroup();
@@ -415,7 +421,8 @@ public class CreateObjects {
                         t3d.rotX(Math.PI / 2);
                         t3d.setTranslation(new Vector3d(-0.309, -0.045, 0));
 
-                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 1200, 0, 400, 150, 50, 400, 150, 50);
+                        Alpha alpha = new Alpha(-1, Alpha.INCREASING_ENABLE | Alpha.DECREASING_ENABLE, 1200, 0, 400,
+                                        150, 50, 400, 150, 50);
                         door1Rot = rotate_Behavior(RG, t3d, alpha, 0.5f);
                         roomBG.addChild(door1Rot);
                         alpha.pause();
@@ -447,7 +454,7 @@ public class CreateObjects {
                 return createLooseObject(name, rotation, translation, scale);
         }
 
-        public static void createSG() {
+        public void createSG() {
                 for (int i = 0; i < 7; i++) {
                         SharedGroup objSG = new SharedGroup();
                         objSG.addChild(LoadObject.loadObject("objects/" + SGObjects[i] + ".obj"));
@@ -458,7 +465,7 @@ public class CreateObjects {
                 }
         }
 
-        public static TransformGroup createBox(String name, AxisAngle4d rotation, Vector3d translation, float x,
+        public TransformGroup createBox(String name, AxisAngle4d rotation, Vector3d translation, float x,
                         float y, float z, double scale, Appearance appearance) {
                 Transform3D transform = new Transform3D();
                 transform.set(rotation);
@@ -477,7 +484,7 @@ public class CreateObjects {
                         textTransform.set(new AxisAngle4d(0, -1, 0, Math.PI / 2));
 
                         TransformGroup textTG = new TransformGroup(textTransform);
-                        textTG.addChild(ComputerPuzzle.createTextObj("4", White));
+                        textTG.addChild(computerPuzzle.createTextObj("4", White));
 
                         objTG.addChild(textTG);
                 }
@@ -485,7 +492,7 @@ public class CreateObjects {
                 return objTG;
         }
 
-        public static BranchGroup computerPuzzleClues() {
+        public BranchGroup computerPuzzleClues() {
                 BranchGroup BG = new BranchGroup();
 
                 BG.addChild(createBox("#redBox1", new AxisAngle4d(0, 0, 0, 0), new Vector3d(0.4, -0.0575, -0.065), 0.1f,
@@ -545,7 +552,7 @@ public class CreateObjects {
                 return BG;
         }
 
-        public static RotationInterpolator rotate_Behavior(int r_num, TransformGroup rotTG, Transform3D yAxis) {
+        public RotationInterpolator rotate_Behavior(int r_num, TransformGroup rotTG, Transform3D yAxis) {
                 rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 Alpha rotationAlpha = new Alpha(-1, r_num);
                 RotationInterpolator rot_beh = new RotationInterpolator(
@@ -554,7 +561,7 @@ public class CreateObjects {
                 return rot_beh;
         }
 
-        public static RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha,
+        public RotationInterpolator rotate_Behavior(TransformGroup rotTG, Transform3D axis, Alpha alpha,
                         float rad) {
                 rotTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 RotationInterpolator rot_beh = new RotationInterpolator(alpha, rotTG, axis, 0, (float) (Math.PI * rad));
@@ -562,29 +569,11 @@ public class CreateObjects {
                 return rot_beh;
         }
 
-        public static PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha,
+        public PositionInterpolator position_Beheavior(TransformGroup posTG, Transform3D axis, Alpha alpha,
                         float dist) {
                 posTG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 PositionInterpolator pos_beh = new PositionInterpolator(alpha, posTG, axis, -dist / 2, dist / 2);
                 pos_beh.setSchedulingBounds(new BoundingSphere(new Point3d(), 100.0));
                 return pos_beh;
-        }
-
-        public static BranchGroup Collision() {
-                BranchGroup BG = new BranchGroup();
-
-                Transform3D temp = new Transform3D();
-                temp.setTranslation(new Vector3d(0, .05f, 0));
-                temp.setScale(0.05);
-                TransformGroup TG = new TransformGroup(temp);
-                TG.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-
-                Shape3D shape = new ColorCube();
-                CollisionDetection cd = new CollisionDetection(shape);
-                TG.addChild(cd);
-                TG.addChild(shape);
-
-                BG.addChild(TG);
-                return BG;
         }
 }

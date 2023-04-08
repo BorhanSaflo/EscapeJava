@@ -7,30 +7,44 @@ import org.jogamp.vecmath.*;
 import java.io.IOException;
 
 public class EscapeRoom extends JPanel {
+	private static final long serialVersionUID = 1L;
+	private static JFrame frame;
 
 	public enum GameState {
-		START, PLAYING, PAUSED, GAMEOVER, FOCUSED, PICKUP, ESCAPED
+		START, PLAYING, PAUSED, FOCUSED, PICKUP, ESCAPED
 	}
 
 	public static GameState gameState = GameState.START;
-	public static BranchGroup sceneBG;
+	public BranchGroup sceneBG;
 	private BranchGroup lightBG = new BranchGroup();
 
-	private static boolean lightsActive = false;
-	private static final long serialVersionUID = 1L;
-	private static JFrame frame;
+	// Puzzle objects
+	private ChairsPuzzle chairsPuzzle = new ChairsPuzzle();
+	private ComputerPuzzle computerPuzzle = new ComputerPuzzle(this, chairsPuzzle);
+	private LockPuzzle lockPuzzle = new LockPuzzle();
+
+	private CreateObjects createObjects = new CreateObjects(computerPuzzle, chairsPuzzle, lockPuzzle);
+
+	private boolean lightsActive = false;
 	private GameCanvas canvas = new GameCanvas();
 	private SimpleUniverse su = new SimpleUniverse(canvas); // create a SimpleUniverse
 	private double direction = 0.0;
-	private static Point3d camera = new Point3d(0, 0.5, 0); // define the point where the eye is
+	private Point3d camera = new Point3d(0, 0.5, 0); // define the point where the eye is
 	private Point3d centerPoint = new Point3d(1.0, 0.5, 0.0); // define the point where the eye is looking
 	private final BoundingSphere hundredBS = new BoundingSphere(new Point3d(), 1000.0);
-	private Controls controls = new Controls(camera, centerPoint, direction, canvas, this);
+	private Controls controls = new Controls(camera, centerPoint, direction, canvas, this, computerPuzzle, chairsPuzzle,
+			lockPuzzle);
 	private TransformGroup viewTransform = su.getViewingPlatform().getViewPlatformTransform();
 	private Vector3d upDir = new Vector3d(0, 1, 0); // define camera's up direction
 	private Transform3D viewTM = new Transform3D();
 
 	public EscapeRoom() throws IOException {
+		controls.setCreateObjects(createObjects);
+		computerPuzzle.setCreateObjects(createObjects);
+		chairsPuzzle.setCreateObjects(createObjects);
+		lockPuzzle.setCreateObjects(createObjects);
+		lockPuzzle.createPuzzle();
+
 		sceneBG = createScene();
 		sceneBG.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 		sceneBG.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -78,9 +92,6 @@ public class EscapeRoom extends JPanel {
 			removeAll();
 			add("Center", new WinScreen());
 			frame.validate();
-		} else {
-			gameState = GameState.GAMEOVER;
-			controls.setCursorVisible(frame, true);
 		}
 	}
 
@@ -96,7 +107,7 @@ public class EscapeRoom extends JPanel {
 		if (gameState == GameState.PLAYING) {
 			gameState = GameState.PAUSED;
 			controls.setCursorVisible(frame, true);
-			//getCoords(); // for debugging
+			// getCoords(); // for debugging
 		} else if (gameState == GameState.PAUSED) {
 			controls.resetMouse();
 			gameState = GameState.PLAYING;
@@ -156,8 +167,7 @@ public class EscapeRoom extends JPanel {
 		Transform3D scale = new Transform3D();
 		scale.setScale(10);
 		TransformGroup scaleTG = new TransformGroup(scale);
-
-		scaleTG.addChild(CreateObjects.room());
+		scaleTG.addChild(createObjects.room());
 		sceneBG.addChild(scaleTG);
 		sceneBG.addChild(addLights(new Color3f(0.1f, 0.1f, 0.1f)));
 		sceneBG.addChild(Sounds.bkgdSound());
@@ -165,13 +175,13 @@ public class EscapeRoom extends JPanel {
 		return sceneBG;
 	}
 
-	public static Point3d getCamera() {
+	public Point3d getCamera() {
 		return camera;
 	}
 
-	public static void getCoords() {
-		 System.out.println("Camera: " + camera.x + ", " + camera.y + ", " +
-		 camera.z);
+	public void getCoords() {
+		System.out.println("Camera: " + camera.x + ", " + camera.y + ", " +
+				camera.z);
 	}
 
 	public static void main(String[] args) throws IOException {

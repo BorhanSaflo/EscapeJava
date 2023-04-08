@@ -29,9 +29,13 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private TransformGroup focusedGroup;
     private Point3d camera;
     private Point3d centerPoint;
-    private static double direction;
+    private double direction;
     private Canvas3D canvas;
     private EscapeRoom escapeRoom;
+    private ComputerPuzzle computerPuzzle;
+    private ChairsPuzzle chairsPuzzle;
+    private LockPuzzle lockPuzzle;
+    private CreateObjects createObjects;
     private Point last = null;
     private boolean left = false;
     private boolean up = false;
@@ -42,23 +46,31 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     private double[] tempCoords = new double[6];
 
     private Robot robot = null;
-    private static final double ROTATION_FACTOR = 0.2;
-    private static final double Y_FACTOR = 1.5;
-    private static final double MIN_Y = -2;
-    private static final double MAX_Y = 2;
+    private final double ROTATION_FACTOR = 0.2;
+    private final double Y_FACTOR = 1.5;
+    private final double MIN_Y = -2;
+    private final double MAX_Y = 2;
     BufferedImage img = ImageIO.read(new File("objects/images/collision.jpg"));
 
-    public static double direction() {
+    public void setCreateObjects(CreateObjects createObjects) {
+        this.createObjects = createObjects;
+    }
+
+    public double direction() {
         return direction;
     }
 
     public Controls(Point3d camera, Point3d centerPoint, double direction,
-            Canvas3D canvas, EscapeRoom escapeRoom) throws IOException {
+            Canvas3D canvas, EscapeRoom escapeRoom, ComputerPuzzle computerPuzzle, ChairsPuzzle chairsPuzzle,
+            LockPuzzle lockPuzzle) throws IOException {
         this.camera = camera;
         this.centerPoint = centerPoint;
-        Controls.direction = direction;
+        this.direction = direction;
         this.canvas = canvas;
         this.escapeRoom = escapeRoom;
+        this.computerPuzzle = computerPuzzle;
+        this.chairsPuzzle = chairsPuzzle;
+        this.lockPuzzle = lockPuzzle;
 
         try {
             robot = new Robot();
@@ -185,7 +197,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private PickResult generatePT() {
-        PickTool pickTool = new PickTool(EscapeRoom.sceneBG);
+        PickTool pickTool = new PickTool(escapeRoom.sceneBG);
         pickTool.setMode(PickTool.GEOMETRY);
 
         int x = canvas.getWidth() / 2;
@@ -219,7 +231,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         for (int i = 0; i < 7; i++) {
             if (clickTG.getName() == null)
                 break;
-            else if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
+            else if (clickTG.getName().equals(createObjects.SGObjects[i])) {
                 clickTG = (Link) pr.getNode(PickResult.LINK);
                 break;
             }
@@ -251,7 +263,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         if (clickTG.getName() != null)
             for (int i = 0; i < 7; i++)
-                if (clickTG.getName().equals(CreateObjects.SGObjects[i])) {
+                if (clickTG.getName().equals(createObjects.SGObjects[i])) {
                     clickTG = (Link) pr.getNode(PickResult.LINK);
                     break;
                 }
@@ -267,7 +279,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void dialFocus() {
-        if(LockPuzzle.unlocked)
+        if (lockPuzzle.isUnlocked())
             return;
 
         tempCoords[0] = camera.x;
@@ -306,7 +318,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         focusedGroup = focusTG;
         Transform3D popup = new Transform3D();
         popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
-        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(direction)));
         popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
 
         focusTG.setTransform(popup);
@@ -320,7 +332,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
         Transform3D popup = new Transform3D();
         popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
-        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(direction)));
         popup.setScale(((Transform3D) focusedGroup.getUserData()).getScale());
 
         focusedGroup.setTransform(popup);
@@ -336,7 +348,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     }
 
     private void pickup(TransformGroup focusTG) {
-        if(focusTG.getName().equals("#key")){
+        if (focusTG.getName().equals("#key")) {
             Transform3D key = new Transform3D();
             key.setScale(0.001);
             key.setTranslation(new Vector3d(0, -10, 0));
@@ -348,11 +360,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             return;
         }
 
-
         focusedGroup = focusTG;
         Transform3D popup = new Transform3D();
         popup.setTranslation(new Vector3d(centerPoint.x * 0.1, centerPoint.y * 0.1, centerPoint.z * 0.1));
-        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(Controls.direction())));
+        popup.setRotation(new AxisAngle4d(0, 1, 0, Math.PI - Math.toRadians(direction)));
         popup.setScale(((Transform3D) focusTG.getUserData()).getScale());
 
         focusTG.setTransform(popup);
@@ -364,29 +375,29 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         String name = clickTG.getName();
 
         if (keyGrabbed && name.equals("@doorKnob1")) {
-            CreateObjects.door1Rot.getAlpha().resume();
+            createObjects.door1Rot.getAlpha().resume();
             Sounds.playSound(Sounds.successSound);
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    CreateObjects.door1Rot.getAlpha().pause();
+                    createObjects.door1Rot.getAlpha().pause();
                     escapeRoom.endGame(true);
                 }
             }, 900);
         }
         if (!keyGrabbed && name.equals("@doorKnob1")) {
-            CreateObjects.door1Rot.getAlpha().resume();
+            createObjects.door1Rot.getAlpha().resume();
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    CreateObjects.door1Rot.getAlpha().pause();
+                    createObjects.door1Rot.getAlpha().pause();
                     Sounds.playSound(Sounds.wrongSound);
                 }
             }, 900);
         }
 
         if (name.length() > 10 && name.substring(1, 11).equals("chair-high"))
-            ChairsPuzzle.rotateChair(clickTG);
+            chairsPuzzle.rotateChair(clickTG);
     }
 
     @Override
@@ -410,7 +421,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         }
 
         if (dialFocused) {
-            CreateObjects.lockPuzzle.rotateDial(-2 * Math.PI * dx / canvas.getWidth());
+            lockPuzzle.rotateDial(-2 * Math.PI * dx / canvas.getWidth());
             resetMouse();
             return;
         }
@@ -448,7 +459,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_S -> down = true;
             case KeyEvent.VK_E -> {
                 if (dialFocused) {
-                    if(CreateObjects.lockPuzzle.tryUnlock())
+                    if (lockPuzzle.tryUnlock())
                         dialUnfocus();
                     break;
                 }
@@ -462,7 +473,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_DOWN -> turn(true, -1);
             case KeyEvent.VK_RIGHT -> turn(false, 1);
             case KeyEvent.VK_LEFT -> turn(false, -1);
-            case KeyEvent.VK_U -> CreateObjects.lockPuzzle.tryUnlock();
+            case KeyEvent.VK_U -> lockPuzzle.tryUnlock();
             case KeyEvent.VK_CONTROL -> crouch();
 
             // Pause
@@ -486,7 +497,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             case KeyEvent.VK_1, KeyEvent.VK_2, KeyEvent.VK_3, KeyEvent.VK_4, KeyEvent.VK_5, KeyEvent.VK_6,
                     KeyEvent.VK_7, KeyEvent.VK_8, KeyEvent.VK_9, KeyEvent.VK_0 -> {
                 int digit = e.getKeyCode() - KeyEvent.VK_0;
-                ComputerPuzzle.addDigit(digit);
+                computerPuzzle.addDigit(digit);
             }
             default -> {
             }

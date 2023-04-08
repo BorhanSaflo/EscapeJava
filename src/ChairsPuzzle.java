@@ -12,42 +12,36 @@ import org.jogamp.vecmath.Color3f;
 import org.jogamp.vecmath.Vector3d;
 import java.awt.Font;
 
-public class ChairsPuzzle {
-    private static boolean firstChair = false;
-    private static boolean secondChair = false;
-    private static boolean thirdChair = false;
-    private static boolean unlocked = false;
-    private static boolean isUsable = false;
+public class ChairsPuzzle extends Puzzle {
+    private boolean firstChair = false;
+    private boolean secondChair = false;
+    private boolean thirdChair = false;
 
-    public static void setUsable(boolean usable) {
-        isUsable = usable;
-    }
-
-    public static void rotateChair(TransformGroup chairTG) {
+    public void rotateChair(TransformGroup chairTG) {
         double angle = (double) chairTG.getUserData();
 
-        if (unlocked)
+        if (isUnlocked())
             return;
 
-        if (isUsable) {
+        if (isUsable()) {
             switch (chairTG.getName().charAt(chairTG.getName().length() - 1)) {
                 case '1':
                     if (angle == Math.PI) { // North-East
-                        //System.out.println("Chair 1 is now in the correct position");
+                        // System.out.println("Chair 1 is now in the correct position");
                         firstChair = true;
                     } else
                         firstChair = false;
                     break;
                 case '2':
                     if (angle == Math.PI * 3 / 2) { // North-West
-                        //System.out.println("Chair 2 is now in the correct position");
+                        // System.out.println("Chair 2 is now in the correct position");
                         secondChair = true;
                     } else
                         secondChair = false;
                     break;
                 case '3':
                     if (angle == Math.PI / 2) { // South-East
-                        //System.out.println("Chair 3 is now in the correct position");
+                        // System.out.println("Chair 3 is now in the correct position");
                         thirdChair = true;
                     } else
                         thirdChair = false;
@@ -57,16 +51,14 @@ public class ChairsPuzzle {
             }
 
             if (firstChair && secondChair && thirdChair) {
-                unlocked = true;
-                //System.out.println("All chairs are in the correct position");
-
-                CreateObjects.roomBG.removeChild(CreateObjects.clues);
-
-                CreateObjects.roomBG
-                        .addChild(createTextObj("54", CreateObjects.White, new Vector3d(-13.8, 2.3, -13.73)));
-                CreateObjects.roomBG
-                        .addChild(createTextObj("33", CreateObjects.White, new Vector3d(-3.9, 2.3, -13.73)));
-                CreateObjects.roomBG.addChild(createTextObj("76", CreateObjects.White, new Vector3d(6.1, 2.3, -13.73)));
+                unlock();
+                getCreateObjects().roomBG.removeChild(getCreateObjects().clues);
+                getCreateObjects().roomBG
+                        .addChild(createTextObj("54", getCreateObjects().White, new Vector3d(-13.8, 2.3, -13.73)));
+                getCreateObjects().roomBG
+                        .addChild(createTextObj("33", getCreateObjects().White, new Vector3d(-3.9, 2.3, -13.73)));
+                getCreateObjects().roomBG
+                        .addChild(createTextObj("76", getCreateObjects().White, new Vector3d(6.1, 2.3, -13.73)));
                 Sounds.playSound(Sounds.successSound);
             }
         }
@@ -80,7 +72,7 @@ public class ChairsPuzzle {
         chairTG.setTransform(chairTransform);
     }
 
-    protected static BranchGroup createTextObj(String text, Color3f color, Vector3d position) {
+    protected BranchGroup createTextObj(String text, Color3f color, Vector3d position) {
         Font textFont = new Font("Arial", Font.PLAIN, 1);
         Font3D font3D = new Font3D(textFont, new FontExtrusion());
         Text3D text3D = new Text3D(font3D, text);
@@ -109,7 +101,7 @@ public class ChairsPuzzle {
         return textBG;
     }
 
-    public static Appearance createApp(Color3f m_clr) {
+    public Appearance createApp(Color3f m_clr) {
         Appearance app = new Appearance();
         Material mat = new Material();
         mat.setDiffuseColor(m_clr);
