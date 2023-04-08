@@ -64,9 +64,12 @@ Then, we started to implement puzzles and clues around the room to increase the 
 
 At the start of each sprint, we dedicated a meeting to identifying and assigning the tasks of the upcoming week to everyone on our team. We made a list of the tasks we aimed to complete based on the above use cases and assigned them based on everyone's capacity for that week and their projected availability. Due to the intertwined nature of a lot of our features, each backlog item had a set of tasks associated with it. Typically, we aimed to assign specific items to someone that was skilled or interested in that task. 
 
-To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. 
+To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. Here are a few screenshots to show some of the tasks and backlog items we created.
 
-
+![ADOss1.jpg](ADOss1.jpg)
+![ADOss2.jpg](ADOss2.jpg)
+![ADOss3.jpg](ADOss3.jpg)
+![ADOss4.jpg](ADOss4.jpg)
 
 We used the INVEST criteria to create well defined tasks and Product Backlog Items (PBIs) that met the following criteria:
 - **Independent:** The PBI is self-contained and is not reliant on other PBIs.
@@ -97,14 +100,31 @@ To manage our team effectively, we made sure to enforce clear roles and responsi
 
 ## **3. (Object-Oriented) Software Development**
 ### **3.1 Identification of classes**
-- idk help
+We have the following classes for our project:
+- **ChairsPuzzle**: contains the logic for the rotating chairs puzzle.
+- **CollisionDetection**: handles and detects any collision during user navigation and interaction.
+- **ComputerPuzzle**: contains the logic for the passcode puzzle on the computer.
+- **Controls**: handles the details of the user navigation and their ability to interact with the virtual space.
+- **CreateObjects**: creates and renders all the objects that appear in the room.
+- **EscapeRoom**: launches the virtual escape room experience.
+- **GameCanvas**: creates the canvas for the game.
+- **LoadObject**: loads each object from its corresponding 3D model.
+- **LockPuzzle**: contains the logic for the lock combination puzzle on the safe.
+- **MTLFile**: parses material files to add textures.
+- **Sounds**: incorporates both background music and sound effects to the game.
+- **StartScreen**: loads the start screen at the beginning of the game.
+- **WinScreen**: displays a success message at the end of the game upon escape.
 
 ### **3.2 Software design with class diagram(s)**
-- also help
+- help
 
 ### **3.3 Techniques of implementation**
 
 We used abstraction to simplify the design of our game and make it more manageable. This helped us create simple and reusable objects that could be easily integrated into the game, including the chairs and tables that were regularly repeated around the room. We also used polymorphism to create objects that could behave differently based on their context. This enabled us to create a more dynamic and flexible game with objects that could adapt to different situations, including the clues that the user was able to interact with.
+
+We used polymorphism to create objects that take on multiple forms, especially to create visual differences (size, height, texture) between them. This was extremely useful and effective when creating multiple objects that were very similar but shared slight differences. This was used to create the colored cubes around the room and the furniture that was positioned.
+
+In hindsight, there were a lot more object-oriented software development practices and design patterns we could have incorporated and implemented into our project. Encapsulation would have been helpful to hide the internal details of an object to only expose the public interface to others, like the clues that were hidden around the room. Inheritance could have been implemented for the creation of each puzzle, since they shared a lot of the same characteristics and had the same user interaction. 
 
 ### **3.4 Software testing and operation**
 
@@ -122,28 +142,154 @@ Throughout our testing process, the most important thing was to regularly monito
 
 ## **4. Discussions and Recommendations**
 ### **4.1 Discussions about the team projects**
-- we're bestestest of friends now
+
+The team project was a testament to our ability to work in a group to accomplish a common goal. The skills we learned by working on a team are skills that we can later directly apply to our jobs in the tech industry, especially as software engineers. Alone, we would not have been able to complete the project within the given time frame. It was only by working as a team that we were able to pool our resources, skills, and shared experiences to come up with an impressive result.
+
+Within our own team, we had many discussions and open conversations. We discussed the scope of the project to clearly define the boundaries we would work within. Wee discussed how to approach the logic of each puzzle as we implemented it, and even discussed how we should manage ourselves using Scrum. The Scrum framework was crucial in ensuring that we were getting work done in an efficient and effective manner, and it was a visual representation of our progress as we approached our ddeadlines.
+
 ### **4.2 Recommendations for better practices**
-- starting earlier
-- clear set roles
 
-## **Appendix A: List of Use Cases and Tasks with Brief Descriptions**
+If we were to do this group project again, we probably would have started earlier. Although we were instructed to start after reading week, it would have been beneficial to get a head start on these process and the understanding of Scrum and the Agile methodology beforehand.
 
-- uhhh
+It would have also helped us to clearly define our roles at the beginning of the project. We started to identify roles as tasks came up to be able to accurately identify everyone's strengths and weaknesses, but it may have saved us some time and conflict to clearly define them earlier.
+
+## **Appendix A: Feature Descriptions**
+
+- F1: Java Lounge Model
+- F2: Pick up objects
+- F3: Focus on objects
+- F4: Computer Puzzle
+- F5: Chair Puzzle
+- F6: Lock Puzzle
+- F7: Computer Puzzle Clues
+- F8: Chair Puzzle Clues
+- F9: Lock Puzzle Clubes
+- F10: Background sounds
+- F11: Room lights
+- F12: Navigating the room
+
+| | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Background | X | | | | | | | | | | | X
+| Sound(s) | | | | X | X | X | | | | X | | X
+| Light(s) |  | | | | | | | | | | X | X
+| 3D objects (texture mapping) | X | | | | X | X | | | | | |
+| 3D objects (shape changes) | X | | | | | | | | | | |
+| Animation (pre-defined) | X | X | | | | | | | | | | 
+| Self-defined behaviour | | | | X | X | X | | | | | | X
+| Collision detection | X | X | | X | X | X | X | | | | | X
+| Mouse picking | | X | | X | X |  | X | X | X | | |
+| LOD | | X | X | | | X | | | | | | X
+| Navigation | X | | | X | X | | X | X | X | | | X 
+| Multi-view | | X | X | | X | | X | X | X | | | X
+
 
 ## **Appendix B: Contribution Table**
 
 | Backlog Item Title | Task Title | Borhan | Laila | Tanzim | Ryan | Yousef |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Backlog_Item_Title1  | task_title11  | x  |
-|   | task_title12  | x  |
-
-
+| Cross Hair | Cross Hair  | | | | | |
+| Game States | Game States | | | | | |
+| | Paused Screen | | | | | |
+| | Start Screen | | | | | |
+| Model Room | Model Couches | | | | | |
+| | Model Computer Chairs | | | | | |
+| | Model High Tables | | | | | |
+| | Model High Chairs | | | | | |
+| | Model Middle Tables | | | | | |
+| | Model Middle Chairs | | | | | |
+| | Model Recycling Bins | | | | | |
+| | Model Trash Bin | | | | | |
+| | Model Clock | | | | | |
+| | Model Window | | | | | |
+| | Model Computer | | | | | |
+| | Model Computer Desks | | | | | |
+| | Model TVs | | | | | |
+| | Model Whiteboard | | | | | |
+| | Model Door | | | | | |
+| | Model Ottoman | | | | | |
+| | Model Lights | | | | | |
+| | Model Fan | | | | | |
+| Positioning Objects | Positioning Couch | 
+| | Positioning High Chairs | | | | | |
+| | Positioning Low Chairs | | | | | |
+| | Positioning Low Tables | | | | | |
+| | Positioning Middle Chairs | | | | | |
+| | Positioning Middle Tables | | | | | |
+| | Positioning Safe | | | | | |
+| Model Textures | Wooden Texture | | | | | |
+| | Floor Texture | | | | | |
+| | Wall Texture | | | | | |
+| | Couch Texture | | | | | |
+| | Ceiling Texture | | | | | |
+| Collision Detection | Develop Collision Detection | | | | | |
+| | Implement Wall Collision | | | | | |
+| | Test Collision Detection | | | | | |
+| Camera Movement | Develop Keyboard Movement | | | | | |
+| | Develop Mouse Movement | | | | | |
+| | Test Mouse Movement | | | | | |
+| Object Interaction | Focus Object | | | | | |
+| | Unfocus Object | | | | | |
+| | Object Highlighting | | | | | |
+| Refactor Code | Create SharedGroups | | | | | |
+| | Optimize object rendering | | | | | |
+| Sounds | Background Music | | | | | |
+| | Success Sound Effect | | | | | |
+| | Failure Sound Effect | | | | | |
+| Computer Puzzle | Design User Interface | | | | | |
+| | Implement Numpad Logic | | | | | |
+| | Hide Clues | | | | | |
+| | Display Numbers | | | | | |
+| | Reset Numbers For Wrong Passcode | | | | | |
+| | Incoroporate Sound To Interaction | | | | | |
+| Chairs Puzzle | Make Chairs Interactable | | | | | |
+| | Rotate Chair | | | | | |
+| | Add TV Clues | | | | | |
+| | Add Colored Chairs | | | | | |
+| | Implement Puzzle Logic | | | | | |
+| Lock Puzzle | Implement Combination Logic | | | | | |
+| | Open Safe | | | | | |
+| | Add Key | | | | | |
+| Animations | Door Knob | | | | | |
+| | Door | | | | | |
+| | Chair | | | | | |
+| | Safe | | | | | |
 
 ## **Appendix C: Participation Table**
+
+*Note: all durations are in minutes.*
+
 | Meeting Date | Duration | Borhan | Laila | Tanzim | Ryan | Yousef |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| date1 | t1 | x
-| date2 | t2 | x
-| **Total** | x | x
+| 27.Feb.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 01.Mar.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 02.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 03.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 06.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 07.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 08.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 09.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 10.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 11.Mar.2023 | 45 | 45 | 45 | 45 | 45 | 45 |
+| 13.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 14.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 15.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 16.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 21.Mar.2034 | 45 | 45 | 45 | 45 | 45 | 45 |
+| 22.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 23.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 24.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 25.Mar.2023 | 60 | 60 | 60 | 60 | 60 | 60 |
+| 26.Mar.2023 | 120 | 120 | 120 | 120 | 120 | 120 |
+| 27.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 28.Mar.2023 | 15 | 15 | 15 | 15 | 15 | 15 |
+| 29.Mar.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 01.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 02.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 03.Apr.2023 | 30 | 30 | 30 | 30 | 30 | 30 |
+| 04.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 05.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| 08.Apr.2023 | 10 | 10 | 10 | 10 | 10 | 10 |
+| **Total** | 690 | 690 | 690 | 690 | 690 | 690 |
+
 
