@@ -116,7 +116,8 @@ We have the following classes for our project:
 - **WinScreen**: displays a success message at the end of the game upon escape.
 
 ### **3.2 Software design with class diagram(s)**
-- help
+
+See attached class diagram image for more details.
 
 ### **3.3 Techniques of implementation**
 
@@ -188,72 +189,72 @@ It would have also helped us to clearly define our roles at the beginning of the
 
 | Backlog Item Title | Task Title | Borhan | Laila | Tanzim | Ryan | Yousef |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| Cross Hair | Cross Hair  | | | | | |
-| Game States | Game States | | | | | |
-| | Paused Screen | | | | | |
-| | Start Screen | | | | | |
-| Model Room | Model Couches | | | | | |
-| | Model Computer Chairs | | | | | |
-| | Model High Tables | | | | | |
-| | Model High Chairs | | | | | |
-| | Model Middle Tables | | | | | |
-| | Model Middle Chairs | | | | | |
-| | Model Recycling Bins | | | | | |
-| | Model Trash Bin | | | | | |
-| | Model Clock | | | | | |
-| | Model Window | | | | | |
-| | Model Computer | | | | | |
-| | Model Computer Desks | | | | | |
-| | Model TVs | | | | | |
-| | Model Whiteboard | | | | | |
-| | Model Door | | | | | |
-| | Model Ottoman | | | | | |
-| | Model Lights | | | | | |
-| | Model Fan | | | | | |
-| Positioning Objects | Positioning Couch | 
-| | Positioning High Chairs | | | | | |
-| | Positioning Low Chairs | | | | | |
-| | Positioning Low Tables | | | | | |
-| | Positioning Middle Chairs | | | | | |
-| | Positioning Middle Tables | | | | | |
-| | Positioning Safe | | | | | |
-| Model Textures | Wooden Texture | | | | | |
-| | Floor Texture | | | | | |
-| | Wall Texture | | | | | |
-| | Couch Texture | | | | | |
-| | Ceiling Texture | | | | | |
-| Collision Detection | Develop Collision Detection | | | | | |
-| | Implement Wall Collision | | | | | |
-| | Test Collision Detection | | | | | |
-| Camera Movement | Develop Keyboard Movement | | | | | |
-| | Develop Mouse Movement | | | | | |
-| | Test Mouse Movement | | | | | |
-| Object Interaction | Focus Object | | | | | |
-| | Unfocus Object | | | | | |
-| | Object Highlighting | | | | | |
-| Refactor Code | Create SharedGroups | | | | | |
-| | Optimize object rendering | | | | | |
-| Sounds | Background Music | | | | | |
-| | Success Sound Effect | | | | | |
-| | Failure Sound Effect | | | | | |
-| Computer Puzzle | Design User Interface | | | | | |
-| | Implement Numpad Logic | | | | | |
-| | Hide Clues | | | | | |
-| | Display Numbers | | | | | |
-| | Reset Numbers For Wrong Passcode | | | | | |
-| | Incoroporate Sound To Interaction | | | | | |
-| Chairs Puzzle | Make Chairs Interactable | | | | | |
-| | Rotate Chair | | | | | |
+| Cross Hair | Cross Hair  | 10 | | | | |
+| Game States | Game States | 10 | | | | |
+| | Paused Screen | 5 | | | 5 | |
+| | Start Screen | 10 | | | | |
+| Model Room | Model Couches | | |10 | | |
+| | Model Computer Chairs | | | | | 10|
+| | Model High Tables | | | | | 10 |
+| | Model High Chairs | | | | | 10 |
+| | Model Middle Tables | | | | | 10 |
+| | Model Middle Chairs | | | | | 10 |
+| | Model Recycling Bins | | | | | 10 |
+| | Model Trash Bin | | | | | 10 |
+| | Model Clock | | | | | 10 |
+| | Model Window | | | | | 10|
+| | Model Computer | | | | |10  |
+| | Model Computer Desks | | | | |10  |
+| | Model TVs | | | | | 10|
+| | Model Whiteboard | | | | |10 |
+| | Model Door | | | | |10 |
+| | Model Ottoman | | | | | 10|
+| | Model Lights | | | | |10 |
+| | Model Fan | | | 10| | |
+| Positioning Objects | Positioning Couch | |10 | | | |
+| | Positioning High Chairs |  | 10 | | | |
+| | Positioning Low Chairs |  | 10| | | |
+| | Positioning Low Tables | |10 | | | |
+| | Positioning Middle Chairs | | | | 10| |
+| | Positioning Middle Tables | | | |10 | |
+| | Positioning Safe | |10| | | |
+| Model Textures | Wooden Texture | | | 5| |5 |
+| | Floor Texture | | | 5| | 5|
+| | Wall Texture | | | 5| |5 |
+| | Couch Texture | | | 5| | 5|
+| | Ceiling Texture | | | 5| |5 |
+| Collision Detection | Develop Collision Detection | | |10 | | |
+| | Implement Wall Collision | | 3| 2| 3| 2|
+| | Test Collision Detection | 2| 2| 2|2| 2|
+| Camera Movement | Develop Keyboard Movement | 4|3 | |3 | |
+| | Develop Mouse Movement | 10| | | | |
+| | Test Mouse Movement | |7 | |3 | |
+| Object Interaction | Focus Object | | | | 3| 7|
+| | Unfocus Object | | | | 3|7 |
+| | Object Highlighting |2 | 2| 2| 2|2 |
+| Refactor Code | Create SharedGroups | | | |10 | |
+| | Optimize object rendering | | | | 10| |
+| Sounds | Background Music | 10| | | | |
+| | Success Sound Effect |10 | | | | |
+| | Failure Sound Effect |10 | | | | |
+| Computer Puzzle | Design User Interface | 5| 5| | | |
+| | Implement Numpad Logic | 9| 1| | | |
+| | Hide Clues | | 10| | | |
+| | Display Numbers | 10| | | | |
+| | Reset Numbers For Wrong Passcode | 8|1 | | 1| |
+| | Incorporate Sound To Interaction |10 | | | | |
+| Chairs Puzzle | Make Chairs Interactable |4 | | 3| |3 |
+| | Rotate Chair | | | |3 | 7|
 | | Add TV Clues | | | | | |
 | | Add Colored Chairs | | | | | |
 | | Implement Puzzle Logic | | | | | |
-| Lock Puzzle | Implement Combination Logic | | | | | |
-| | Open Safe | | | | | |
-| | Add Key | | | | | |
-| Animations | Door Knob | | | | | |
-| | Door | | | | | |
-| | Chair | | | | | |
-| | Safe | | | | | |
+| Lock Puzzle | Implement Combination Logic | | |10 | | |
+| | Open Safe | | |10 | | |
+| | Add Key | | | | 8| 2|
+| Animations | Door Knob | | 3| | 7| |
+| | Door | | 1| | 8|1 |
+| | Chair | |1 | | 8|1 |
+| | Safe | | | 10| | |
 
 ## **Appendix C: Participation Table**
 
