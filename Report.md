@@ -5,6 +5,8 @@
 #### ***Date:** April 8th 2023*
 <hr/>
 
+In submitting this team project and report, I confirm that my conduct during this project adheres to the Student Code of Conduct. I confirm that I did NOT act in such a way that would constitute cheating, misrepresentation, or unfairness, including but not limited to, using unauthorized aids and assistance, personating another person, and committing plagiarism.
+
 ## **1. Introduction**
 
 ### **1.1 Purpose of the project**
