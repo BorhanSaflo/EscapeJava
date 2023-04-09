@@ -66,10 +66,10 @@ At the start of each sprint, we dedicated a meeting to identifying and assigning
 
 To embody the Scrum methodology, our expectations and tasks iteratively and continuously changed as our project progressed. We realized that there were many items we ideally would have liked to complete, but needed to be cut due to the time constraints we had. Our main goal was to ensure that at any point in time of our project, the user would experience complete functionality and experience no bugs. The puzzles were added incrementally, one after the other. Here are a few screenshots to show some of the tasks and backlog items we created.
 
-![ADOss1.jpg](ADOss1.jpg)
-![ADOss2.jpg](ADOss2.jpg)
-![ADOss3.jpg](ADOss3.jpg)
-![ADOss4.jpg](ADOss4.jpg)
+![ADOss1.jpg](images/ADOss1.jpg)
+![ADOss2.jpg](images/ADOss2.jpg)
+![ADOss3.jpg](images/ADOss3.jpg)
+![ADOss4.jpg](images/ADOss4.jpg)
 
 We used the INVEST criteria to create well defined tasks and Product Backlog Items (PBIs) that met the following criteria:
 - **Independent:** The PBI is self-contained and is not reliant on other PBIs.
@@ -85,10 +85,10 @@ Our sprints were a week long, our first one starting the week after reading week
 
 We carried out the Sprints on the basis of the the three roles in Scrum: Scrum Master (Borhan), Product Owner (XY), and Development Team (all). Borhan was in charge of ensuring that our board was on track, our requirements were given by XY, and everyone on our team implemented the feautres as the development team.
 
-![burndownchart1.jpg](burndownchart1.jpg)
-![burndownchart2.jpg](burndownchart2.jpg)
-![burndownchart3.jpg](burndownchart3.jpg)
-![burndownchart4.jpg](burndownchart4.jpg)
+![burndownchart1.jpg](images/burndownchart1.jpg)
+![burndownchart2.jpg](images/burndownchart2.jpg)
+![burndownchart3.jpg](images/burndownchart3.jpg)
+![burndownchart4.jpg](images/burndownchart4.jpg)
 
 The above are screenshots from our burndown charts for each sprint. As you can tell in the first screenshot, our understanding of implementing the Agile methodology through Scrum practices was still developing. We did not add our capacity and added tasks mid-sprint without an accurate estimate of the time they would take to complete. By the last burndown chart, we were more comfortable with Scrum and the slope of the graph began to decline. It's worth mentioning that there were a few instances where we had unfinished tasks at the end of our sprint. This was because there were a lot of added features we wished to implement but couldn't because we didn't have the time to. 
 
