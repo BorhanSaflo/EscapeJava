@@ -10,7 +10,7 @@ In submitting this team project and report, I confirm that my conduct during thi
 ## **1. Introduction**
 
 ### **1.1 Purpose of the project**
-When we first set out to create a Java3D project as a group, we initially considered a variety of options. We explored designs for a racing game, , and even an implementation of Flappy Bird. We were looking for something that would prioritize user interaction, complete with a detailed and realistic interface. Ultimately, we decided that a virtual escape room would be the perfect opportunity to meet our requirements. With that, Escape Java was born.
+When we first set out to create a Java3D project as a group, we initially considered a variety of options. We explored designs for a racing game, a shooting game, and even an implementation of Flappy Bird. We were looking for something that would prioritize user interaction, complete with a detailed and realistic interface. Ultimately, we decided that a virtual escape room would be the perfect opportunity to meet our requirements. With that, Escape Java was born.
 
 The purpose of our Escape Java project was threefold. First, we wanted to create a project to showcase our understanding of object-oriented software development in the scope of Java3D. Second, we wanted to demonstrate our mastery of the Scrum framework and adoption of the Agile development methodology. Third, we wanted to provide an interactive and engaging experience for our audience.
 
@@ -120,6 +120,8 @@ We have the following classes for our project:
 ### **3.2 Software design with class diagram(s)**
 
 See attached class diagram image for more details.
+
+![classDiagram.jpg](images/classDiagram.jpg)
 
 ### **3.3 Techniques of implementation**
 
