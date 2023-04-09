@@ -116,7 +116,8 @@ We have the following classes for our project:
 - **WinScreen**: displays a success message at the end of the game upon escape.
 
 ### **3.2 Software design with class diagram(s)**
-- help
+
+See attached class diagram image for more details.
 
 ### **3.3 Techniques of implementation**
 
