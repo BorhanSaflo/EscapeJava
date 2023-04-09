@@ -1,4 +1,3 @@
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,14 +6,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class StartScreen extends JPanel implements KeyListener, MouseListener {
-
-	private static final long serialVersionUID = 1L;
+public class StartScreen extends Screen implements KeyListener, MouseListener {
     private EscapeRoom game;
 
     public StartScreen(EscapeRoom game) {
         this.game = game;
-
         addKeyListener(this);
         addMouseListener(this);
         setFocusable(true);
@@ -23,7 +19,6 @@ public class StartScreen extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         g.setColor(Color.WHITE);
